@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post-Signature Data Architecture</title>
+<style>
+  /* ── Reset & Base ─────────────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:           #edf0f8;
+    --bg-panel:     #ffffff;
+    --hub-gold:     #d4900a;
+    --hub-glow:     rgba(212,144,10,0.28);
+    --spoke-idle:   rgba(30,50,120,0.16);
+    --spoke-active: rgba(30,50,120,0.55);
+    --text-primary: #1a2236;
+    --text-muted:   #6b7a99;
+    --teal:         #009e7a;
+    --purple:       #6d28d9;
+    --orange:       #c25000;
+    --teal-dim:     rgba(0,158,122,0.13);
+    --purple-dim:   rgba(109,40,217,0.12);
+    --orange-dim:   rgba(194,80,0,0.12);
+    --panel-w:      380px;
+    --radius:       240px;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+  }
+
+  /* ── Layout ───────────────────────────────────────────────────────────── */
+  #app {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ── Header ───────────────────────────────────────────────────────────── */
+  header {
+    text-align: center;
+    padding: 12px 24px 4px;
+    position: relative;
+    z-index: 10;
+    transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+  }
+  header h1 {
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+  }
+  header p {
+    font-size: clamp(0.75rem, 1.4vw, 0.9rem);
+    color: var(--text-muted);
+    margin-top: 5px;
+    line-height: 1.55;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+    text-wrap: balance;
+  }
+
+  /* ── Diagram group ────────────────────────────────────────────────────── */
+  #diagram {
+    transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+  }
+
+  /* ── SVG Stage ────────────────────────────────────────────────────────── */
+  #stage {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+  }
+  #viz {
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: default;
+  }
+
+  /* ── Spokes ───────────────────────────────────────────────────────────── */
+  .spoke {
+    stroke: var(--spoke-idle);
+    stroke-width: 1.5;
+    fill: none;
+    transition: stroke 0.3s, stroke-width 0.3s, opacity 0.3s;
+    stroke-linecap: round;
+  }
+  .spoke.active {
+    stroke: var(--spoke-active);
+    stroke-width: 3;
+  }
+  .spoke.dimmed { opacity: 0.2; }
+
+  /* spoke shared-width variant */
+  .spoke-shared { stroke-width: 1.5; }
+
+  /* ── Spoke draw animation ─────────────────────────────────────────────── */
+  .spoke-draw {
+    stroke-dasharray: var(--dash-len, 300);
+    stroke-dashoffset: var(--dash-len, 300);
+    animation: drawSpoke 0.6s ease-out forwards;
+  }
+  @keyframes drawSpoke {
+    to { stroke-dashoffset: 0; }
+  }
+
+  /* ── Hub ──────────────────────────────────────────────────────────────── */
+  .hub-circle {
+    fill: var(--hub-gold);
+    filter: url(#hub-glow);
+    animation: hubPulse 2.8s ease-in-out infinite;
+  }
+  @keyframes hubPulse {
+    0%, 100% { r: 72; filter: url(#hub-glow); }
+    50%       { r: 76; filter: url(#hub-glow-bright); }
+  }
+
+  /* ── Node groups ──────────────────────────────────────────────────────── */
+  .node-group {
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .node-group.visible { opacity: 1; }
+  .node-group.dimmed  { opacity: 0.25; }
+  .node-group.active  { opacity: 1; }
+
+  .node-pill {
+    rx: 12;
+    ry: 12;
+    transition: filter 0.25s;
+  }
+  .node-group:hover .node-pill,
+  .node-group.active .node-pill {
+    filter: url(#node-bright);
+  }
+
+  /* field-pulse ring */
+  .pulse-ring {
+    fill: none;
+    stroke: rgba(30,50,120,0.5);
+    stroke-width: 3;
+    r: 0;
+    opacity: 0;
+  }
+  .pulse-ring.pulsing {
+    animation: pulseRing 0.9s ease-out forwards;
+  }
+  @keyframes pulseRing {
+    0%  { r: 72; opacity: 0.9; stroke-width: 3; }
+    100%{ r: 102; opacity: 0;  stroke-width: 0.5; }
+  }
+
+  /* ── Particles ────────────────────────────────────────────────────────── */
+  .particle {
+    r: 3;
+    fill: var(--hub-gold);
+    opacity: 0;
+  }
+  .particle.fast animateMotion { dur: 1.2s; }
+
+  /* ── Detail Panel ─────────────────────────────────────────────────────── */
+  #detail-panel {
+    position: fixed;
+    top: 0; right: 0;
+    width: var(--panel-w);
+    height: 100vh;
+    background: var(--bg-panel);
+    border-left: 1px solid rgba(30,50,120,0.1);
+    box-shadow: -4px 0 24px rgba(30,50,120,0.07);
+    transform: translateX(var(--panel-w));
+    transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+    overflow-y: auto;
+    z-index: 100;
+    padding: 28px 20px;
+  }
+  #detail-panel.open { transform: translateX(0); }
+
+  #panel-close {
+    position: absolute;
+    top: 14px; right: 16px;
+    background: none; border: none;
+    color: var(--text-muted);
+    font-size: 1.4rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+  }
+  #panel-close:hover { color: var(--text-primary); background: rgba(30,50,120,0.07); }
+
+  #panel-fn-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  #panel-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  #panel-domain {
+    font-size: 0.78rem;
+    font-weight: 600;
+    border-radius: 20px;
+    display: inline-block;
+    padding: 2px 10px;
+    margin-bottom: 20px;
+  }
+  #panel-fields-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  #panel-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+  .field-chip {
+    padding: 9px 14px;
+    border-radius: 10px;
+    background: rgba(30,50,120,0.04);
+    border: 1px solid rgba(30,50,120,0.12);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    user-select: none;
+  }
+  .field-chip:hover { background: rgba(30,50,120,0.08); transform: translateY(-1px); }
+  .field-chip.shared {
+    background: rgba(212,144,10,0.07);
+    border-color: rgba(212,144,10,0.4);
+  }
+  .field-chip.selected {
+    background: rgba(212,144,10,0.14);
+    border-color: var(--hub-gold);
+  }
+  .field-chip-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 3px;
+  }
+  .field-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .field-chip.shared  .field-name { color: var(--hub-gold); }
+  .field-chip.selected .field-name { color: var(--hub-gold); }
+  .field-desc {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+  .field-chip.selected .field-desc { color: rgba(150,100,0,0.8); }
+  .chip-badge {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(212,144,10,0.18);
+    color: var(--hub-gold);
+    font-size: 0.63rem;
+    font-weight: 800;
+    border-radius: 20px;
+    padding: 1px 7px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .field-chip.selected .chip-badge { background: var(--hub-gold); color: #fff; }
+
+  /* inline "also required by" — appears inside the selected chip */
+  .chip-also {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(212,144,10,0.3);
+    animation: chipAlsoIn 0.2s ease-out;
+  }
+  @keyframes chipAlsoIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .chip-also-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(150,100,0,0.75);
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .chip-also-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .also-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* ── Footer ───────────────────────────────────────────────────────────── */
+  footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 6px 20px;
+    transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 10;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  #toggle-shared {
+    background: rgba(30,50,120,0.05);
+    border: 1px solid rgba(30,50,120,0.18);
+    color: var(--text-primary);
+    font-size: 0.75rem;
+    padding: 5px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  #toggle-shared:hover { background: rgba(30,50,120,0.1); }
+  #toggle-shared.active {
+    background: rgba(212,144,10,0.14);
+    border-color: var(--hub-gold);
+    color: var(--hub-gold);
+  }
+
+  .hint { font-size: 0.72rem; color: var(--text-muted); }
+
+  /* ── Mobile stacked layout ────────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    :root { --radius: 130px; }
+    html, body { overflow: auto; }
+    #app { height: auto; overflow: auto; }
+    #stage { height: 70vw; min-height: 300px; }
+    header h1 { font-size: 1rem; }
+    header p { font-size: 0.72rem; }
+    #detail-panel { width: 100%; border-left: none; border-top: 1px solid rgba(30,50,120,0.1); }
+
+    /* below the viz, show stacked cards */
+    #mobile-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 12px;
+    }
+    .mobile-card {
+      background: rgba(30,50,120,0.03);
+      border: 1px solid rgba(30,50,120,0.1);
+      border-radius: 12px;
+      padding: 12px;
+      cursor: pointer;
+    }
+    .mobile-card h3 { font-size: 0.78rem; font-weight: 700; margin-bottom: 4px; }
+    .mobile-card p  { font-size: 0.68rem; color: var(--text-muted); }
+  }
+  @media (min-width: 769px) {
+    #mobile-cards { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <header>
+    <h1>Your signature activates 9 operational systems.</h1>
+    <p>Nine downstream teams all draw from the same signed agreement. Without a single platform, each accesses it independently — and that's where the data diverges.</p>
+  </header>
+
+  <div id="stage">
+    <svg id="viz" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- hub glow filter -->
+        <filter id="hub-glow" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="blur"/>
+          <feColorMatrix in="blur" type="matrix"
+            values="1 0.7 0 0 0  0.8 0.5 0 0 0  0 0 0 0 0  0 0 0 0.9 0" result="colored"/>
+          <feMerge><feMergeNode in="colored"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="hub-glow-bright" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="20" result="blur"/>
+          <feColorMatrix in="blur" type="matrix"
+            values="1 0.8 0 0 0  0.9 0.6 0 0 0  0 0 0 0 0  0 0 0 1 0" result="colored"/>
+          <feMerge><feMergeNode in="colored"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <!-- node glow -->
+        <filter id="node-bright" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- spokes, particles, hub, nodes rendered by JS -->
+      <g id="diagram"></g>
+    </svg>
+  </div>
+
+  <!-- Mobile cards (below SVG on small screens) -->
+  <div id="mobile-cards"></div>
+
+  <footer>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--teal)"></div>
+      Finance / Rev Rec
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--purple)"></div>
+      Customer Ops
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--orange)"></div>
+      Revenue Protection
+    </div>
+    <button id="toggle-shared">Show shared fields</button>
+    <span class="hint">Click any node to explore</span>
+  </footer>
+</div>
+
+<!-- Detail Panel -->
+<aside id="detail-panel" aria-hidden="true">
+  <button id="panel-close" aria-label="Close panel">&#x2715;</button>
+  <div id="panel-fn-label">Function</div>
+  <div id="panel-title"></div>
+  <div id="panel-domain"></div>
+  <div id="panel-fields-label">Fields pulled from agreement</div>
+  <div id="panel-fields"></div>
+</aside>
+
+<script>
+// ── Data ───────────────────────────────────────────────────────────────────
+const FUNCTIONS = [
+  {
+    id: 'agreement-terms',
+    label: 'Agreement Terms',
+    domain: 'Finance',
+    color: 'teal',
+    fields: ['Rev Rec', 'Contract Signing Date', 'Products & Services']
+  },
+  {
+    id: 'service-activation',
+    label: 'Service Activation',
+    domain: 'Customer Ops',
+    color: 'purple',
+    fields: ['Activation Date', 'Pricing Type', 'Term', 'Termination Conditions', 'ETF']
+  },
+  {
+    id: 'fulfillment',
+    label: 'Fulfillment',
+    domain: 'Customer Ops',
+    color: 'purple',
+    fields: ['Usage Entitlement', 'Shipping Date', 'Activation Date', 'SLA', 'SLA Performance', 'Penalty']
+  },
+  {
+    id: 'commissions',
+    label: 'Commissions',
+    domain: 'Revenue Protection',
+    color: 'orange',
+    fields: ['Products & Services', 'Pricing & Discounts', 'Term', 'Termination Conditions']
+  },
+  {
+    id: 'billing',
+    label: 'Billing',
+    domain: 'Finance',
+    color: 'teal',
+    fields: [
+      'Products & Services', 'Pricing & Discounts', 'Qty', 'Price Increase %',
+      'Price Increase Date', 'Activation Date', 'Signing Date', 'Term',
+      'Termination Conditions', 'ETF', 'Min Commitment', 'Payment Type & Term',
+      'Obligations', 'SLA', 'Penalty'
+    ]
+  },
+  {
+    id: 'renewal',
+    label: 'Renewal',
+    domain: 'Customer Ops',
+    color: 'purple',
+    fields: [
+      'Products & Services', 'Pricing & Discounts', 'Term', 'Termination Conditions',
+      'ETF', 'Activation Date', 'Signing Date', 'Notice Period', 'Auto Renewal'
+    ]
+  },
+  {
+    id: 'pricing-ra',
+    label: 'Pricing / Revenue Assurance',
+    domain: 'Finance',
+    color: 'teal',
+    fields: [
+      'Products & Services', 'Pricing & Discounts', 'Qty',
+      'Price Increase %', 'Price Increase Date', 'Payment Type & Term'
+    ]
+  },
+  {
+    id: 'early-termination-ra',
+    label: 'Early Termination / Revenue Assurance',
+    domain: 'Revenue Protection',
+    color: 'orange',
+    fields: [
+      'Products & Services', 'Pricing & Discounts', 'Qty', 'Activation Date',
+      'Signing Date', 'Term', 'Termination Conditions', 'ETF', 'Min Commitment',
+      'Payment Type & Term'
+    ]
+  },
+  {
+    id: 'min-commitment-ra',
+    label: 'Min Commitment / Revenue Assurance',
+    domain: 'Revenue Protection',
+    color: 'orange',
+    fields: [
+      'Products & Services', 'Pricing & Discounts', 'Qty', 'Term',
+      'Activation Date', 'Signing Date', 'Min Commitment', 'Payment Type & Term'
+    ]
+  }
+];
+
+const COLOR_MAP = {
+  teal:   { fill: '#009e7a', dim: 'rgba(0,158,122,0.13)',  text: '#005a46' },
+  purple: { fill: '#6d28d9', dim: 'rgba(109,40,217,0.12)', text: '#3b0b7a' },
+  orange: { fill: '#c25000', dim: 'rgba(194,80,0,0.12)',   text: '#6b2d00' }
+};
+
+// ── Build field index ──────────────────────────────────────────────────────
+function buildFieldIndex() {
+  const index = {}; // fieldName → [fnId, ...]
+  FUNCTIONS.forEach(fn => {
+    fn.fields.forEach(f => {
+      if (!index[f]) index[f] = [];
+      index[f].push(fn.id);
+    });
+  });
+  return index;
+}
+const FIELD_INDEX = buildFieldIndex();
+
+// ── Context-specific field descriptions ────────────────────────────────────
+const FIELD_DESCRIPTIONS = {
+  'agreement-terms': {
+    'Rev Rec':
+      'Sets the revenue recognition method — upfront, ratable over term, or milestone-based — which governs how this contract appears in financial reporting.',
+    'Contract Signing Date':
+      'The execution date that starts the revenue recognition clock and anchors all downstream date calculations across billing, renewal, and commissions.',
+    'Products & Services':
+      'Defines which contracted items are in scope for revenue classification; misclassification here flows through to every downstream function.'
+  },
+  'service-activation': {
+    'Activation Date':
+      'The date services go live. Triggers the billing start, the SLA performance clock, and confirms provisioning is complete.',
+    'Pricing Type':
+      'Determines whether activation initiates recurring, usage-based, or one-time fee structures — affects how the first invoice is generated.',
+    'Term':
+      'Governs how long the activation commitment lasts and defines when the service period ends for renewal planning.',
+    'Termination Conditions':
+      'Rules that determine whether early deactivation is permitted before the activation period expires.',
+    'ETF':
+      'Early termination fee applied if the customer cancels service before the contracted activation period ends.'
+  },
+  'fulfillment': {
+    'Usage Entitlement':
+      'The contracted quantity or capacity limits that must be provisioned — over- or under-provisioning creates a billing or SLA exposure.',
+    'Shipping Date':
+      'Physical delivery date for hardware or materials in scope; delays here can push out the Activation Date and create SLA risk.',
+    'Activation Date':
+      'The target date by which digital provisioning must be complete. Fulfillment is measured against this commitment.',
+    'SLA':
+      'Service level standards the fulfillment team is contractually required to meet — defines what "done on time" means.',
+    'SLA Performance':
+      'Tracks whether fulfillment hit or missed SLA targets. Performance data feeds into penalty calculations and renewals.',
+    'Penalty':
+      'Financial consequences applied if fulfillment fails the contracted SLA. Amount and trigger conditions are defined in the agreement.'
+  },
+  'commissions': {
+    'Products & Services':
+      'Identifies which line items are commissionable and at what eligibility rate — not all contracted products may qualify.',
+    'Pricing & Discounts':
+      'Commission base is calculated from the final contract price after approved discounts, not the list price.',
+    'Term':
+      'Longer terms may affect the payout schedule, vesting period, or which commission rate tier applies.',
+    'Termination Conditions':
+      'Clawback clauses may recover paid commission if the customer exits early under specific termination triggers.'
+  },
+  'billing': {
+    'Products & Services':
+      'Defines exactly what to invoice and at what line-item level — the source of truth for every billing entry.',
+    'Pricing & Discounts':
+      'The agreed contracted rate applied each billing cycle, after all approved discounts. Discrepancies here cause invoice disputes.',
+    'Qty':
+      'Number of units billed per period. Cross-referenced against the usage entitlement to catch over- or under-billing.',
+    'Price Increase %':
+      'The scheduled rate escalation applied automatically to future invoices. Must match the contract exactly to avoid disputes.',
+    'Price Increase Date':
+      'The date the new escalated rate takes effect. Billing must flip to the new rate on this date — no earlier, no later.',
+    'Activation Date':
+      'First billing date is typically anchored here. Using the wrong date shifts the entire billing timeline.',
+    'Signing Date':
+      'Some billing cycles are measured from signing rather than activation — both dates must be captured to bill correctly.',
+    'Term':
+      'Governs total billing duration and determines when renewal trigger points occur and final invoices are issued.',
+    'Termination Conditions':
+      'Determines when billing should cease and what final settlement amounts, if any, are owed.',
+    'ETF':
+      'Invoiced to the customer if they terminate before the contracted term expires. Amount is defined in the agreement.',
+    'Min Commitment':
+      'A contractual revenue floor — the minimum amount billed even if actual usage falls short of the threshold.',
+    'Payment Type & Term':
+      'Controls invoice cadence (monthly, annual, upfront) and accepted payment method — affects cash flow forecasting.',
+    'Obligations':
+      'Contractual commitments that may trigger one-time or milestone billing events outside the regular invoice cycle.',
+    'SLA':
+      'SLA breaches defined in the agreement can result in billing credits that must be applied to the invoice.',
+    'Penalty':
+      'Financial penalties either deducted from or added to invoices depending on which party caused the SLA failure.'
+  },
+  'renewal': {
+    'Products & Services':
+      'Defines what gets renewed — the scope may change from the original agreement. Additions or removals must be reconciled.',
+    'Pricing & Discounts':
+      'New pricing or preserved rates applied for the renewal term. The agreement determines which takes precedence.',
+    'Term':
+      'Duration of the renewal period. May differ from the original contract length based on negotiated terms.',
+    'Termination Conditions':
+      'Must be reviewed before auto-renewing to confirm no exit clause or opt-out window applies.',
+    'ETF':
+      'Determines whether the early termination fee resets to reflect the new term or carries forward from the original contract.',
+    'Activation Date':
+      'Renewal start is typically anchored to the original activation date to preserve continuity of service.',
+    'Signing Date':
+      'The date new renewal terms were formally agreed to — used to calculate the notice period and renewal window.',
+    'Notice Period':
+      'The advance window within which the customer must notify of non-renewal. Missing this date locks them into another term.',
+    'Auto Renewal':
+      'Governs whether the contract renews automatically without an explicit action from either party.'
+  },
+  'pricing-ra': {
+    'Products & Services':
+      'Verifies that contracted products match what\'s loaded into the pricing system — mismatches cause billing errors downstream.',
+    'Pricing & Discounts':
+      'Validates that applied discount levels match approved contract authorization. Unapproved discounts create revenue leakage.',
+    'Qty':
+      'Confirms contracted quantity aligns with what was approved in the pricing workflow before the agreement was signed.',
+    'Price Increase %':
+      'Validates that scheduled escalations are correctly configured in the pricing engine to fire at the right time.',
+    'Price Increase Date':
+      'Ensures escalation dates match the contract exactly — misalignment creates billing mismatches that are hard to unwind.',
+    'Payment Type & Term':
+      'Confirms payment structure aligns with the revenue recognition model used in financial reporting.'
+  },
+  'early-termination-ra': {
+    'Products & Services':
+      'Identifies which products are subject to ETF calculation — not all line items may carry an early termination obligation.',
+    'Pricing & Discounts':
+      'ETF is typically calculated as a percentage of remaining contract value, so the contracted rate is the calculation base.',
+    'Qty':
+      'Quantity affects the total ETF financial exposure — more units means higher remaining obligation at termination.',
+    'Activation Date':
+      'ETF exposure window starts from activation, not signing. Using the wrong date miscalculates the remaining commitment.',
+    'Signing Date':
+      'Establishes when contractual ETF obligations formally began — sometimes differs from activation by weeks.',
+    'Term':
+      'Full term length determines the maximum ETF exposure window and the cap on any penalty calculation.',
+    'Termination Conditions':
+      'The specific contractual clauses that define when and how ETF is triggered — not all exits incur a fee.',
+    'ETF':
+      'The fee amount or calculation formula defined in the agreement. This is the number that gets invoiced at exit.',
+    'Min Commitment':
+      'ETF may be calculated relative to any minimum commitment shortfall still owed at the time of termination.',
+    'Payment Type & Term':
+      'Governs how and when the ETF amount is invoiced and collected after the termination notice is received.'
+  },
+  'min-commitment-ra': {
+    'Products & Services':
+      'Defines which product lines count toward the minimum commitment threshold — usage of excluded products doesn\'t satisfy the commitment.',
+    'Pricing & Discounts':
+      'Minimum commitment is evaluated against the contracted rate, not list price — discounts reduce the commitment baseline.',
+    'Qty':
+      'Actual usage quantity is compared against the committed minimum each period to detect and invoice shortfalls.',
+    'Term':
+      'Sets the measurement period for commitment tracking — whether shortfalls are assessed monthly, quarterly, or annually.',
+    'Activation Date':
+      'Commitment measurement begins from activation. Usage before this date doesn\'t count toward the minimum.',
+    'Signing Date':
+      'Establishes when the commitment obligation was formally accepted, which may precede activation.',
+    'Min Commitment':
+      'The contractual revenue floor — the minimum amount the customer must generate per period, regardless of actual usage.',
+    'Payment Type & Term':
+      'Determines how and when shortfall amounts are invoiced and what payment method applies to commitment true-ups.'
+  }
+};
+
+// helper: get description for a field within a specific function context
+function getFieldDesc(fnId, fieldName) {
+  return FIELD_DESCRIPTIONS[fnId]?.[fieldName] || '';
+}
+
+// shared field count between two functions (for spoke width toggle)
+function sharedFieldCount(fnA, fnB) {
+  return fnA.fields.filter(f => fnB.fields.includes(f)).length;
+}
+
+// ── Polar math ─────────────────────────────────────────────────────────────
+function polar(cx, cy, r, angleDeg) {
+  const rad = (angleDeg - 90) * Math.PI / 180;
+  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+}
+
+// ── State ──────────────────────────────────────────────────────────────────
+let state = { activeNode: null, activeField: null, showShared: false };
+let diagramCx = 0, diagramCy = 0;
+
+function setState(patch) {
+  Object.assign(state, patch);
+  applyState();
+}
+
+function applyState() {
+  const { activeNode, activeField, showShared } = state;
+  const N = FUNCTIONS.length;
+
+  FUNCTIONS.forEach((fn, i) => {
+    const nodeEl   = document.getElementById(`node-${fn.id}`);
+    const spokeEl  = document.getElementById(`spoke-${fn.id}`);
+    const ringEl   = document.getElementById(`ring-${fn.id}`);
+    const parEls   = document.querySelectorAll(`.particle-${fn.id}`);
+    if (!nodeEl || !spokeEl) return;
+
+    const isActive = activeNode === fn.id;
+    const anyActive = activeNode !== null;
+    const isFieldLit = activeField && FIELD_INDEX[activeField]?.includes(fn.id);
+
+    // node classes
+    nodeEl.classList.toggle('active',  isActive || !!isFieldLit);
+    nodeEl.classList.toggle('dimmed',  anyActive && !isActive && !isFieldLit);
+
+    // spoke classes
+    spokeEl.classList.toggle('active',  isActive);
+    spokeEl.classList.toggle('dimmed',  anyActive && !isActive);
+
+    // shared field stroke width
+    if (showShared && activeNode && !isActive) {
+      const activeFn = FUNCTIONS.find(f => f.id === activeNode);
+      if (activeFn) {
+        const count = sharedFieldCount(activeFn, fn);
+        spokeEl.style.strokeWidth = count > 0 ? (1 + count * 0.8) + 'px' : '1px';
+        spokeEl.style.opacity = count > 0 ? 0.5 + count * 0.07 : 0.15;
+      }
+    } else if (showShared && !activeNode) {
+      // show all spoke widths relative to billing (busiest)
+      const billing = FUNCTIONS.find(f => f.id === 'billing');
+      const count = sharedFieldCount(billing, fn);
+      spokeEl.style.strokeWidth = fn.id === 'billing' ? '3px' : (1 + count * 0.6) + 'px';
+      spokeEl.style.opacity = '';
+    } else {
+      spokeEl.style.strokeWidth = '';
+      spokeEl.style.opacity = '';
+    }
+
+    // particle speed
+    parEls.forEach(p => {
+      p.classList.toggle('fast', isActive);
+    });
+
+    // pulse ring
+    if (ringEl) {
+      if (isFieldLit && activeField) {
+        ringEl.classList.remove('pulsing');
+        void ringEl.offsetWidth; // reflow to restart animation
+        ringEl.classList.add('pulsing');
+      } else {
+        ringEl.classList.remove('pulsing');
+      }
+    }
+  });
+}
+
+// ── Build SVG diagram ──────────────────────────────────────────────────────
+function buildDiagram() {
+  const svg    = document.getElementById('viz');
+  const g      = document.getElementById('diagram');
+  const rect   = svg.getBoundingClientRect();
+  const cx     = rect.width  / 2;
+  const cy     = rect.height / 2;
+  const R      = Math.min(cx, cy) * 0.70; // radial distance
+
+  diagramCx = cx;
+  diagramCy = cy;
+  g.style.transform = `translate(${cx}px,${cy}px)`;
+
+  // ── Spokes (draw first so they're behind nodes) ──
+  FUNCTIONS.forEach((fn, i) => {
+    const angle  = (360 / FUNCTIONS.length) * i;
+    const tip    = polar(0, 0, R, angle);
+    const hubEdge = polar(0, 0, 76, angle); // hub circle radius
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    const len  = Math.hypot(tip.x - hubEdge.x, tip.y - hubEdge.y);
+    path.setAttribute('id', `spoke-${fn.id}`);
+    path.setAttribute('d', `M ${hubEdge.x},${hubEdge.y} L ${tip.x},${tip.y}`);
+    path.setAttribute('class', 'spoke spoke-draw');
+    path.style.setProperty('--dash-len', len + 'px');
+    path.style.animationDelay = (i * 0.1 + 0.3) + 's';
+    // store path for animateMotion
+    path.setAttribute('data-d', `M 0,0 L ${tip.x - hubEdge.x},${tip.y - hubEdge.y}`);
+    g.appendChild(path);
+
+    // ── Particles (3 per spoke) ──
+    for (let p = 0; p < 3; p++) {
+      const delay = p * 1.0; // seconds stagger
+      const dur   = 3;
+
+      const particle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      particle.setAttribute('class', `particle particle-${fn.id}`);
+      particle.setAttribute('r', '3');
+
+      // animateMotion along spoke path
+      const am = document.createElementNS('http://www.w3.org/2000/svg', 'animateMotion');
+      am.setAttribute('dur', dur + 's');
+      am.setAttribute('begin', (i * 0.1 + 0.9 + delay) + 's');
+      am.setAttribute('repeatCount', 'indefinite');
+      am.setAttribute('rotate', 'auto');
+
+      const mpath = document.createElementNS('http://www.w3.org/2000/svg', 'mpath');
+      mpath.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', `#spoke-${fn.id}`);
+      am.appendChild(mpath);
+      particle.appendChild(am);
+
+      // opacity animation
+      const anim = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+      anim.setAttribute('attributeName', 'opacity');
+      anim.setAttribute('values', '0;0.85;0.85;0');
+      anim.setAttribute('keyTimes', '0;0.1;0.85;1');
+      anim.setAttribute('dur', dur + 's');
+      anim.setAttribute('begin', (i * 0.1 + 0.9 + delay) + 's');
+      anim.setAttribute('repeatCount', 'indefinite');
+      particle.appendChild(anim);
+
+      g.appendChild(particle);
+    }
+  });
+
+  // ── Hub circle ──
+  const hubGlow = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  hubGlow.setAttribute('r', '96');
+  hubGlow.setAttribute('fill', 'rgba(240,180,41,0.1)');
+  hubGlow.setAttribute('filter', 'url(#hub-glow)');
+  g.appendChild(hubGlow);
+
+  const hub = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  hub.setAttribute('r', '72');
+  hub.setAttribute('class', 'hub-circle');
+  g.appendChild(hub);
+
+  // Hub labels
+  const hubLabel1 = mkText('Signed Agreement', 0, -9, '12.5px', '#000', '700');
+  const hubLabel2 = mkText('Source of Truth', 0, 8, '11px', '#000', '500');
+  g.appendChild(hubLabel1);
+  g.appendChild(hubLabel2);
+
+  // ── Nodes ──
+  FUNCTIONS.forEach((fn, i) => {
+    const angle   = (360 / FUNCTIONS.length) * i;
+    const pos     = polar(0, 0, R, angle);
+    const c       = COLOR_MAP[fn.color];
+    const W       = 170; // pill width
+    const H       = 52;  // pill height
+    const delay   = i * 0.1 + 0.85;
+
+    const nodeG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    nodeG.setAttribute('id', `node-${fn.id}`);
+    nodeG.setAttribute('class', 'node-group');
+    nodeG.setAttribute('transform', `translate(${pos.x - W/2},${pos.y - H/2})`);
+    nodeG.style.transitionDelay = delay + 's';
+
+    // pill background
+    const pill = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    pill.setAttribute('width', W);
+    pill.setAttribute('height', H);
+    pill.setAttribute('rx', 12);
+    pill.setAttribute('ry', 12);
+    pill.setAttribute('fill', c.dim);
+    pill.setAttribute('stroke', c.fill);
+    pill.setAttribute('stroke-width', '1.5');
+    pill.setAttribute('class', 'node-pill');
+    nodeG.appendChild(pill);
+
+    // name text (auto-wrap via 2 lines)
+    const lines = wrapLabel(fn.label, 20);
+    const yStart = lines.length === 1 ? H/2 - 4 : H/2 - 12;
+    lines.forEach((line, li) => {
+      const t = mkText(line, W/2, yStart + li * 15, '11px', '#1a2236', '600');
+      nodeG.appendChild(t);
+    });
+
+    // field count badge
+    const badge = mkText(fn.fields.length + ' fields', W/2, H - 10, '9.5px', c.fill, '700');
+    nodeG.appendChild(badge);
+
+    // pulse ring (centered on node center, in node coords)
+    const ring = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    ring.setAttribute('id', `ring-${fn.id}`);
+    ring.setAttribute('cx', W/2);
+    ring.setAttribute('cy', H/2);
+    ring.setAttribute('r', '0');
+    ring.setAttribute('class', 'pulse-ring');
+    nodeG.appendChild(ring);
+
+    // events
+    nodeG.addEventListener('mouseenter', () => {
+      if (!state.activeNode) setState({ activeNode: fn.id });
+    });
+    nodeG.addEventListener('mouseleave', () => {
+      if (state.activeNode === fn.id && !panelOpenFor) setState({ activeNode: null });
+    });
+    nodeG.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openPanel(fn.id);
+    });
+
+    g.appendChild(nodeG);
+
+    // fade in after draw animation
+    setTimeout(() => nodeG.classList.add('visible'), (delay + 0.5) * 1000);
+  });
+
+  // click backdrop to close
+  svg.addEventListener('click', () => {
+    closePanel();
+  });
+}
+
+// ── Text helper ────────────────────────────────────────────────────────────
+function mkText(str, x, y, size, fill, weight) {
+  const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  t.setAttribute('x', x);
+  t.setAttribute('y', y);
+  t.setAttribute('text-anchor', 'middle');
+  t.setAttribute('dominant-baseline', 'middle');
+  t.setAttribute('font-size', size);
+  t.setAttribute('fill', fill);
+  t.setAttribute('font-weight', weight || '400');
+  t.setAttribute('font-family', "'Segoe UI', system-ui, sans-serif");
+  t.textContent = str;
+  return t;
+}
+
+function wrapLabel(text, maxLen) {
+  if (text.length <= maxLen) return [text];
+  // try to split at space near middle
+  const mid = Math.floor(text.length / 2);
+  let split = text.lastIndexOf(' ', mid);
+  if (split < 0) split = text.indexOf(' ', mid);
+  if (split < 0) return [text];
+  return [text.slice(0, split), text.slice(split + 1)];
+}
+
+// ── Panel ──────────────────────────────────────────────────────────────────
+let panelOpenFor = null;
+
+function openPanel(fnId) {
+  panelOpenFor = fnId;
+  setState({ activeNode: fnId, activeField: null });
+
+  const fn   = FUNCTIONS.find(f => f.id === fnId);
+  const c    = COLOR_MAP[fn.color];
+
+  document.getElementById('panel-title').textContent = fn.label;
+  document.getElementById('panel-title').style.color = c.fill;
+
+  const domEl = document.getElementById('panel-domain');
+  domEl.textContent = fn.domain;
+  domEl.style.background = c.dim;
+  domEl.style.color = c.fill;
+  domEl.style.border = `1px solid ${c.fill}`;
+
+  renderFieldChips(fn);
+
+  document.getElementById('detail-panel').classList.add('open');
+  document.getElementById('detail-panel').setAttribute('aria-hidden', 'false');
+  document.getElementById('diagram').style.transform = `translate(${diagramCx - 190}px,${diagramCy}px)`;
+  document.querySelector('header').style.transform = 'translateX(-190px)';
+  document.querySelector('footer').style.transform = 'translateX(-190px)';
+}
+
+function closePanel() {
+  panelOpenFor = null;
+  setState({ activeNode: null, activeField: null });
+  document.getElementById('detail-panel').classList.remove('open');
+  document.getElementById('detail-panel').setAttribute('aria-hidden', 'true');
+  document.getElementById('diagram').style.transform = `translate(${diagramCx}px,${diagramCy}px)`;
+  document.querySelector('header').style.transform = '';
+  document.querySelector('footer').style.transform = '';
+}
+
+function renderFieldChips(fn) {
+  const container = document.getElementById('panel-fields');
+  container.innerHTML = '';
+
+  fn.fields.forEach(field => {
+    const consumers = FIELD_INDEX[field] || [];
+    const isShared  = consumers.length > 1;
+    const desc      = getFieldDesc(fn.id, field);
+
+    const chip = document.createElement('div');
+    chip.className = 'field-chip' + (isShared ? ' shared' : '');
+    chip.dataset.field = field;
+
+    const badge = isShared
+      ? `<span class="chip-badge">${consumers.length} teams</span>`
+      : '';
+
+    chip.innerHTML = `
+      <div class="field-chip-header">
+        <span class="field-name">${escHtml(field)}</span>
+        ${badge}
+      </div>
+      ${desc ? `<div class="field-desc">${escHtml(desc)}</div>` : ''}
+    `;
+
+    chip.addEventListener('click', (e) => {
+      e.stopPropagation();
+      selectField(field, chip);
+    });
+
+    container.appendChild(chip);
+  });
+}
+
+function selectField(fieldName, chipEl) {
+  // clear any existing inline expansion
+  document.querySelectorAll('.chip-also').forEach(el => el.remove());
+
+  // toggle off if already selected
+  if (state.activeField === fieldName) {
+    document.querySelectorAll('.field-chip.selected').forEach(c => c.classList.remove('selected'));
+    setState({ activeField: null });
+    return;
+  }
+
+  // deselect previous, select new
+  document.querySelectorAll('.field-chip.selected').forEach(c => c.classList.remove('selected'));
+  chipEl.classList.add('selected');
+  setState({ activeField: fieldName });
+
+  // render "also required by" inline below the chip
+  const consumers = FIELD_INDEX[fieldName] || [];
+  const others    = consumers.filter(id => id !== panelOpenFor);
+  if (others.length === 0) return;
+
+  const alsoDiv = document.createElement('div');
+  alsoDiv.className = 'chip-also';
+
+  const label = document.createElement('div');
+  label.className = 'chip-also-label';
+  label.textContent = 'Also required by';
+  alsoDiv.appendChild(label);
+
+  const list = document.createElement('div');
+  list.className = 'chip-also-list';
+  others.forEach(id => {
+    const f   = FUNCTIONS.find(x => x.id === id);
+    const c   = COLOR_MAP[f.color];
+    const tag = document.createElement('span');
+    tag.className = 'also-tag';
+    tag.textContent = f.label;
+    tag.style.background = c.dim;
+    tag.style.color = c.fill;
+    tag.style.border = `1px solid ${c.fill}`;
+    list.appendChild(tag);
+  });
+  alsoDiv.appendChild(list);
+  chipEl.appendChild(alsoDiv);
+}
+
+// ── Mobile cards ───────────────────────────────────────────────────────────
+function buildMobileCards() {
+  const container = document.getElementById('mobile-cards');
+  FUNCTIONS.forEach(fn => {
+    const c    = COLOR_MAP[fn.color];
+    const card = document.createElement('div');
+    card.className = 'mobile-card';
+    card.style.borderColor = c.fill;
+    card.innerHTML = `<h3 style="color:${c.fill}">${escHtml(fn.label)}</h3>
+      <p>${fn.fields.length} fields &bull; ${fn.domain}</p>`;
+    card.addEventListener('click', () => openPanel(fn.id));
+    container.appendChild(card);
+  });
+}
+
+// ── Shared-fields toggle ───────────────────────────────────────────────────
+document.getElementById('toggle-shared').addEventListener('click', () => {
+  const btn = document.getElementById('toggle-shared');
+  state.showShared = !state.showShared;
+  btn.classList.toggle('active', state.showShared);
+  btn.textContent = state.showShared ? 'Hide shared fields' : 'Show shared fields';
+  applyState();
+});
+
+// ── Panel close button ─────────────────────────────────────────────────────
+document.getElementById('panel-close').addEventListener('click', (e) => {
+  e.stopPropagation();
+  closePanel();
+});
+
+// ── ESC key ────────────────────────────────────────────────────────────────
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closePanel();
+});
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+function init() {
+  buildDiagram();
+  buildMobileCards();
+}
+
+// Wait for layout to settle before reading dimensions
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => requestAnimationFrame(init));
+} else {
+  requestAnimationFrame(init);
+}
+
+// Rebuild on resize (debounced)
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    const g = document.getElementById('diagram');
+    if (g) {
+      g.innerHTML = '';
+      g.style.transition = 'none'; // skip animation during rebuild
+    }
+    buildDiagram();
+    const header = document.querySelector('header');
+    if (panelOpenFor) {
+      g.style.transform = `translate(${diagramCx - 190}px,${diagramCy}px)`;
+      header.style.transform = 'translateX(-190px)';
+      document.querySelector('footer').style.transform = 'translateX(-190px)';
+    } else {
+      header.style.transform = '';
+      document.querySelector('footer').style.transform = '';
+    }
+    requestAnimationFrame(() => { if (g) g.style.transition = ''; });
+  }, 250);
+});
+</script>
+</body>
+</html>

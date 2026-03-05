@@ -1832,8 +1832,8 @@ function renderDocPills() {
 
 // ── Render header meta ────────────────────────────────────────────────────────
 function renderHeaderMeta() {
-  document.getElementById('header-meta').textContent =
-    '2-year term · Signed May 22, 2025 · Expires May 22, 2027 · $5,825/mo MRC · $69,900 ACV';
+  const metaEl = document.getElementById('header-meta');
+  if (metaEl) metaEl.textContent = '2-year term · Signed May 22, 2025 · Expires May 22, 2027 · $5,825/mo MRC · $69,900 ACV';
 }
 
 // ── Value renderer ────────────────────────────────────────────────────────────

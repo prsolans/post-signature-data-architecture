@@ -27,7 +27,7 @@
 ## Phase 3: Build the Artifact
 *Goal: Branded, demo-ready web app dashboard presenting agreement data by job function.*
 
-- [ ] **PRS-27** Build post-sign dashboard (Part 1 — mock data)
+- [x] **PRS-27** Build post-sign dashboard (Part 1 — mock data)
   - Job-function navigation (Billing, Renewal, Fulfillment, Rev Rec, Commissions, Obligations, Rev Assurance)
   - Each job shows: Term | Extracted Value | Source Document | field type badge (Standard / Custom / Manual)
   - Powered by `mock-navigator-data.js` — real Gigaroute/Fontara values

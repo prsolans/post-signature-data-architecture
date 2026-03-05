@@ -17,11 +17,12 @@
 ## Phase 2: API Research
 *Goal: Understand the Navigator API schema before building the artifact.*
 
-- [ ] **PRS-39** Navigator API research and data model mapping *(sub-issue of PRS-27)*
+- [x] **PRS-39** Navigator API research and data model mapping *(sub-issue of PRS-27)*
   - Confirm API authentication and access
   - Map response schema: how extracted fields are returned, what identifiers link fields to source documents
   - Confirm whether the full agreement family can be queried in one call or per document
   - Output: documented data model ready for artifact build
+  - Artifact: NAVIGATOR_API_DATA_MODEL.md
 
 ## Phase 3: Build the Artifact
 *Goal: Branded, demo-ready web app dashboard presenting agreement data by job function.*

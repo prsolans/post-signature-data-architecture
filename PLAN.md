@@ -27,13 +27,16 @@
 ## Phase 3: Build the Artifact
 *Goal: Branded, demo-ready web app dashboard presenting agreement data by job function.*
 
-- [ ] **PRS-27** Build dashboard web app
+- [ ] **PRS-27** Build post-sign dashboard (Part 1 — mock data)
   - Job-function navigation (Billing, Renewal, Fulfillment, Rev Rec, Commissions, Obligations, Rev Assurance)
-  - Each job shows: Term | Extracted Value | Source Document
-  - Visual distinction: standard / custom / manually-entered fields
-  - Pitch embedded in UI: "this data is in Navigator — the API makes this view possible"
-  - Branded and polished — demo-ready
-  - Presentation layer design to be scoped once API plumbing is confirmed
+  - Each job shows: Term | Extracted Value | Source Document | field type badge (Standard / Custom / Manual)
+  - Powered by `mock-navigator-data.js` — real Gigaroute/Fontara values
+  - New standalone artifact (`dashboard.html`); hub-and-spoke viz archived to `archive/`
+  - Audience: customers, product, sales — presentation-quality polish required
+
+- [ ] **PRS-41** Connect dashboard to Navigator API (Part 2 — live data) *(blocked by PRS-26)*
+  - Replace mock data with live Navigator API calls
+  - Validate all 21 fields render correctly from real extractions
 
 ## Backlog / Next Pass
 - Investigate 3rd-party extraction for table-blocked fields (Products & Services, Pricing & Discounts, Quantity, SLA, SLA Performance Conditions)

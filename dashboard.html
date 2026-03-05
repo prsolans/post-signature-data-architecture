@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post-Sign Agreement Data · Gigaroute / Fontara</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ── Reset & Base ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:               #f0faf6;
+  --sidebar-bg:       #0d1e16;
+  --sidebar-hover:    rgba(255,255,255,0.05);
+  --sidebar-active:   rgba(255,255,255,0.09);
+  --sidebar-border:   rgba(255,255,255,0.07);
+  --sidebar-text:     rgba(255,255,255,0.55);
+  --sidebar-text-hi:  rgba(255,255,255,0.92);
+  --content-bg:       #ffffff;
+  --border:           rgba(14,40,25,0.09);
+  --border-strong:    rgba(14,40,25,0.16);
+
+  --teal:             #2dc98a;
+  --teal-bg:          rgba(45,201,138,0.10);
+  --teal-text:        #0a7a4e;
+  --purple:           #6d28d9;
+  --purple-bg:        rgba(109,40,217,0.08);
+  --purple-text:      #4a1fa3;
+  --orange:           #c25000;
+  --orange-bg:        rgba(194,80,0,0.08);
+  --orange-text:      #8a3800;
+
+  --badge-std:        #0569d1;
+  --badge-std-bg:     rgba(5,105,209,0.09);
+  --badge-custom:     #a16207;
+  --badge-custom-bg:  rgba(161,98,7,0.09);
+  --badge-manual:     #475569;
+  --badge-manual-bg:  rgba(71,85,105,0.09);
+  --badge-partial:    #9a3412;
+  --badge-partial-bg: rgba(154,52,18,0.09);
+
+  --text-primary:     #111827;
+  --text-secondary:   #374151;
+  --text-muted:       #9ca3af;
+  --text-faint:       #d1d5db;
+
+  --docusign-navy:    #1a1f71;
+  --docusign-blue:    #0569d1;
+
+  --sidebar-w:        248px;
+  --header-h:         58px;
+  --radius-sm:        6px;
+  --radius-md:        10px;
+  --radius-lg:        14px;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── App shell ────────────────────────────────────────────────────────────── */
+#app {
+  display: grid;
+  grid-template-rows: var(--header-h) 1fr;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Header ───────────────────────────────────────────────────────────────── */
+#header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px 0 0;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(14,40,25,0.09);
+  box-shadow: 0 1px 0 rgba(14,40,25,0.04);
+  z-index: 20;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 24px;
+  border-right: 1px solid rgba(14,40,25,0.08);
+  width: var(--sidebar-w);
+}
+
+.header-logo {
+  height: 26px;
+  width: auto;
+  display: block;
+}
+
+.header-center {
+  flex: 1;
+  padding: 0 24px;
+}
+
+.header-agreement {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.header-agreement-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0d1e16;
+  letter-spacing: -0.01em;
+}
+
+.header-agreement-sep {
+  color: rgba(14,40,25,0.25);
+  font-size: 12px;
+}
+
+.header-agreement-provider {
+  font-size: 12.5px;
+  color: rgba(14,40,25,0.5);
+  font-weight: 400;
+}
+
+.header-agreement-meta {
+  font-size: 11px;
+  color: rgba(14,40,25,0.38);
+  margin-top: 2px;
+}
+
+.header-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(5,105,209,0.06);
+  border: 1px solid rgba(5,105,209,0.22);
+  border-radius: 20px;
+  padding: 5px 12px 5px 10px;
+  text-decoration: none;
+}
+
+.header-badge-logo {
+  height: 14px;
+  width: auto;
+  display: block;
+  opacity: 0.85;
+}
+
+.header-badge-divider {
+  width: 1px;
+  height: 13px;
+  background: rgba(5,105,209,0.25);
+  flex-shrink: 0;
+}
+
+.header-badge-text {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #0569d1;
+  letter-spacing: 0.01em;
+}
+
+/* ── Sidebar ──────────────────────────────────────────────────────────────── */
+#sidebar {
+  background: var(--sidebar-bg);
+  border-right: 1px solid rgba(255,255,255,0.06);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.1) transparent;
+  padding: 16px 0 24px;
+}
+
+#sidebar::-webkit-scrollbar { width: 4px; }
+#sidebar::-webkit-scrollbar-track { background: transparent; }
+#sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+.sidebar-section {
+  margin-bottom: 4px;
+}
+
+.sidebar-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.25);
+  padding: 10px 20px 6px;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 20px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  text-decoration: none;
+  user-select: none;
+}
+
+.sidebar-item:hover {
+  background: var(--sidebar-hover);
+}
+
+.sidebar-item.active {
+  background: var(--sidebar-active);
+}
+
+.sidebar-item.active.teal  { border-left-color: var(--teal); }
+.sidebar-item.active.purple { border-left-color: var(--purple); }
+.sidebar-item.active.orange { border-left-color: var(--orange); }
+
+.sidebar-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  opacity: 0.4;
+  transition: opacity 0.15s;
+}
+
+.sidebar-item.active .sidebar-dot,
+.sidebar-item:hover .sidebar-dot { opacity: 1; }
+
+.sidebar-dot.teal   { background: var(--teal); }
+.sidebar-dot.purple { background: var(--purple); }
+.sidebar-dot.orange { background: var(--orange); }
+
+.sidebar-item-text {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sidebar-text);
+  transition: color 0.15s;
+  line-height: 1.3;
+}
+
+.sidebar-item:hover .sidebar-item-text,
+.sidebar-item.active .sidebar-item-text {
+  color: var(--sidebar-text-hi);
+}
+
+.sidebar-item-count {
+  font-size: 10.5px;
+  color: rgba(255,255,255,0.2);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.sidebar-item.active .sidebar-item-count { color: rgba(255,255,255,0.4); }
+
+/* ── Content ──────────────────────────────────────────────────────────────── */
+#content {
+  overflow-y: auto;
+  background: var(--bg);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(14,40,25,0.15) transparent;
+}
+
+#content::-webkit-scrollbar { width: 6px; }
+#content::-webkit-scrollbar-track { background: transparent; }
+#content::-webkit-scrollbar-thumb { background: rgba(14,40,25,0.12); border-radius: 3px; }
+
+.content-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 28px 48px;
+}
+
+/* ── Agreement summary card ───────────────────────────────────────────────── */
+#agreement-card {
+  background: var(--content-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.agreement-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--teal);
+  background: var(--teal-bg);
+  border-radius: 20px;
+  padding: 3px 9px;
+  flex-shrink: 0;
+}
+
+.agreement-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--teal);
+}
+
+.agreement-parties {
+  flex: 1;
+}
+
+.agreement-customer {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.agreement-provider {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.agreement-stats {
+  display: flex;
+  gap: 24px;
+  flex-shrink: 0;
+}
+
+.agreement-stat {
+  text-align: right;
+}
+
+.agreement-stat-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.agreement-stat-label {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  margin-top: 1px;
+  font-weight: 500;
+}
+
+.agreement-docs {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.doc-pill {
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: rgba(14,40,25,0.05);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+/* ── Job panel ────────────────────────────────────────────────────────────── */
+#job-panel {
+  background: var(--content-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.job-panel-header {
+  padding: 18px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.job-title-group {
+  flex: 1;
+}
+
+.job-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.job-subtitle {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.job-domain-badge {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 4px 10px;
+  border-radius: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.job-domain-badge.teal   { background: var(--teal-bg);   color: var(--teal-text); }
+.job-domain-badge.purple { background: var(--purple-bg); color: var(--purple-text); }
+.job-domain-badge.orange { background: var(--orange-bg); color: var(--orange-text); }
+
+.job-stats {
+  display: flex;
+  gap: 16px;
+  padding: 10px 24px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(14,40,25,0.018);
+}
+
+.job-stat-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+
+.job-stat-chip .badge { font-size: 10px; }
+
+/* ── Field table ──────────────────────────────────────────────────────────── */
+.field-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.field-table thead th {
+  padding: 9px 16px;
+  text-align: left;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  background: rgba(14,40,25,0.025);
+  border-bottom: 1px solid var(--border);
+}
+
+.field-table thead th:first-child { padding-left: 24px; }
+.field-table thead th:last-child  { padding-right: 24px; text-align: center; }
+
+.field-table tbody tr {
+  border-bottom: 1px solid rgba(14,40,25,0.055);
+  transition: background 0.12s;
+}
+
+.field-table tbody tr:last-child { border-bottom: none; }
+.field-table tbody tr:hover { background: rgba(14,40,25,0.025); }
+
+.field-table td {
+  padding: 13px 16px;
+  vertical-align: top;
+}
+
+.field-table td:first-child { padding-left: 24px; }
+.field-table td:last-child  { padding-right: 24px; }
+
+/* col widths */
+.col-field  { width: 220px; }
+.col-value  { /* flex */ }
+.col-source { width: 180px; }
+.col-type   { width: 96px; text-align: center; }
+
+/* field name cell */
+.field-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.field-desc {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 3px;
+  line-height: 1.45;
+  font-weight: 400;
+}
+
+/* value cell */
+.field-value {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.field-value-null {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.field-value-null .null-note {
+  font-size: 11px;
+  color: var(--text-faint);
+  display: block;
+  margin-top: 2px;
+}
+
+.value-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.value-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.value-list-item::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-faint);
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.value-truncatable {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.value-truncatable-text {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.value-expand-btn {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--docusign-blue);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 2px;
+}
+
+.value-expand-btn:hover { text-decoration: underline; }
+
+/* source cell */
+.source-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: rgba(14,40,25,0.05);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px 8px;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.source-tag svg {
+  width: 11px;
+  height: 11px;
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.source-tag-null {
+  font-size: 11.5px;
+  color: var(--text-faint);
+  font-style: italic;
+}
+
+/* type badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 7px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.badge.standard { color: var(--badge-std);    background: var(--badge-std-bg); }
+.badge.custom   { color: var(--badge-custom);  background: var(--badge-custom-bg); }
+.badge.manual   { color: var(--badge-manual);  background: var(--badge-manual-bg); }
+.badge.partial  { color: var(--badge-partial); background: var(--badge-partial-bg); }
+
+/* ── Footer pitch ─────────────────────────────────────────────────────────── */
+#pitch-footer {
+  margin-top: 20px;
+  background: var(--docusign-navy);
+  border-radius: var(--radius-lg);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pitch-text {
+  flex: 1;
+}
+
+.pitch-headline {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.95);
+  letter-spacing: -0.01em;
+}
+
+.pitch-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+  margin-top: 3px;
+  line-height: 1.45;
+}
+
+.pitch-api-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(5,105,209,0.2);
+  border: 1px solid rgba(5,105,209,0.4);
+  border-radius: 10px;
+  padding: 10px 16px;
+  flex-shrink: 0;
+}
+
+.pitch-api-label {
+  text-align: left;
+}
+
+.pitch-api-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #7dc0ff;
+  letter-spacing: 0.01em;
+}
+
+.pitch-api-detail {
+  font-size: 10.5px;
+  color: rgba(125,192,255,0.5);
+  margin-top: 1px;
+}
+
+.pitch-docusign-logo {
+  height: 18px;
+  width: auto;
+  display: block;
+  filter: brightness(0) invert(1);
+  opacity: 0.75;
+  flex-shrink: 0;
+}
+
+/* ── Placeholder / empty state ────────────────────────────────────────────── */
+#empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 72px 24px;
+  text-align: center;
+}
+
+.empty-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(14,40,25,0.07);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.empty-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--text-muted);
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.empty-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.empty-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  max-width: 320px;
+  line-height: 1.55;
+}
+
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ── Header ── -->
+  <header id="header">
+    <div class="header-brand">
+      <img src="context/fontara-logo.png" alt="Fontara" class="header-logo">
+    </div>
+
+    <div class="header-center">
+      <div class="header-agreement">
+        <span class="header-agreement-name">Fontara, Inc.</span>
+        <span class="header-agreement-sep">·</span>
+        <span class="header-agreement-provider">Gigaroute Networks, LLC</span>
+      </div>
+      <div class="header-agreement-meta" id="header-meta"></div>
+    </div>
+
+    <div class="header-badge">
+      <img src="context/Docusign Horizontal_Black.png" alt="Docusign" class="header-badge-logo">
+      <span class="header-badge-divider"></span>
+      <span class="header-badge-text">Navigator</span>
+    </div>
+  </header>
+
+  <!-- ── Sidebar ── -->
+  <nav id="sidebar"></nav>
+
+  <!-- ── Content ── -->
+  <main id="content">
+    <div class="content-inner">
+
+      <!-- Agreement summary card -->
+      <div id="agreement-card">
+        <div class="agreement-status">
+          <div class="agreement-status-dot"></div>
+          Complete
+        </div>
+        <div class="agreement-parties">
+          <div class="agreement-customer">Fontara, Inc.</div>
+          <div class="agreement-provider">Gigaroute Networks, LLC &nbsp;·&nbsp; Austin, TX</div>
+        </div>
+        <div class="agreement-stats">
+          <div class="agreement-stat">
+            <div class="agreement-stat-value">2 years</div>
+            <div class="agreement-stat-label">Committed term</div>
+          </div>
+          <div class="agreement-stat">
+            <div class="agreement-stat-value">$5,825/mo</div>
+            <div class="agreement-stat-label">Monthly recurring</div>
+          </div>
+          <div class="agreement-stat">
+            <div class="agreement-stat-value">May 2027</div>
+            <div class="agreement-stat-label">Expires</div>
+          </div>
+        </div>
+        <div class="agreement-docs" id="doc-pills"></div>
+      </div>
+
+      <!-- Job panel -->
+      <div id="job-panel">
+        <div id="empty-state">
+          <div class="empty-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          </div>
+          <div class="empty-title">Select a job function</div>
+          <div class="empty-sub">Choose a downstream team from the sidebar to see the agreement terms that matter to them.</div>
+        </div>
+      </div>
+
+      <!-- Pitch footer -->
+      <div id="pitch-footer">
+        <div class="pitch-text">
+          <div class="pitch-headline">This data lives in Navigator — the API makes this view possible.</div>
+          <div class="pitch-sub">Every value shown here was extracted from the executed agreement family by DocuSign Navigator. Standard fields are AI-extracted natively. Custom fields are configured extractions. The Navigator API surfaces all of it — structured, queryable, and ready to drive any downstream workflow.</div>
+        </div>
+        <div class="pitch-api-badge">
+          <img src="context/Docusign Horizontal_Black.png" alt="Docusign" class="pitch-docusign-logo">
+          <div class="pitch-api-label">
+            <div class="pitch-api-name">Navigator API</div>
+            <div class="pitch-api-detail">v0.7.1-beta · 4 documents · 21 fields</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+</div><!-- /#app -->
+
+<script src="mock-navigator-data.js"></script>
+<script>
+'use strict';
+
+// ── Job definitions ───────────────────────────────────────────────────────────
+// Maps UI job functions → resolved field keys from mock-navigator-data.js
+
+const DOMAIN_LABELS = {
+  Finance:            'Finance',
+  'Customer Ops':     'Customer Ops',
+  'Revenue Protection':'Revenue Protection',
+};
+
+const JOB_DEFINITIONS = [
+  {
+    id:     'billing',
+    label:  'Billing',
+    domain: 'Finance',
+    color:  'teal',
+    subtitle: 'Invoice generation, rate accuracy, and payment collection',
+    fields: [
+      'contract_signing_date', 'service_activation_date', 'term',
+      'products_and_services', 'pricing_and_discounts', 'quantity',
+      'pricing_type', 'payment_type', 'payment_term',
+      'price_increase', 'price_increase_date',
+      'early_termination_fee', 'minimum_commitment', 'sla', 'penalty',
+    ]
+  },
+  {
+    id:     'rev-rec',
+    label:  'Rev Rec',
+    domain: 'Finance',
+    color:  'teal',
+    subtitle: 'Revenue recognition timing, method, and classification',
+    fields: [
+      'contract_signing_date', 'term', 'service_activation_date',
+      'products_and_services', 'pricing_and_discounts', 'pricing_type',
+    ]
+  },
+  {
+    id:     'renewal',
+    label:  'Renewal',
+    domain: 'Customer Ops',
+    color:  'purple',
+    subtitle: 'Contract renewal timing, auto-renewal, and re-pricing',
+    fields: [
+      'term', 'auto_renewal', 'renewal_notice_period',
+      'contract_signing_date', 'service_activation_date',
+      'products_and_services', 'pricing_and_discounts',
+      'early_termination_fee', 'termination_conditions',
+    ]
+  },
+  {
+    id:     'fulfillment',
+    label:  'Fulfillment',
+    domain: 'Customer Ops',
+    color:  'purple',
+    subtitle: 'Provisioning, delivery, and service go-live obligations',
+    fields: [
+      'products_and_services', 'usage_entitlement',
+      'shipping_date', 'service_activation_date',
+      'sla', 'sla_performance_conditions', 'penalty',
+    ]
+  },
+  {
+    id:     'obligations',
+    label:  'Obligations',
+    domain: 'Customer Ops',
+    color:  'purple',
+    subtitle: 'Ongoing contractual commitments and compliance triggers',
+    fields: [
+      'sla', 'sla_performance_conditions', 'penalty',
+      'termination_conditions', 'auto_renewal', 'renewal_notice_period',
+    ]
+  },
+  {
+    id:     'commissions',
+    label:  'Commissions',
+    domain: 'Revenue Protection',
+    color:  'orange',
+    subtitle: 'Commissionable products, rates, and clawback conditions',
+    fields: [
+      'products_and_services', 'pricing_and_discounts', 'pricing_type',
+      'term', 'service_activation_date', 'contract_signing_date',
+      'termination_conditions',
+    ]
+  },
+  {
+    id:     'pricing-ra',
+    label:  'Pricing / Rev Assurance',
+    domain: 'Revenue Protection',
+    color:  'orange',
+    subtitle: 'Rate validation, discount authorization, and escalation integrity',
+    fields: [
+      'products_and_services', 'pricing_and_discounts', 'quantity',
+      'pricing_type', 'price_increase', 'price_increase_date',
+      'payment_type', 'payment_term',
+    ]
+  },
+  {
+    id:     'early-termination-ra',
+    label:  'Early Termination / Rev Assurance',
+    domain: 'Revenue Protection',
+    color:  'orange',
+    subtitle: 'ETF calculation, exposure tracking, and exit clause enforcement',
+    fields: [
+      'products_and_services', 'pricing_and_discounts', 'quantity',
+      'contract_signing_date', 'service_activation_date', 'term',
+      'termination_conditions', 'early_termination_fee',
+      'minimum_commitment', 'payment_type', 'payment_term',
+    ]
+  },
+  {
+    id:     'min-commitment-ra',
+    label:  'Min Commitment / Rev Assurance',
+    domain: 'Revenue Protection',
+    color:  'orange',
+    subtitle: 'Minimum revenue floor tracking and shortfall invoicing',
+    fields: [
+      'products_and_services', 'pricing_and_discounts', 'quantity',
+      'term', 'service_activation_date', 'contract_signing_date',
+      'minimum_commitment', 'payment_type', 'payment_term',
+    ]
+  },
+];
+
+// ── Display names for resolved field keys ─────────────────────────────────────
+const FIELD_LABELS = {
+  auto_renewal:              'Auto Renewal',
+  contract_signing_date:     'Contract Signing Date',
+  early_termination_fee:     'Early Termination Fee',
+  minimum_commitment:        'Minimum Commitment',
+  payment_term:              'Payment Terms',
+  payment_type:              'Payment Type',
+  penalty:                   'Penalty / Service Credits',
+  price_increase:            'Price Increase Policy',
+  price_increase_date:       'Price Increase Date',
+  pricing_and_discounts:     'Pricing & Discounts',
+  pricing_type:              'Pricing Type',
+  products_and_services:     'Products & Services',
+  quantity:                  'Quantity',
+  renewal_notice_period:     'Renewal Notice Period',
+  service_activation_date:   'Service Activation Date',
+  shipping_date:             'Installation / Ship Date',
+  sla:                       'Service Level Agreement',
+  sla_performance_conditions:'SLA Performance Conditions',
+  term:                      'Committed Term',
+  termination_conditions:    'Termination Conditions',
+  usage_entitlement:         'Usage Entitlement',
+};
+
+// ── Per-job field context descriptions ───────────────────────────────────────
+const FIELD_CONTEXT = {
+  billing: {
+    contract_signing_date:   'Some billing cycles are measured from signing rather than activation — both dates must be captured to bill correctly.',
+    service_activation_date: 'First billing date is anchored here. Using the wrong date shifts the entire billing timeline.',
+    term:                    'Governs total billing duration and determines when renewal trigger points occur and final invoices are issued.',
+    products_and_services:   'Defines exactly what to invoice and at what line-item level — the source of truth for every billing entry.',
+    pricing_and_discounts:   'The agreed contracted rate applied each billing cycle, after all approved discounts. Discrepancies here cause invoice disputes.',
+    quantity:                'Number of units billed per period. Cross-referenced against the usage entitlement to catch over- or under-billing.',
+    pricing_type:            'Controls whether billing is recurring, usage-based, or one-time — determines invoice structure.',
+    payment_type:            'Accepted payment method affects cash application and reconciliation workflows.',
+    payment_term:            'Controls invoice cadence and due date — affects DSO and cash flow forecasting.',
+    price_increase:          'The scheduled rate escalation applied automatically to future invoices. Must match the contract exactly to avoid disputes.',
+    price_increase_date:     'The date the new escalated rate takes effect. Billing must flip to the new rate on this date — no earlier, no later.',
+    early_termination_fee:   'Invoiced to the customer if they terminate before the contracted term expires. Amount is defined in the agreement.',
+    minimum_commitment:      'A contractual revenue floor — the minimum amount billed even if actual usage falls short.',
+    sla:                     'SLA breaches can result in billing credits that must be applied to the invoice.',
+    penalty:                 'Financial penalties either deducted from or added to invoices depending on which party caused the SLA failure.',
+  },
+  'rev-rec': {
+    contract_signing_date:   'The execution date that starts the revenue recognition clock and anchors all downstream date calculations.',
+    term:                    'Determines the performance obligation period over which revenue is recognized.',
+    service_activation_date: 'Marks the start of service delivery — often the trigger for ratable recognition to begin.',
+    products_and_services:   'Defines which contracted items are in scope for revenue classification.',
+    pricing_and_discounts:   'Contracted rates and discount structures determine the transaction price for ASC 606 allocation.',
+    pricing_type:            'Sets the recognition method — upfront, ratable over term, or milestone-based.',
+  },
+  renewal: {
+    term:                    'Duration of the renewal period. May differ from the original contract length based on negotiated terms.',
+    auto_renewal:            'Governs whether the contract renews automatically without an explicit action from either party.',
+    renewal_notice_period:   'The advance window within which the customer must notify of non-renewal. Missing this date locks them into another term.',
+    contract_signing_date:   'The date new renewal terms were formally agreed to — used to calculate the notice window.',
+    service_activation_date: 'Renewal start is typically anchored to the original activation date to preserve service continuity.',
+    products_and_services:   'Defines what gets renewed — the scope may change. Additions or removals must be reconciled.',
+    pricing_and_discounts:   'New pricing or preserved rates applied for the renewal term.',
+    early_termination_fee:   'Determines whether the ETF resets to reflect the new term or carries forward from the original contract.',
+    termination_conditions:  'Must be reviewed before auto-renewing to confirm no exit clause or opt-out window applies.',
+  },
+  fulfillment: {
+    products_and_services:   'Defines which services must be provisioned and to which locations.',
+    usage_entitlement:       'The contracted capacity that must be provisioned — over- or under-provisioning creates billing or SLA exposure.',
+    shipping_date:           'Physical delivery date for hardware; delays here can push out the Activation Date and create SLA risk.',
+    service_activation_date: 'The target date by which provisioning must be complete. Fulfillment is measured against this commitment.',
+    sla:                     'Service level standards the fulfillment team is contractually required to meet.',
+    sla_performance_conditions: 'Tracks whether fulfillment hit or missed SLA targets. Performance data feeds into penalty calculations.',
+    penalty:                 'Financial consequences applied if fulfillment fails the contracted SLA.',
+  },
+  obligations: {
+    sla:                     'The service level commitments Provider is obligated to maintain throughout the contract term.',
+    sla_performance_conditions: 'The specific thresholds and measurement methodology that define performance compliance.',
+    penalty:                 'Contractual financial consequences for failing to meet ongoing SLA obligations.',
+    termination_conditions:  'Defines the contractual basis for exit — obligations that must be met even at termination.',
+    auto_renewal:            'Obligation to provide timely notice if either party intends not to renew.',
+    renewal_notice_period:   'The advance notice required to satisfy non-renewal obligations without breach.',
+  },
+  commissions: {
+    products_and_services:   'Identifies which line items are commissionable and at what eligibility rate.',
+    pricing_and_discounts:   'Commission base is calculated from the final contract price after approved discounts, not list price.',
+    pricing_type:            'Determines the commission structure — recurring vs. one-time vs. usage-based.',
+    term:                    'Longer terms may affect the payout schedule, vesting period, or commission rate tier.',
+    service_activation_date: 'Commission payment trigger is often tied to service go-live, not signing.',
+    contract_signing_date:   'Establishes when the commission obligation formally began.',
+    termination_conditions:  'Clawback clauses may recover paid commission if the customer exits early under specific triggers.',
+  },
+  'pricing-ra': {
+    products_and_services:   'Verifies contracted products match what\'s loaded in the pricing system.',
+    pricing_and_discounts:   'Validates applied discount levels match approved contract authorization. Unapproved discounts create revenue leakage.',
+    quantity:                'Confirms contracted quantity aligns with what was approved in the pricing workflow.',
+    pricing_type:            'Validates that the pricing model is correctly configured in the billing engine.',
+    price_increase:          'Validates that scheduled escalations are correctly configured to fire at the right time.',
+    price_increase_date:     'Ensures escalation dates match the contract exactly — misalignment creates billing mismatches.',
+    payment_type:            'Confirms payment structure aligns with the revenue recognition model.',
+    payment_term:            'Validates invoice timing aligns with contracted payment terms.',
+  },
+  'early-termination-ra': {
+    products_and_services:   'Identifies which products are subject to ETF calculation.',
+    pricing_and_discounts:   'ETF is calculated as a percentage of remaining contract value — contracted rate is the base.',
+    quantity:                'More units means higher remaining obligation at termination.',
+    contract_signing_date:   'Establishes when ETF obligations formally began.',
+    service_activation_date: 'ETF exposure window starts from activation, not signing.',
+    term:                    'Full term length determines the maximum ETF exposure window.',
+    termination_conditions:  'Defines when and how ETF is triggered — not all exits incur a fee.',
+    early_termination_fee:   'The fee amount or formula defined in the agreement — the number invoiced at exit.',
+    minimum_commitment:      'ETF may be calculated relative to any minimum commitment shortfall still owed.',
+    payment_type:            'Governs how the ETF amount is collected after termination notice.',
+    payment_term:            'Determines when the ETF invoice is due.',
+  },
+  'min-commitment-ra': {
+    products_and_services:   'Defines which product lines count toward the minimum commitment threshold.',
+    pricing_and_discounts:   'Minimum commitment is evaluated against the contracted rate, not list price.',
+    quantity:                'Actual usage is compared against the committed minimum each period.',
+    term:                    'Sets the measurement period for commitment tracking.',
+    service_activation_date: 'Commitment measurement begins from activation. Usage before this date doesn\'t count.',
+    contract_signing_date:   'Establishes when the commitment obligation was formally accepted.',
+    minimum_commitment:      'The contractual revenue floor — the minimum the customer must generate per period.',
+    payment_type:            'Determines how shortfall amounts are collected.',
+    payment_term:            'Sets the due date for commitment true-up invoices.',
+  },
+};
+
+// ── Resolve fields from mock data ─────────────────────────────────────────────
+const fields = resolveFields(MOCK_NAVIGATOR_DATA.agreements, MOCK_NAVIGATOR_DATA.documentNames);
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let activeJobId = null;
+
+// ── Render sidebar ────────────────────────────────────────────────────────────
+function renderSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const domains = ['Finance', 'Customer Ops', 'Revenue Protection'];
+  let html = '';
+
+  for (const domain of domains) {
+    const jobs = JOB_DEFINITIONS.filter(j => j.domain === domain);
+    html += `<div class="sidebar-section">
+      <div class="sidebar-section-label">${domain}</div>`;
+
+    for (const job of jobs) {
+      const isActive = job.id === activeJobId;
+      html += `<div class="sidebar-item ${job.color} ${isActive ? 'active' : ''}"
+                    data-job="${job.id}" role="button" tabindex="0">
+        <div class="sidebar-dot ${job.color}"></div>
+        <span class="sidebar-item-text">${job.label}</span>
+        <span class="sidebar-item-count">${job.fields.length}</span>
+      </div>`;
+    }
+    html += `</div>`;
+  }
+
+  sidebar.innerHTML = html;
+
+  sidebar.querySelectorAll('.sidebar-item').forEach(el => {
+    el.addEventListener('click', () => selectJob(el.dataset.job));
+    el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') selectJob(el.dataset.job); });
+  });
+}
+
+// ── Render doc pills ──────────────────────────────────────────────────────────
+function renderDocPills() {
+  const pills = document.getElementById('doc-pills');
+  const docs = ['MSA', 'SOF', 'Fee Schedule', 'SLA'];
+  pills.innerHTML = docs.map(d => `<div class="doc-pill">${d}</div>`).join('');
+}
+
+// ── Render header meta ────────────────────────────────────────────────────────
+function renderHeaderMeta() {
+  document.getElementById('header-meta').textContent =
+    '2-year term · Signed May 22, 2025 · Expires May 22, 2027 · $5,825/mo MRC · $69,900 ACV';
+}
+
+// ── Value renderer ────────────────────────────────────────────────────────────
+const TRUNCATE_THRESHOLD = 160;
+
+function renderValue(fieldKey, fieldData) {
+  if (fieldData.value === null || fieldData.value === undefined) {
+    const note = fieldData.note || 'Not captured in executed documents';
+    return `<span class="field-value-null">—<span class="null-note">${escHtml(note)}</span></span>`;
+  }
+
+  const val = String(fieldData.value);
+
+  // Semicolon-separated list → bullet list
+  if (val.includes('; ') && val.split('; ').length >= 3) {
+    const parts = val.split('; ').filter(Boolean);
+    // Check if it's a pricing summary with " | " separators in the last part
+    const listItems = parts.map(p => {
+      if (p.includes(' | ')) {
+        // Render as sub-chips
+        return `<div class="value-list-item">${escHtml(p)}</div>`;
+      }
+      return `<div class="value-list-item">${escHtml(p)}</div>`;
+    }).join('');
+    return `<div class="value-list">${listItems}</div>`;
+  }
+
+  // Long text → truncate with expand
+  if (val.length > TRUNCATE_THRESHOLD) {
+    const short = escHtml(val.slice(0, TRUNCATE_THRESHOLD)) + '…';
+    const full  = escHtml(val);
+    const uid   = `expand-${fieldKey}`;
+    return `<div class="value-truncatable">
+      <span class="value-truncatable-text" id="${uid}-text">${short}</span>
+      <button class="value-expand-btn" id="${uid}-btn"
+              data-full="${full}" data-short="${short}"
+              data-target="${uid}-text" data-state="collapsed"
+              onclick="toggleExpand(this)">Show more ↓</button>
+    </div>`;
+  }
+
+  return `<span style="font-size:13px;color:var(--text-secondary);line-height:1.55">${escHtml(val)}</span>`;
+}
+
+function toggleExpand(btn) {
+  const textEl = document.getElementById(btn.dataset.target);
+  if (btn.dataset.state === 'collapsed') {
+    textEl.innerHTML = btn.dataset.full;
+    btn.textContent = 'Show less ↑';
+    btn.dataset.state = 'expanded';
+  } else {
+    textEl.innerHTML = btn.dataset.short;
+    btn.textContent = 'Show more ↓';
+    btn.dataset.state = 'collapsed';
+  }
+}
+
+// ── Badge renderer ────────────────────────────────────────────────────────────
+const BADGE_CONFIG = {
+  standard: { cls: 'standard', label: 'Standard' },
+  custom:   { cls: 'custom',   label: 'Custom' },
+  manual:   { cls: 'manual',   label: 'Manual' },
+  partial:  { cls: 'partial',  label: 'Partial' },
+};
+
+function renderBadge(fieldType) {
+  const cfg = BADGE_CONFIG[fieldType] || BADGE_CONFIG.manual;
+  return `<span class="badge ${cfg.cls}">${cfg.label}</span>`;
+}
+
+// ── Source tag renderer ───────────────────────────────────────────────────────
+function renderSource(fieldData) {
+  if (!fieldData.sourceDoc) {
+    return `<span class="source-tag-null">—</span>`;
+  }
+  const abbrev = {
+    'Master Services Agreement':     'MSA',
+    'Service Order Form':            'SOF',
+    'Fee Schedule & Services Exhibit':'Fee Schedule',
+    'Service Level Agreement':       'SLA',
+  };
+  const short = abbrev[fieldData.sourceDoc] || fieldData.sourceDoc;
+  return `<div class="source-tag">
+    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="1.5" y="1" width="9" height="10" rx="1.5"/>
+      <path d="M4 4h4M4 6.5h4M4 9h2"/>
+    </svg>
+    ${escHtml(short)}
+  </div>`;
+}
+
+// ── Job stats strip ───────────────────────────────────────────────────────────
+function renderJobStats(jobFields) {
+  const counts = { standard: 0, custom: 0, manual: 0, partial: 0 };
+  for (const key of jobFields) {
+    const fd = fields[key];
+    if (fd) counts[fd.fieldType]++;
+  }
+  const parts = [];
+  if (counts.standard) parts.push(`${counts.standard} standard`);
+  if (counts.custom)   parts.push(`${counts.custom} custom`);
+  if (counts.partial)  parts.push(`${counts.partial} partial`);
+  if (counts.manual)   parts.push(`${counts.manual} manual`);
+
+  return parts.map(p => {
+    const type = p.split(' ')[1];
+    return `<div class="job-stat-chip">${renderBadge(type)} ${p}</div>`;
+  }).join('');
+}
+
+// ── Select job ────────────────────────────────────────────────────────────────
+function selectJob(jobId) {
+  activeJobId = jobId;
+  const job = JOB_DEFINITIONS.find(j => j.id === jobId);
+  if (!job) return;
+
+  renderSidebar(); // re-render to update active state
+
+  const panel = document.getElementById('job-panel');
+  const context = FIELD_CONTEXT[jobId] || {};
+
+  let rows = '';
+  for (const fieldKey of job.fields) {
+    const fd = fields[fieldKey];
+    if (!fd) continue;
+    const label   = FIELD_LABELS[fieldKey] || fieldKey;
+    const desc    = context[fieldKey] || '';
+    const valHtml = renderValue(fieldKey, fd);
+    const srcHtml = renderSource(fd);
+    const badgeHtml = renderBadge(fd.fieldType);
+
+    rows += `<tr>
+      <td class="col-field">
+        <div class="field-name">${escHtml(label)}</div>
+        ${desc ? `<div class="field-desc">${escHtml(desc)}</div>` : ''}
+      </td>
+      <td class="col-value"><div class="field-value">${valHtml}</div></td>
+      <td class="col-source">${srcHtml}</td>
+      <td class="col-type">${badgeHtml}</td>
+    </tr>`;
+  }
+
+  panel.innerHTML = `
+    <div class="job-panel-header">
+      <div class="job-title-group">
+        <div class="job-title">${escHtml(job.label)}</div>
+        <div class="job-subtitle">${escHtml(job.subtitle)}</div>
+      </div>
+      <div class="job-domain-badge ${job.color}">${escHtml(job.domain)}</div>
+    </div>
+    <div class="job-stats">
+      <div class="job-stat-chip" style="color:var(--text-muted);font-weight:600;margin-right:4px">
+        ${job.fields.length} fields
+      </div>
+      ${renderJobStats(job.fields)}
+    </div>
+    <table class="field-table">
+      <thead>
+        <tr>
+          <th class="col-field">Field</th>
+          <th class="col-value">Extracted Value</th>
+          <th class="col-source">Source Document</th>
+          <th class="col-type">Type</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+// ── Utility ───────────────────────────────────────────────────────────────────
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+renderDocPills();
+renderHeaderMeta();
+renderSidebar();
+
+// Auto-select Billing on load
+selectJob('billing');
+
+</script>
+</body>
+</html>

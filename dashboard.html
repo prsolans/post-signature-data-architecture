@@ -299,6 +299,44 @@ html, body {
   padding: 24px 28px 48px;
 }
 
+/* ── Breadcrumb ───────────────────────────────────────────────────────────── */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 18px;
+}
+
+.breadcrumb-link {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--teal);
+  text-decoration: none;
+  cursor: default;
+}
+
+.breadcrumb-count {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: rgba(45,201,138,0.7);
+  background: rgba(45,201,138,0.09);
+  border-radius: 20px;
+  padding: 1px 7px;
+}
+
+.breadcrumb-sep {
+  color: var(--text-faint);
+  font-size: 13px;
+  line-height: 1;
+  margin: 0 1px;
+}
+
+.breadcrumb-current {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
 /* ── Agreement summary card ───────────────────────────────────────────────── */
 #agreement-card {
   background: var(--content-bg);
@@ -862,6 +900,13 @@ html, body {
   <!-- ── Content ── -->
   <main id="content">
     <div class="content-inner">
+
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb">
+        <a class="breadcrumb-link">All Agreements <span class="breadcrumb-count">12</span></a>
+        <span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current">Gigaroute Networks, LLC</span>
+      </nav>
 
       <!-- Agreement summary card -->
       <div id="agreement-card">

@@ -1,0 +1,2378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post-Sign Agreement Data · Equilon / Varro Petroleum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ── Reset & Base ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:               #faf7f2;
+  --sidebar-bg:       #1c1208;
+  --sidebar-hover:    rgba(255,255,255,0.05);
+  --sidebar-active:   rgba(255,255,255,0.09);
+  --sidebar-border:   rgba(255,255,255,0.07);
+  --sidebar-text:     rgba(255,255,255,0.55);
+  --sidebar-text-hi:  rgba(255,255,255,0.92);
+  --content-bg:       #ffffff;
+  --border:           rgba(28,18,8,0.09);
+  --border-strong:    rgba(28,18,8,0.16);
+
+  --teal:             #c97b06;
+  --teal-bg:          rgba(201,123,6,0.10);
+  --teal-text:        #7c4700;
+  --purple:           #6d28d9;
+  --purple-bg:        rgba(109,40,217,0.08);
+  --purple-text:      #4a1fa3;
+  --orange:           #c25000;
+  --orange-bg:        rgba(194,80,0,0.08);
+  --orange-text:      #8a3800;
+
+  --badge-std:        #0569d1;
+  --badge-std-bg:     rgba(5,105,209,0.09);
+  --badge-custom:     #a16207;
+  --badge-custom-bg:  rgba(161,98,7,0.09);
+  --badge-manual:     #475569;
+  --badge-manual-bg:  rgba(71,85,105,0.09);
+  --badge-partial:    #9a3412;
+  --badge-partial-bg: rgba(154,52,18,0.09);
+  --badge-tabular:    #0891b2;
+  --badge-tabular-bg: rgba(8,145,178,0.09);
+
+  --text-primary:     #111827;
+  --text-secondary:   #374151;
+  --text-muted:       #9ca3af;
+  --text-faint:       #d1d5db;
+
+  --docusign-navy:    #1a1f71;
+  --docusign-blue:    #0569d1;
+
+  --sidebar-w:        248px;
+  --header-h:         58px;
+  --radius-sm:        6px;
+  --radius-md:        10px;
+  --radius-lg:        14px;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── App shell ────────────────────────────────────────────────────────────── */
+#app {
+  display: grid;
+  grid-template-rows: var(--header-h) 1fr;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Header ───────────────────────────────────────────────────────────────── */
+#header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px 0 0;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(28,18,8,0.09);
+  box-shadow: 0 1px 0 rgba(28,18,8,0.04);
+  z-index: 20;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 24px;
+  border-right: 1px solid rgba(28,18,8,0.08);
+  width: var(--sidebar-w);
+}
+
+.header-brand-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.header-logo {
+  height: 28px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  align-self: flex-start;
+}
+
+.header-brand-sub { display: none; }
+
+.header-center {
+  flex: 1;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+}
+
+.header-agreement {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.header-agreement-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1c1208;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.header-agreement-sep {
+  color: rgba(28,18,8,0.25);
+  font-size: 12px;
+}
+
+.header-agreement-provider {
+  font-size: 12.5px;
+  color: rgba(28,18,8,0.5);
+  font-weight: 400;
+}
+
+.header-agreement-meta {
+  font-size: 11px;
+  color: rgba(28,18,8,0.38);
+  margin-top: 2px;
+}
+
+.header-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.header-powered-by {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(28,18,8,0.35);
+  white-space: nowrap;
+}
+
+.header-badge-logo {
+  height: 30px;
+  width: auto;
+  display: block;
+}
+
+.header-badge-divider {
+  width: 1px;
+  height: 13px;
+  background: rgba(5,105,209,0.25);
+  flex-shrink: 0;
+}
+
+.header-badge-text {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #0569d1;
+  letter-spacing: 0.01em;
+}
+
+/* ── Sidebar ──────────────────────────────────────────────────────────────── */
+#sidebar {
+  background: var(--sidebar-bg);
+  border-right: 1px solid rgba(255,255,255,0.06);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.1) transparent;
+  padding: 16px 0 24px;
+}
+
+#sidebar::-webkit-scrollbar { width: 4px; }
+#sidebar::-webkit-scrollbar-track { background: transparent; }
+#sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+.sidebar-section {
+  margin-bottom: 4px;
+}
+
+.sidebar-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.25);
+  padding: 10px 20px 6px;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 20px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  text-decoration: none;
+  user-select: none;
+}
+
+.sidebar-item:hover { background: var(--sidebar-hover); }
+.sidebar-item.active { background: var(--sidebar-active); }
+
+.sidebar-item.active.teal   { border-left-color: var(--teal); }
+.sidebar-item.active.purple { border-left-color: var(--purple); }
+.sidebar-item.active.orange { border-left-color: var(--orange); }
+
+.sidebar-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  opacity: 0.4;
+  transition: opacity 0.15s;
+}
+
+.sidebar-item.active .sidebar-dot,
+.sidebar-item:hover .sidebar-dot { opacity: 1; }
+
+.sidebar-dot.teal   { background: var(--teal); }
+.sidebar-dot.purple { background: var(--purple); }
+.sidebar-dot.orange { background: var(--orange); }
+
+.sidebar-item-text {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sidebar-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-item:hover .sidebar-item-text,
+.sidebar-item.active .sidebar-item-text { color: var(--sidebar-text-hi); }
+
+.sidebar-item-count {
+  font-size: 10.5px;
+  color: rgba(255,255,255,0.2);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.sidebar-item.active .sidebar-item-count { color: rgba(255,255,255,0.4); }
+
+/* ── Content ──────────────────────────────────────────────────────────────── */
+#content {
+  overflow-y: auto;
+  background: var(--bg);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(28,18,8,0.15) transparent;
+}
+
+#content::-webkit-scrollbar { width: 6px; }
+#content::-webkit-scrollbar-track { background: transparent; }
+#content::-webkit-scrollbar-thumb { background: rgba(28,18,8,0.12); border-radius: 3px; }
+
+.content-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 28px 48px;
+}
+
+/* ── Breadcrumb ───────────────────────────────────────────────────────────── */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 18px;
+}
+
+.breadcrumb-link {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--teal);
+  text-decoration: none;
+  cursor: default;
+}
+
+.breadcrumb-count {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: rgba(201,123,6,0.7);
+  background: rgba(201,123,6,0.09);
+  border-radius: 20px;
+  padding: 1px 7px;
+}
+
+.breadcrumb-sep {
+  color: var(--text-faint);
+  font-size: 13px;
+  line-height: 1;
+  margin: 0 1px;
+}
+
+.breadcrumb-current {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* ── Agreement summary card ───────────────────────────────────────────────── */
+#agreement-card {
+  background: var(--content-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.agreement-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--teal);
+  background: var(--teal-bg);
+  border-radius: 20px;
+  padding: 3px 9px;
+  flex-shrink: 0;
+}
+
+.agreement-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--teal);
+}
+
+.agreement-parties { flex: 1; }
+
+.agreement-customer {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.agreement-provider {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.agreement-stats {
+  display: flex;
+  gap: 24px;
+  flex-shrink: 0;
+}
+
+.agreement-stat { text-align: right; }
+
+.agreement-stat-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.agreement-stat-label {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  margin-top: 1px;
+  font-weight: 500;
+}
+
+.agreement-docs {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.doc-pill {
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: rgba(28,18,8,0.05);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  white-space: nowrap;
+  position: relative;
+  cursor: default;
+}
+.doc-pill .pill-tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1c1208;
+  color: #f0e8d8;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.45;
+  padding: 8px 11px;
+  border-radius: 6px;
+  width: 220px;
+  white-space: normal;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+  z-index: 200;
+  pointer-events: none;
+}
+.doc-pill .pill-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #1c1208;
+}
+.doc-pill:hover .pill-tooltip {
+  display: block;
+}
+
+/* ── Job panel ────────────────────────────────────────────────────────────── */
+#job-panel {
+  background: var(--content-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.job-panel-header {
+  padding: 18px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.job-title-group { flex: 1; }
+
+.job-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.job-subtitle {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.job-domain-badge {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 4px 10px;
+  border-radius: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.job-domain-badge.teal   { background: var(--teal-bg);   color: var(--teal-text); }
+.job-domain-badge.purple { background: var(--purple-bg); color: var(--purple-text); }
+.job-domain-badge.orange { background: var(--orange-bg); color: var(--orange-text); }
+
+.job-stats {
+  display: flex;
+  gap: 16px;
+  padding: 10px 24px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(28,18,8,0.018);
+}
+
+.job-stat-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+
+.job-stat-chip .badge { font-size: 10px; }
+
+/* ── Field table ──────────────────────────────────────────────────────────── */
+.field-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.field-table thead th {
+  padding: 9px 16px;
+  text-align: left;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  background: rgba(28,18,8,0.025);
+  border-bottom: 1px solid var(--border);
+}
+
+.field-table thead th:first-child { padding-left: 24px; }
+.field-table thead th:last-child  { padding-right: 24px; text-align: center; }
+
+.field-table tbody tr {
+  border-bottom: 1px solid rgba(28,18,8,0.055);
+  transition: background 0.12s;
+}
+
+.field-table tbody tr:last-child { border-bottom: none; }
+.field-table tbody tr:hover { background: rgba(28,18,8,0.025); }
+
+.field-table td {
+  padding: 13px 16px;
+  vertical-align: top;
+}
+
+.field-table td:first-child { padding-left: 24px; }
+.field-table td:last-child  { padding-right: 24px; }
+
+.col-field  { width: 220px; }
+.col-value  { /* flex */ }
+.col-source { width: 180px; }
+.col-type   { width: 96px; text-align: center; }
+
+.field-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.field-desc {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 3px;
+  line-height: 1.45;
+  font-weight: 400;
+}
+
+.field-value {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.field-value-null {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.field-value-null .null-note {
+  font-size: 11px;
+  color: var(--text-faint);
+  display: block;
+  margin-top: 2px;
+}
+
+.value-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.value-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.value-list-item::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-faint);
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.value-truncatable {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.value-truncatable-text {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.value-expand-btn {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--docusign-blue);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 2px;
+}
+
+.value-expand-btn:hover { text-decoration: underline; }
+
+.source-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: rgba(28,18,8,0.05);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px 8px;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.source-tag svg {
+  width: 11px;
+  height: 11px;
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.source-tag-null {
+  font-size: 11.5px;
+  color: var(--text-faint);
+  font-style: italic;
+}
+
+/* ── Multi-doc conflict indicator ─────────────────────────────────────────── */
+.conflict-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.conflict-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #b45309;
+  background: rgba(180,83,9,0.08);
+  border: 1px solid rgba(180,83,9,0.2);
+  border-radius: 20px;
+  padding: 2px 8px 2px 6px;
+  cursor: pointer;
+  user-select: none;
+  width: fit-content;
+  transition: background 0.12s;
+}
+
+.conflict-toggle:hover { background: rgba(180,83,9,0.13); }
+
+.conflict-toggle svg {
+  width: 10px;
+  height: 10px;
+  stroke: #b45309;
+  fill: none;
+  stroke-width: 2;
+  transition: transform 0.15s;
+}
+
+.conflict-toggle.open svg { transform: rotate(180deg); }
+
+.conflict-detail {
+  display: none;
+  background: rgba(180,83,9,0.04);
+  border: 1px solid rgba(180,83,9,0.15);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-top: 2px;
+}
+
+.conflict-detail.open { display: block; }
+
+.conflict-note {
+  font-size: 11.5px;
+  color: #92400e;
+  line-height: 1.45;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(180,83,9,0.12);
+}
+
+.conflict-rows { display: flex; flex-direction: column; gap: 5px; }
+
+.conflict-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 11.5px;
+}
+
+.conflict-row-doc {
+  font-weight: 600;
+  color: var(--text-secondary);
+  min-width: 160px;
+  flex-shrink: 0;
+}
+
+.conflict-row-value { color: var(--text-primary); font-weight: 500; }
+.conflict-row-note  { color: var(--text-muted); font-size: 10.5px; flex: 1; }
+
+/* ── Type badges ──────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 7px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.badge.standard { color: var(--badge-std);     background: var(--badge-std-bg); }
+.badge.custom   { color: var(--badge-custom);  background: var(--badge-custom-bg); }
+.badge.manual   { color: var(--badge-manual);  background: var(--badge-manual-bg); }
+.badge.partial  { color: var(--badge-partial); background: var(--badge-partial-bg); }
+.badge.tabular  { color: var(--badge-tabular); background: var(--badge-tabular-bg); }
+
+/* ── Vertical switcher ────────────────────────────────────────────────────── */
+.vertical-switcher {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(28,18,8,0.88);
+  backdrop-filter: blur(6px);
+  color: #d4a87a;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 7px 13px;
+  border-radius: 20px;
+  border: 1px solid rgba(201,123,6,0.25);
+  text-decoration: none;
+  z-index: 300;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.vertical-switcher:hover {
+  background: rgba(201,123,6,0.18);
+  color: #c97b06;
+  border-color: rgba(201,123,6,0.5);
+}
+.vs-arrow { font-size: 13px; }
+
+/* ── Footer pitch ─────────────────────────────────────────────────────────── */
+#pitch-footer {
+  margin-top: 20px;
+  background: var(--docusign-navy);
+  border-radius: var(--radius-lg);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pitch-text { flex: 1; }
+
+.pitch-headline {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.95);
+  letter-spacing: -0.01em;
+}
+
+.pitch-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+  margin-top: 3px;
+  line-height: 1.45;
+}
+
+.pitch-bullets {
+  margin: 10px 0 0 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pitch-bullets li {
+  color: rgba(255,255,255,0.45);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.pitch-api-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(5,105,209,0.2);
+  border: 1px solid rgba(5,105,209,0.4);
+  border-radius: 10px;
+  padding: 10px 16px;
+  flex-shrink: 0;
+}
+
+.pitch-api-label { text-align: left; }
+
+.pitch-api-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #7dc0ff;
+  letter-spacing: 0.01em;
+}
+
+.pitch-api-detail {
+  font-size: 10.5px;
+  color: rgba(125,192,255,0.5);
+  margin-top: 1px;
+}
+
+.pitch-docusign-logo {
+  height: 22px;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+/* ── Empty state ──────────────────────────────────────────────────────────── */
+#empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 72px 24px;
+  text-align: center;
+}
+
+.empty-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(28,18,8,0.07);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.empty-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--text-muted);
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.empty-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.empty-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  max-width: 320px;
+  line-height: 1.55;
+}
+
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ── Header ── -->
+  <header id="header">
+    <div class="header-brand">
+      <div class="header-brand-inner">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlcAAADPCAYAAADYkfSDAABKLklEQVR4Ae3AA6AkWZbG8f937o3IzKdyS2Oubdu2bdu2bdu2bWmMnpZKr54yMyLu+Xa3anqmhztr1a9y1VVXXXXVVVddddV/BAAqV1111VVXXXXVVVf9RwCgctVVV1111VVXXXXVfwQAKlddddVVV1111VVX/UcAoHLVVVddddVVV1111X8EACpXXXXVVVddddVVV/1HAKBy1VVXXXXVVVddddV/BAAqV1111VVXXXXVVVf9RwCgctVVV1111VVXXXXVfwQAKlddddVVV1111VVX/UcAoHLVVVddddVVV1111X8EACpXXXXVVVddddVVV/1HAKBy1VVXXXXVVVddddV/BAAqV1111VVXXXXVVVf9RwCgctVVV1111VVXXXXVfwQAKlddddVVV1111VVX/UcAoHLVVVddddVVV1111X8EACpXXXXVVVddddVVV/1HAKBy1VVXXXXVVVddddV/BAAqV1111VVXXXXVVVf9RwCgctVVV1111VVXXXXVfwQAKlddddVVV1111VVX/UcAoHLVVVddddVVV1111X8EACpXXXXVVVddddVVV/1HAKBy1VVXXXXVVVddddV/BAAqV1111VVXXXXVVVf9RwCgctVVV1111VVXXXXVfwQAKlddddVVV1111VVX/UcAoHLVVVddddVVV1111X8EACpXXXXVVVddddVVV/1HAKBy1VVXXXXVVVddddV/BAAqV1111VVXXXXVVVf9RwCgctVVV1111VVXXXXVfwQAKlddddVVV1111VVX/UcAoHLVVVddddVVV1111X8EACpXXXXVVVddddVVV/1HAKBy1VVXXXXVVVddddV/BAAqV1111VVXXXXVVVf9RwCgctVVV1111VVXXXXVfwQAKv/FXvbe7wDYBm7ECPF/mw3SQYg7Qfnn17wvV1111VVXXXXV/0kAVP4Lvey93wFwAvgC4O0Q5v88VfCvGr+PYM1VV1111VVXXfV/FQCV/yIve+93AJwAvgh4f5mC+P/iBCBz1VVXXXXVVVf9HwZA8F/gZe/9DoATwBcB7y9TEP8vmKuuuuqqq6666v8JACr/yV723u8AOAF8EfD+MgVx1VVXXXXVVVdd9X8NAJX/RC9773cAHAe+CHh/mYK46qqrrrrqqquu+r8I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mQNGLIF94D7M7YinAs8QnFUy3P64p/E/FAB6uXu/w/wXso2kfwBeD7j3L659P6666v+6G1/+sdz5Z//ATS/1CEXLUIaQyXBm1znnc2IcfeefP46rrvqPduPLPwJAsW6iKcLgsLOvqZa+/W+fwn+XG1/+MbRZUT04UoySLGVJZxcpN9/x10/nqv/bbny5RwAohqZoCgMuZJvPLOM7//xx/C8CgF723u+Y+C/lEPo74A2A+/7i2vfjqquuuuqqq6666v8AACrw7vwXM1wS7HHVVVddddVVV131fwcA4qqrrrrqqquuuuqq/wgAVK666qqrrrrqqquu+o8AQOWqq6666qqrrrrqqv8IAFSuuuqqq6666qqrrvqPAEDlqquuuuqqq6666qr/CABUrrrqqquuuuqqq676jwBA5aqrrrrqqquuuuqq/wgAVK666qqrrrrqqquu+o8AQOWqq6666qqrrrrqqv8IAFSuuuqqq6666qqrrvqPAEDlqquuuuqqq6666qr/CABUrrrqqquuuuqqq676jwBA5aqrrrrqqquuuuqq/wgAVK666qqrrrrqqquu+o8AQOWqq6666qqrrrrqqv8IAFSuuuqqq6666qqrrvqPAEDlqquuuuqqq6666qr/CABUrrrqqquuuuqqq676jwBA5aqrrrrqqquuuuqq/wgAVK666qqrrrrqqquu+o8AQOWqq6666qqrrrrqqv8IAFSuuuqqq6666qqrrvqPAEDlqquuuuqqq6666qr/CABUrrrqqquuuuqqq676jwBA5aqrrrrqqquuuuqq/wgAVK666qqrrrrqqquu+o8AQOWqq6666qqrrrrqqv8IAFSuuuqqq6666qqrrvqPAEDlqquuuuqqq6666qr/CABUrrrqqquuuuqqq676jwBA5aqrrrrqqquuuuqq/wgAVK666qqrrrrqqquu+o8AQOWqq6666qqrrrrqqv8IAFSuuuqqq6666qqrrvqPAEDlqquuuuqqq6666qr/CABUrrrqqquuuuqqq676jwBA5aqrrrrqqquuuuqq/wgAVK666qqrrrrqqquu+o8AQOWqq6666qqrrrrqqv8IAFSuuuqqq6666qqrrvqPAEDlqquuuuqqq6666qr/CABUrrrqqquuuuqqq676jwBA5aqrrrrqqquuuuqq/wgAVK666qqrrrrqqquu+o8AQOWqq6666qqrrrrqqv8IAFSuuuqqq6666qqrrvqPAEDlqquuuuqqq6666qr/CABUrrrqqquuuuqqq676jwBA5aqrrrrqqquuuuqq/wgAVK666qqrrrrqqquu+o8AQOWqq6666qqrrrrqqv8IAFSuuuqqq6666qqrrvqPAMA/Albhr36tA0F0AAAAAElFTkSuQmCC" class="header-logo" alt="Varro Petroleum">
+        <span class="header-brand-sub">Contract Intelligence Portal</span>
+      </div>
+    </div>
+    <div class="header-center">
+      <span class="header-agreement-name">Contract Intelligence Portal</span>
+    </div>
+    <div class="header-badge">
+      <span class="header-powered-by">Powered by</span>
+      <img src="context/DSHoriz_B_IAM_platform.png" class="header-badge-logo" alt="Docusign Navigator" onerror="this.style.display='none'">
+    </div>
+  </header>
+
+  <!-- ── Sidebar ── -->
+  <nav id="sidebar"></nav>
+
+  <!-- ── Content ── -->
+  <main id="content">
+    <div class="content-inner">
+
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb">
+        <a class="breadcrumb-link">All Agreements <span class="breadcrumb-count">12</span></a>
+        <span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current">Varro Petroleum, LLC</span>
+      </nav>
+
+      <!-- Agreement summary card -->
+      <div id="agreement-card">
+        <div class="agreement-status">
+          <div class="agreement-status-dot"></div>
+          Complete
+        </div>
+        <div class="agreement-parties">
+          <div class="agreement-customer">Varro Petroleum, LLC</div>
+          <div class="agreement-provider">Fuel Retail &nbsp;·&nbsp; Multi-Site FDIP</div>
+        </div>
+        <div class="agreement-stats">
+          <div class="agreement-stat">
+            <div class="agreement-stat-value">120 months</div>
+            <div class="agreement-stat-label">Brand commitment</div>
+          </div>
+          <div class="agreement-stat">
+            <div class="agreement-stat-value">$412,500</div>
+            <div class="agreement-stat-label">Advanced funds</div>
+          </div>
+          <div class="agreement-stat">
+            <div class="agreement-stat-value">6 outlets</div>
+            <div class="agreement-stat-label">Active sites</div>
+          </div>
+        </div>
+        <div class="agreement-docs" id="doc-pills"></div>
+      </div>
+
+      <!-- Job panel -->
+      <div id="job-panel">
+        <div id="empty-state">
+          <div class="empty-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          </div>
+          <div class="empty-title">Select a job function</div>
+          <div class="empty-sub">Choose a downstream team from the sidebar to see the agreement terms that matter to them.</div>
+        </div>
+      </div>
+
+      <!-- Pitch footer -->
+      <div id="pitch-footer">
+        <div class="pitch-text">
+          <div class="pitch-headline">Every deal term is structured and queryable the moment a contract is signed.</div>
+          <ul class="pitch-sub pitch-bullets">
+            <li><strong style="color:rgba(255,255,255,0.85)">Standard</strong> — AI-extracted natively by Navigator; no configuration required.</li>
+            <li><strong style="color:rgba(255,255,255,0.85)">Custom</strong> — Configured extractions that pull specific data from the document text.</li>
+            <li><strong style="color:rgba(255,255,255,0.85)">Tabular</strong> — Fields spanning multi-row tables require extraction via Docusign Insight or a third-party LLM pipeline; Navigator does not yet reliably parse table grids.</li>
+            <li><strong style="color:rgba(255,255,255,0.85)">Partial</strong> — Extracted by Navigator, but the value covers only part of the relevant clause; human review recommended.</li>
+            <li><strong style="color:rgba(255,255,255,0.85)">Manual</strong> — Data that does not exist within the signed documents; must be sourced from provisioning, CRM, or other systems of record.</li>
+          </ul>
+        </div>
+        <div class="pitch-api-badge">
+          <img src="context/DS Iris logo primary reversed.png" alt="DocuSign" class="pitch-docusign-logo" onerror="this.style.display='none'">
+          <div class="pitch-api-label">
+            <div class="pitch-api-name">Navigator API</div>
+            <div class="pitch-api-detail">v0.7.1-beta · 4 documents · 32 fields</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <a href="dashboard.html" class="vertical-switcher">
+    <span class="vs-label">Telecom</span>
+    <span class="vs-arrow">→</span>
+  </a>
+
+</div><!-- /#app -->
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// AGREEMENT ID → DOCUMENT NAME LOOKUP
+// ─────────────────────────────────────────────────────────────────────────────
+const AGREEMENT_ID_MAP = {
+  "agr-wma-varro-000":  "Wholesale Marketer Agreement",
+  "agr-fdip-varro-001": "FDIP Agreement",
+  "agr-exha-varro-002": "Exhibit A — Incentive Schedule",
+  "agr-amd4-varro-003": "Fourth Amendment to FDIP Agreement",
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AGREEMENT 1: WHOLESALE MARKETER AGREEMENT (WMA)
+// Executed: Dec 15, 2018 | Root document — governs supply, brand, and terminals
+// ─────────────────────────────────────────────────────────────────────────────
+const WMA = {
+  id: "agr-wma-varro-000",
+  title: "Wholesale Marketer Agreement",
+  file_name: "WHOLESALE_MARKETER_AGREEMENT_VARRO_PETROLEUM.pdf",
+  document_id: "doc-wma-varro-000",
+  type: "Wholesale Marketer Agreement",
+  category: "EnergyRetail",
+  status: "COMPLETE",
+  review_status: "ACCEPTED",
+  review_completed_at: "2018-12-15T00:00:00Z",
+  parties: [
+    { id: "party-equilon", name_in_agreement: "Equilon Enterprises LLC d/b/a Shell", preferred_name: "Equilon / Shell" },
+    { id: "party-varro",   name_in_agreement: "Varro Petroleum, LLC",                preferred_name: "Varro Petroleum" },
+  ],
+  provisions: {
+    effective_date:  "2019-01-01T00:00:00Z",
+    execution_date:  "2018-12-15T00:00:00Z",
+    expiration_date: "2028-12-31T00:00:00Z",
+    term_years:      10,
+    renewal_notice_period: "P90D",
+  },
+  custom_provisions: {
+    wma_agreement_id: "WMA-2019-VPL-0042",
+
+    brand_authorized:
+      "Shell (Equilon Enterprises LLC d/b/a Shell). Buyer is authorized to sell Shell-branded " +
+      "motor fuel products exclusively at designated Outlets. No co-branding or competing brand is permitted.",
+
+    // Authoritative source of terminal lifting requirement — inherited verbatim by FDIP Art. 4.4
+    delivery_terminals:
+      "All Shell-branded Products must be lifted by Buyer at the following Equilon supply terminals: " +
+      "Sacramento, CA (Y04G) and Martinez, CA (Y02U). No other terminals are authorized for supply " +
+      "of Shell-branded Products under this Agreement. Terminal access is contingent on Buyer maintaining " +
+      "current WMA in good standing.",
+
+    min_annual_volume:
+      "Buyer shall purchase a minimum of 2,400,000 gallons of Shell-branded Products per Contract Year " +
+      "(approximately 200,000 gallons per month). Failure to meet the annual minimum constitutes a " +
+      "material breach subject to cure and termination provisions.",
+
+    payment_terms:
+      "Net 5 days from invoice date. Invoices issued upon terminal lift. " +
+      "Late payment subject to 1.5% monthly interest charge on outstanding balance.",
+
+    brand_compliance:
+      "Buyer and all affiliated retail Outlets shall maintain Shell Mobility Visual Identity (MVI) " +
+      "standards as specified in Shell's Brand Standards Policy in effect from time to time. " +
+      "Seller may update image standards with 12 months' written notice. RVIe (Retail Visual Identity " +
+      "Evolution) standards remain applicable to grandfathered Outlets until Seller designates a " +
+      "mandatory MVI upgrade deadline in writing.",
+
+    // Authoritative definition of Reported Volume — referenced by FDIP Art. 5.1
+    reported_volume_definition:
+      "Reported Volume means the combined total volume of Shell-branded Products purchased by Buyer " +
+      "from Seller under this Agreement during the applicable measurement period, as recorded by " +
+      "certified terminal metering or tank truck capacity measurement, adjusted to 60°F per ASTM D:1250. " +
+      "Monthly reconciliation reports due within 20 days following month-end.",
+
+    term_and_renewal:
+      "Initial term: January 1, 2019 through December 31, 2028 (10 years). " +
+      "Automatically renews for successive 1-year periods unless either party provides 90 days' " +
+      "written notice of non-renewal prior to expiration of the then-current term. " +
+      "Subject to Petroleum Marketing Practices Act (PMPA) protections, 15 U.S.C. Ch. 55.",
+
+    pmpa_protections:
+      "This Agreement constitutes a petroleum franchise under PMPA. Non-renewal requires 90 days' " +
+      "advance written notice. Termination for cause requires written notice and reasonable cure period. " +
+      "Good cause includes: material breach, failure to maintain brand standards, insolvency, " +
+      "or failure to meet minimum purchase obligations.",
+  },
+  related_agreement_documents: {
+    parent_agreement_document_id: null,
+  },
+  source_name: "Docusign eSign",
+  source_id:   "env-wma-varro-2018",
+  metadata: {
+    created_at:  "2018-12-15T00:00:00Z",
+    modified_at: "2018-12-15T00:00:00Z",
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AGREEMENT 2: FDIP AGREEMENT
+// Executed: Feb 15, 2024 | Governs: brand commitment, incentive terms, defaults
+// ─────────────────────────────────────────────────────────────────────────────
+const FDIP = {
+  id: "agr-fdip-varro-001",
+  title: "FDIP Agreement",
+  file_name: "FDIP_AGREEMENT_VARRO_PETROLEUM.pdf",
+  document_id: "doc-fdip-varro-001",
+  type: "FDIP Agreement",
+  category: "EnergyRetail",
+  status: "COMPLETE",
+  review_status: "ACCEPTED",
+  review_completed_at: "2024-02-15T00:00:00Z",
+  parties: [
+    { id: "party-equilon", name_in_agreement: "Equilon Enterprises LLC", preferred_name: "Equilon / Shell" },
+    { id: "party-varro",   name_in_agreement: "Varro Petroleum, LLC",    preferred_name: "Varro Petroleum" },
+  ],
+  provisions: {
+    effective_date:  "2024-03-01T00:00:00Z",
+    execution_date:  "2024-02-15T00:00:00Z",
+    expiration_date: "2034-03-01T00:00:00Z",
+  },
+  custom_provisions: {
+    // Art. 2.1: brand commitment term — conflicts with Exhibit A Sites 3 & 4 (84 months)
+    brand_commitment_term:
+      "120 full months from the Incentive Commencement Date (April 1, 2025 → April 1, 2035). " +
+      "Art. 2.1 states this term applies to all Outlets.",
+
+    // Art. 3.1: flat incentive rate — superseded by Fourth Amendment but not updated
+    monthly_incentive_rate:
+      "Flat rate: $0.025 per gallon (Art. 3.1). " +
+      "NOTE: Fourth Amendment (effective July 1, 2023) overrides with tiered structure. " +
+      "Art. 3.1 not updated — flat rate reference remains in agreement body.",
+
+    // Art. 4.4: terminal lifting — inherits from WMA; Sites 3 & 4 in Albuquerque cannot comply
+    terminal_lifting_requirement:
+      "All Products must be lifted at: Sacramento, CA (Y04G) and Martinez, CA (Y02U). " +
+      "Art. 4.4 applies as a blanket obligation across all Outlets with no site-specific exception.",
+
+    // Art. 5.1: reported volume — references WMA definition
+    reported_volume_basis:
+      "Reported Volume = combined total volume of Products purchased by Buyer from Seller for the prior " +
+      "month pursuant to the terms of the Wholesale Marketer Agreement (WMA). See Addendum 2 re: Vantage.",
+
+    brand_standards_compliance:
+      "All Outlets must maintain Shell MVI (Mobility Visual Identity) standards as specified in the WMA. " +
+      "Sites 3 and 4 remain subject to RVIe standards per original FDIP executed August 2020. " +
+      "No MVI conversion deadline established for these sites.",
+
+    default_reimbursement_50pct_plus:
+      "If Brand Default occurs when 50% or more of the Brand Commitment Term remains: " +
+      "Buyer shall reimburse 100% of all Incentives paid to Buyer as of the Default Date.",
+
+    default_reimbursement_less_50pct:
+      "If Brand Default occurs when less than 50% of the Brand Commitment Term remains: " +
+      "Buyer shall reimburse the amount equal to (months remaining \u00f7 half of total Brand Commitment months) " +
+      "\u00d7 total Incentives paid to Buyer.",
+
+    unamortized_reimbursement:
+      "Buyer shall reimburse Seller the unamortized portion of total cash grant incentives, " +
+      "amortized on a straight-line basis over the Brand Commitment Term (Art. 7.1). " +
+      "TRUE Up Addendum (Exhibit A, Schedule 2) applies a different formula for Sites 3 and 4.",
+
+    wma_renewal_obligation:
+      "Buyer shall enter into one or more renewal WMAs with Seller throughout the duration of the " +
+      "Brand Commitment Term, ensuring uninterrupted supply relationship for the full 120-month period.",
+
+    completion_period:
+      "All Improvements must be completed within 12 months following the Effective Date " +
+      "(deadline: March 1, 2025). All 6 Outlets confirmed complete as of February 28, 2025.",
+  },
+  related_agreement_documents: {
+    parent_agreement_document_id: "agr-wma-varro-000",
+  },
+  source_name: "Docusign eSign",
+  source_id:   "env-fdip-varro-2024",
+  metadata: {
+    created_at:  "2024-02-15T00:00:00Z",
+    modified_at: "2024-02-15T00:00:00Z",
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AGREEMENT 3: EXHIBIT A — INCENTIVE SCHEDULE
+// Executed: Feb 15, 2024 | Governs: rates, volumes, site-specific terms
+// ─────────────────────────────────────────────────────────────────────────────
+const EXHIBIT_A = {
+  id: "agr-exha-varro-002",
+  title: "Exhibit A \u2014 Incentive Schedule",
+  file_name: "EXHIBIT_A_INCENTIVE_SCHEDULE_VARRO.pdf",
+  document_id: "doc-exha-varro-002",
+  type: "Incentive Schedule",
+  category: "EnergyRetail",
+  status: "COMPLETE",
+  review_status: "ACCEPTED",
+  review_completed_at: "2024-02-15T00:00:00Z",
+  parties: [
+    { id: "party-equilon", name_in_agreement: "Equilon Enterprises LLC", preferred_name: "Equilon / Shell" },
+    { id: "party-varro",   name_in_agreement: "Varro Petroleum, LLC",    preferred_name: "Varro Petroleum" },
+  ],
+  provisions: {
+    effective_date:  "2024-03-01T00:00:00Z",
+    execution_date:  "2024-02-15T00:00:00Z",
+    expiration_date: "2034-03-01T00:00:00Z",
+  },
+  custom_provisions: {
+    buyer_name:   "Varro Petroleum, LLC",
+    agreement_id: "398821-SH-V",
+
+    project_type:
+      "Multi-Site FDIP \u2014 Shell-to-Shell / MVI Upgrade / TRUE Up (6 Outlets; Albuquerque, NM and Southwest Region)",
+
+    advanced_funds_amount:
+      "$412,500 total advanced funds across 6 Outlets ($68,750 per site). " +
+      "Calculated: 55,000 gal/mo projected volume \u00d7 $0.025/gal \u00d7 30-month reimbursement period. " +
+      "NOTE: projected volume basis (55,000 gal/mo) exceeds the MVC floor (40,000 gal/mo) by 37.5%.",
+
+    brand_commitment_months_note:
+      "Schedule 1: Sites 3 and 4 (legacy RVIe, original 2020 FDIP) reference 84 full months. " +
+      "FDIP Agreement Art. 2.1 states 120 months for all Outlets. No supersession clause present.",
+
+    min_monthly_volume:
+      "40,000 gallons per month combined across all active Outlets. " +
+      "Current Vantage-reported avg (Q1 2026): 38,200 gal/mo \u2014 1,800 gal/mo below MVC. " +
+      "WMA-reported avg (same period): 43,400 gal/mo \u2014 compliant. " +
+      "MVC status depends on which volume methodology governs.",
+
+    monthly_incentive_rate_note:
+      "Schedule 1 incorporates Fourth Amendment tiered structure (effective July 1, 2023). " +
+      "FDIP Agreement Art. 3.1 still references $0.025/gal flat rate \u2014 not updated.",
+
+    tiered_incentive_rate_min:
+      "Less than 5,833,333 monthly gallons (combined all Outlets): $0.025 per gallon",
+
+    tiered_incentive_rate_max:
+      "Greater than 8,333,333 monthly gallons (combined all Outlets): $0.050 per gallon",
+
+    unamortized_reimbursement_sites_3_4:
+      "TRUE Up Addendum (Schedule 2, Sites 3 & 4): Reimbursement = " +
+      "(months remaining \u00f7 total Brand Commitment months) \u00d7 Incentives paid to Buyer. " +
+      "Conflicts with FDIP Agreement Art. 7.1 straight-line formula. No supersession clause.",
+
+    conv_default_payment_low:
+      "$50,000 per Outlet \u2014 Sites 3 and 4 (projected volume < 50,000 gal/mo)",
+
+    conv_default_payment_high:
+      "$125,000 per Outlet \u2014 Sites 1 and 2 (projected volume \u2265 125,000 gal/mo)",
+
+    mvi_image_standards:
+      "Sites 1, 2, 5, 6: Shell MVI (Mobility Visual Identity) standards apply. " +
+      "Sites 3, 4: RVIe (Retail Visual Identity Evolution) standards \u2014 original 2020 FDIP. " +
+      "No MVI conversion deadline established for Sites 3 and 4 in this or any amendment.",
+
+    cvp_checklist_improvements:
+      "Site-specific improvement scope per CVP Checklist provided by Seller\u2019s regional representative. " +
+      "Checklists on file with Seller \u2014 not attached to this agreement.",
+
+    terminal_lifting_note:
+      "Sites 3 and 4 are located in Albuquerque, NM. FDIP Agreement Art. 4.4 requires all Products " +
+      "lifted at Sacramento (Y04G) and Martinez (Y02U). No terminal variance documented.",
+
+    mda_expiration_date: "March 1, 2034",
+
+    new_business_replacement_window:
+      "Until March 1, 2026 (24 months from Effective Date). " +
+      "Window has expired \u2014 no new outlet substitutions can be proposed.",
+
+    mda_aggregate_cap:
+      "Seller shall reimburse up to $300,000 in the aggregate for New Business activities " +
+      "under the MDA provisions of this Agreement.",
+
+    vantage_data_election:
+      "Addendum 2: Seller may elect to use Vantage POS data in lieu of WMA purchase data for Reported Volume. " +
+      "Seller election active as of January 2026. " +
+      "Vantage avg (Q1 2026): 38,200 gal/mo. WMA avg (same period): 43,400 gal/mo. " +
+      "Variance: 5,200 gal/mo (12%). Under Vantage: below 40k MVC (default). Under WMA: compliant.",
+
+    reported_volume_deadline:
+      "Within 20 days after the end of each month during the Reimbursement Period.",
+
+    wma_renewal_obligation:
+      "Buyer shall enter into one or more renewal WMAs with Seller throughout the Brand Commitment Term.",
+  },
+  related_agreement_documents: {
+    parent_agreement_document_id: "agr-fdip-varro-001",
+  },
+  source_name: "Docusign eSign",
+  source_id:   "env-exha-varro-2024",
+  metadata: {
+    created_at:  "2024-02-15T00:00:00Z",
+    modified_at: "2024-02-15T00:00:00Z",
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AGREEMENT 4: FOURTH AMENDMENT TO FDIP AGREEMENT
+// Executed: Jun 15, 2023 | Replaces flat incentive rate with tiered structure
+// ─────────────────────────────────────────────────────────────────────────────
+const FOURTH_AMENDMENT = {
+  id: "agr-amd4-varro-003",
+  title: "Fourth Amendment to FDIP Agreement",
+  file_name: "FOURTH_AMENDMENT_FDIP_VARRO_PETROLEUM.pdf",
+  document_id: "doc-amd4-varro-003",
+  type: "Amendment",
+  category: "EnergyRetail",
+  status: "COMPLETE",
+  review_status: "ACCEPTED",
+  review_completed_at: "2023-06-15T00:00:00Z",
+  parties: [
+    { id: "party-equilon", name_in_agreement: "Equilon Enterprises LLC", preferred_name: "Equilon / Shell" },
+    { id: "party-varro",   name_in_agreement: "Varro Petroleum, LLC",    preferred_name: "Varro Petroleum" },
+  ],
+  provisions: {
+    effective_date: "2023-07-01T00:00:00Z",
+    execution_date: "2023-06-15T00:00:00Z",
+  },
+  custom_provisions: {
+    amendment_number: "Fourth",
+    amends: "FDIP Agreement (Program Agreement #398821-SH-V)",
+
+    // The authoritative tiered rate structure
+    tiered_incentive_rates:
+      "Effective July 1, 2023, the incentive rate structure is updated as follows for combined monthly " +
+      "gallons across all Outlets: " +
+      "Tier 1 (< 5,833,333 gal/mo): $0.025/gal; " +
+      "Tier 2 (5,833,334\u20136,666,666 gal/mo): $0.0325/gal; " +
+      "Tier 3 (6,666,667\u20138,333,333 gal/mo): $0.0425/gal; " +
+      "Tier 4 (> 8,333,333 gal/mo): $0.050/gal.",
+
+    // The supersession gap — no explicit clause updating Art. 3.1
+    supersession_note:
+      "This Amendment modifies the incentive rate structure effective July 1, 2023. Article 3.1 of the " +
+      "FDIP Agreement (flat rate $0.025/gal) is not explicitly superseded or struck in this document. " +
+      "No clause states that this Amendment controls in the event of conflict with Art. 3.1.",
+
+    // Outlet definition expanded — adds Albuquerque sites to combined volume calculation
+    outlet_definition_update:
+      "Section 1.3 (Outlet Definitions) is updated to include all 6 active Varro Petroleum retail sites " +
+      "effective July 1, 2023. Sites 3 and 4 (Albuquerque, NM) are expressly included in the combined " +
+      "monthly volume calculation for tiered incentive rate determination. NOTE: no corresponding amendment " +
+      "to the WMA terminal lifting requirement was made to accommodate the Albuquerque sites.",
+  },
+  related_agreement_documents: {
+    parent_agreement_document_id: "agr-fdip-varro-001",
+  },
+  source_name: "Docusign eSign",
+  source_id:   "env-amd4-varro-2023",
+  metadata: {
+    created_at:  "2023-06-15T00:00:00Z",
+    modified_at: "2023-06-15T00:00:00Z",
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MOCK NAVIGATOR API RESPONSE
+// ─────────────────────────────────────────────────────────────────────────────
+const MOCK_NAVIGATOR_DATA = {
+  agreements: [WMA, FDIP, EXHIBIT_A, FOURTH_AMENDMENT],
+  documentNames: AGREEMENT_ID_MAP,
+  _meta: {
+    customer:     "Varro Petroleum, LLC",
+    provider:     "Equilon Enterprises LLC",
+    familyParent: "agr-wma-varro-000",
+    dataSource:   "mock \u2014 composite synthetic data; O&G vertical",
+    apiVersion:   "0.7.1-beta",
+    lastUpdated:  "2026-03-18",
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FIELD RESOLUTION
+// Returns: { fieldName: { value, sourceDoc, sourceId, fieldType, conflicts? } }
+// ─────────────────────────────────────────────────────────────────────────────
+function resolveFields(agreements, documentNames) {
+  const byId = {};
+  for (const agr of agreements) byId[agr.id] = agr;
+  const wma  = byId["agr-wma-varro-000"];
+  const fdip = byId["agr-fdip-varro-001"];
+  const exha = byId["agr-exha-varro-002"];
+  const amd4 = byId["agr-amd4-varro-003"];
+
+  return {
+
+    // 1. Agreement ID
+    agreement_id: {
+      value:     exha.custom_provisions.agreement_id,
+      raw:       exha.custom_provisions.agreement_id,
+      sourceDoc: documentNames[exha.id],
+      sourceId:  exha.id,
+      fieldType: "standard",
+    },
+
+    // 2. Buyer Name
+    buyer_name: {
+      value:     exha.custom_provisions.buyer_name,
+      raw:       exha.custom_provisions.buyer_name,
+      sourceDoc: documentNames[exha.id],
+      sourceId:  exha.id,
+      fieldType: "standard",
+    },
+
+    // 3. Project Type
+    project_type: {
+      value:     exha.custom_provisions.project_type,
+      raw:       exha.custom_provisions.project_type,
+      sourceDoc: documentNames[exha.id],
+      sourceId:  exha.id,
+      fieldType: "custom",
+    },
+
+    // 4. Advanced Funds
+    advanced_funds: {
+      value:     exha.custom_provisions.advanced_funds_amount,
+      raw:       exha.custom_provisions.advanced_funds_amount,
+      sourceDoc: documentNames[exha.id],
+      sourceId:  exha.id,
+      fieldType: "custom",
+    },
+
+    // 5. Incentive Commencement Date
+    incentive_commencement_date: {
+      value:     "April 1, 2025",
+      raw:       "2025-04-01T00:00:00Z",
+      sourceDoc: documentNames[fdip.id],
+      sourceId:  fdip.id,
+      fieldType: "standard",
+      note:      "Month following improvements completion (Feb 28, 2025) and Seller approval (Mar 15, 2025).",
+    },
+
+    // 6. Completion Period
+    completion_period: {
+      value:     fdip.custom_provisions.completion_period,
+      raw:       fdip.custom_provisions.completion_period,
+      sourceDoc: documentNames[fdip.id],
+      sourceId:  fdip.id,
+      fieldType: "standard",
+    },
+
+    // 7. Brand Commitment Term — CONFLICT #1 (120 vs 84 months)
+    brand_commitment_term: {
+      value:     "120 months from Incentive Commencement Date (April 1, 2025 \u2192 April 1, 2035)",
+      raw:       "P120M",
+      sourceDoc: documentNames[fdip.id],
+      sourceId:  fdip.id,
+      fieldType: "standard",
+      conflicts: [
+        {
+          doc:   "FDIP Agreement",
+          value: "120 months (all Outlets)",
+          note:  "Art. 2.1 \u2014 governs all 6 Outlets per main agreement body \u2713 Authoritative",
+        },
+        {
+          doc:   "Exhibit A \u2014 Incentive Schedule",
+          value: "84 months (Sites 3 & 4 only)",
+          note:  "Schedule 1 \u2014 legacy RVIe sites; no supersession clause present",
+        },
+      ],
+      conflictNote:
+        "Art. 2.1 of the FDIP Agreement specifies 120 months for all Outlets. Exhibit A, Schedule 1 references " +
+        "84 months for Sites 3 and 4 (legacy RVIe sites). No clause addresses the conflict. Brand Commitment " +
+        "end date for Sites 3 & 4 is either August 2032 (84 months) or April 2035 (120 months) \u2014 unresolved.",
+    },
+
+    // 8. WMA Term — CONFLICT #8: 4-date misalignment across all documents
+    wma_term: {
+      value:
+        "January 1, 2019 \u2013 December 31, 2028 (10-year initial term). " +
+        "Auto-renews annually unless 90 days\u2019 notice given. PMPA-protected.",
+      raw:       wma.custom_provisions.term_and_renewal,
+      sourceDoc: documentNames[wma.id],
+      sourceId:  wma.id,
+      fieldType: "standard",
+      conflicts: [
+        {
+          doc:   "Wholesale Marketer Agreement",
+          value: "Expires December 31, 2028",
+          note:  "10-year term \u2014 supply relationship, brand license, and terminal access all expire here",
+        },
+        {
+          doc:   "Exhibit A \u2014 Incentive Schedule",
+          value: "Sites 3 & 4 Brand Commitment expires August 2032 (84-month term)",
+          note:  "Legacy sites \u2014 Brand Commitment outlasts WMA by 44 months with no WMA in force",
+        },
+        {
+          doc:   "Exhibit A \u2014 Incentive Schedule",
+          value: "MDA expires March 1, 2034",
+          note:  "MDA provisions extend 5+ years past WMA expiration \u2014 MDA obligations without supply agreement",
+        },
+        {
+          doc:   "FDIP Agreement",
+          value: "Full Brand Commitment ends April 1, 2035 (120-month term)",
+          note:  "Brand Commitment outlasts WMA by 6+ years \u2014 supply, brand license, terminal access all undefined",
+        },
+      ],
+      conflictNote:
+        "Four distinct end dates govern what is functionally one continuous relationship: WMA expires Dec 31, 2028; " +
+        "Sites 3 & 4 Brand Commitment ends Aug 2032; MDA expires Mar 2034; full Brand Commitment ends Apr 2035. " +
+        "After December 31, 2028, Varro has no WMA \u2014 meaning no authorized supply relationship, no Shell brand license, " +
+        "and no terminal access at Sacramento or Martinez \u2014 yet the FDIP Brand Commitment and MDA continue to impose " +
+        "obligations for another 6+ years. This structural gap is unaddressed in any of the four documents.",
+    },
+
+    // 9. WMA Delivery Terminals (authoritative source)
+    wma_delivery_terminals: {
+      value:     wma.custom_provisions.delivery_terminals,
+      raw:       wma.custom_provisions.delivery_terminals,
+      sourceDoc: documentNames[wma.id],
+      sourceId:  wma.id,
+      fieldType: "standard",
+    },
+
+    // 10. WMA Minimum Annual Volume
+    wma_min_annual_volume: {
+      value:     wma.custom_provisions.min_annual_volume,
+      raw:       wma.custom_provisions.min_annual_volume,
+      sourceDoc: documentNames[wma.id],
+      sourceId:  wma.id,
+      fieldType: "custom",
+    },
+
+    // 11. WMA Payment Terms (supply)
+    wma_payment_terms: {
+      value:     wma.custom_provisions.payment_terms,
+      raw:       wma.custom_provisions.payment_terms,
+      sourceDoc: documentNames[wma.id],
+      sourceId:  wma.id,
+      fieldType: "standard",
+    },
+
+    // 12. Brand Authorized
+    wma_brand_authorized: {
+      value:     wma.custom_provisions.brand_authorized,
+      raw:       wma.custom_provisions.brand_authorized,
+      sourceDoc: documentNames[wma.id],
+      sourceId:  wma.id,
+      fieldType: "standard",
+    },
+
+    // 13. Min Monthly Volume (MVC)
+    min_monthly_volume: {
+      value:     exha.custom_provisions.min_monthly_volume,
+      raw:       exha.custom_provisions.min_monthly_volume,
+      sourceDoc: documentNames[exha.id],
+      sourceId:  exha.id,
+      fieldType: "custom",
+    },
+
+    // 14. Reported Volume Deadline
+    reported_volume_deadline: {
+      value:     "Within 20 days after the end of each month during the Reimbursement Period",
+      raw:       exha.custom_provisions.reported_volume_deadline,
+      sourceDoc: documentNames[fdip.id],
+      sourceId:  fdip.id,
+      fieldType: "standard",
+    },
+
+    // 15. Default Reimbursement \u226550%
+    default_reimbursement_50pct_plus: {
+      value:     fdip.custom_provisions.default_reimbursement_50pct_plus,
+      raw:       fdip.custom_provisions.default_reimbursement_50pct_plus,
+      sourceDoc: documentNames[fdip.id],
+      sourceId:  fdip.id,
+      fieldType: "custom",
+    },
+
+    // 16. Default Reimbursement <50%
+    default_reimbursement_less_50pct: {
+      value:     fdip.custom_provisions.default_reimbursement_less_50pct,
+      raw:       fdip.custom_provisions.default_reimbursement_less_50pct,
+      sourceDoc: documentNames[fdip.id],
+      sourceId:  fdip.id,
+      fieldType: "custom",
+    },
+
+    // 17. Unamortized Reimbursement — CONFLICT #2
+    unamortized_reimbursement: {
+      value:
+        "Unamortized portion of total incentives, amortized straight-line over Brand Commitment Term " +
+        "(FDIP Agreement Art. 7.1)",
+      raw:       fdip.custom_provisions.unamortized_reimbursement,
+      sourceDoc: documentNames[fdip.id],
+      sourceId:  fdip.id,
+      fieldType: "custom",
+      conflicts: [
+        {
+          doc:   "FDIP Agreement",
+          value: "Straight-line amortization over full term",
+          note:  "Art. 7.1 \u2014 general default reimbursement method \u2713 Governing document",
+        },
+        {
+          doc:   "Exhibit A \u2014 Incentive Schedule",
+          value: "(months remaining \u00f7 total months) \u00d7 Incentives paid \u2014 Sites 3 & 4",
+          note:  "TRUE Up Addendum, Schedule 2 \u2014 different formula; no supersession clause",
+        },
+      ],
+      conflictNote:
+        "Art. 7.1 of the FDIP Agreement uses straight-line amortization. The TRUE Up Addendum (Exhibit A, Schedule 2) " +
+        "applies a remaining-months formula to Sites 3 and 4. Both methods produce different reimbursement amounts for " +
+        "the same default event. No clause designates which controls.",
+    },
+
+    // 18. Conversion Default Low
+    conv_default_payment_low: {
+      value:     exha.custom_provisions.conv_default_payment_low,
+      raw:       exha.custom_provisions.conv_default_payment_low,
+      sourceDoc: documentNames[exha.id],
+      sourceId:  exha.id,
+      fieldType: "custom",
+    },
+
+    // 19. Conversion Default High
+    conv_default_payment_high: {
+      value:     exha.custom_provisions.conv_default_payment_high,
+      raw:       exha.custom_provisions.conv_default_payment_high,
+      sourceDoc: documentNames[exha.id],
+      sourceId:  exha.id,
+      fieldType: "custom",
+    },
+
+    // 20. Tiered Rate Min — source: Fourth Amendment
+    tiered_incentive_rate_min: {
+      value:     exha.custom_provisions.tiered_incentive_rate_min,
+      raw:       exha.custom_provisions.tiered_incentive_rate_min,
+      sourceDoc: documentNames[amd4.id],
+      sourceId:  amd4.id,
+      fieldType: "custom",
+    },
+
+    // 21. Tiered Rate Max — source: Fourth Amendment
+    tiered_incentive_rate_max: {
+      value:     exha.custom_provisions.tiered_incentive_rate_max,
+      raw:       exha.custom_provisions.tiered_incentive_rate_max,
+      sourceDoc: documentNames[amd4.id],
+      sourceId:  amd4.id,
+      fieldType: "custom",
+    },
+
+    // 22. Monthly Incentive Rate — CONFLICT #3 (3-doc: FDIP flat, Fourth Amendment tiered, Exhibit A)
+    monthly_incentive_rate: {
+      value:
+        "$0.025/gal flat rate (FDIP Art. 3.1) \u2014 superseded by Fourth Amendment tiered structure " +
+        "effective July 1, 2023; Art. 3.1 not updated; no explicit supersession clause.",
+      raw:       exha.custom_provisions.monthly_incentive_rate_note,
+      sourceDoc: documentNames[fdip.id],
+      sourceId:  fdip.id,
+      fieldType: "custom",
+      conflicts: [
+        {
+          doc:   "FDIP Agreement",
+          value: "$0.025/gal (flat rate)",
+          note:  "Art. 3.1 \u2014 original rate; not updated after Fourth Amendment",
+        },
+        {
+          doc:   "Fourth Amendment to FDIP Agreement",
+          value: "$0.025\u2013$0.050/gal (4-tier structure, effective July 1, 2023)",
+          note:  "Authoritative tiered rates \u2014 effective July 2023; no explicit supersession of Art. 3.1",
+        },
+        {
+          doc:   "Exhibit A \u2014 Incentive Schedule",
+          value: "Schedule 1 incorporates Fourth Amendment tiers",
+          note:  "Exhibit A executed Feb 2024 (post-amendment) \u2014 references tiered structure without resolving Art. 3.1",
+        },
+      ],
+      conflictNote:
+        "Art. 3.1 of the FDIP Agreement states a flat rate of $0.025/gal. The Fourth Amendment (executed June 2023, " +
+        "effective July 2023) replaces this with a 4-tier volume-based structure. Exhibit A (executed Feb 2024, " +
+        "after the amendment) incorporates the tiers in Schedule 1 but does not strike Art. 3.1. The Fourth Amendment " +
+        "itself contains no explicit supersession clause. Three documents \u2014 executed across a 10-month period \u2014 each " +
+        "touch the same term without resolving the conflict.",
+    },
+
+    // 23. Reported Volume Basis — source: WMA (authoritative definition)
+    reported_volume_basis: {
+      value:
+        "Combined total volume of Shell-branded Products purchased by Buyer from Seller under the WMA, " +
+        "measured by certified terminal metering, adjusted to 60\u00b0F per ASTM D:1250. (WMA Art. 5.1 definition)",
+      raw:       wma.custom_provisions.reported_volume_definition,
+      sourceDoc: documentNames[wma.id],
+      sourceId:  wma.id,
+      fieldType: "standard",
+    },
+
+    // 24. Vantage Data Election — CONFLICT #5
+    vantage_data_election: {
+      value:     exha.custom_provisions.vantage_data_election,
+      raw:       exha.custom_provisions.vantage_data_election,
+      sourceDoc: documentNames[exha.id],
+      sourceId:  exha.id,
+      fieldType: "custom",
+      conflicts: [
+        {
+          doc:   "Wholesale Marketer Agreement",
+          value: "Terminal metering / ASTM D:1250 (Art. 5.1)",
+          note:  "Authoritative Reported Volume definition \u2014 certified terminal measurement \u2713 Root document",
+        },
+        {
+          doc:   "FDIP Agreement",
+          value: "WMA purchase data (Art. 5.1 reference)",
+          note:  "Defers to WMA definition \u2014 consistent with WMA",
+        },
+        {
+          doc:   "Exhibit A \u2014 Incentive Schedule",
+          value: "Vantage POS data elected January 2026 (Addendum 2)",
+          note:  "Seller election active; yields 43,400 \u2192 38,200 gal/mo \u2014 below 40k MVC threshold",
+        },
+      ],
+      conflictNote:
+        "The WMA (Art. 5.1) and FDIP Agreement both define Reported Volume as certified terminal purchase data. " +
+        "Exhibit A Addendum 2 permits Seller to substitute Vantage POS data at its sole election \u2014 a methodology " +
+        "not contemplated in the WMA. Seller elected Vantage in January 2026. Vantage yields 38,200 gal/mo; " +
+        "WMA-method yields 43,400 gal/mo. Under WMA definition (the root document): Buyer is compliant. " +
+        "Under Vantage election: Buyer has been in default since January 2026. Whether Addendum 2 can override " +
+        "the WMA\u2019s certified measurement standard is unaddressed.",
+    },
+
+    // 25. MVI Image Standards — CONFLICT #4
+    mvi_image_standards: {
+      value:     exha.custom_provisions.mvi_image_standards,
+      raw:       exha.custom_provisions.mvi_image_standards,
+      sourceDoc: documentNames[exha.id],
+      sourceId:  exha.id,
+      fieldType: "standard",
+      conflicts: [
+        {
+          doc:   "Wholesale Marketer Agreement",
+          value: "Shell MVI standards \u2014 all Outlets (with 12-month upgrade notice provision)",
+          note:  "Art. 6.1 \u2014 root brand compliance obligation; RVIe grandfathered until Seller sets upgrade deadline",
+        },
+        {
+          doc:   "FDIP Agreement",
+          value: "Shell MVI standards \u2014 all Outlets (Art. 6.1)",
+          note:  "Requires MVI for all Outlets; no site-specific carve-out",
+        },
+        {
+          doc:   "Exhibit A \u2014 Incentive Schedule",
+          value: "Sites 3 & 4: RVIe standards; no MVI conversion deadline",
+          note:  "Schedule 1 \u2014 original 2020 standard; no amendment establishes upgrade timeline",
+        },
+      ],
+      conflictNote:
+        "Both the WMA and FDIP Agreement require MVI standards for all Outlets. The WMA includes a provision " +
+        "grandfathering RVIe sites \u2014 but only until Seller sets a mandatory upgrade deadline in writing. " +
+        "Exhibit A notes Sites 3 and 4 remain on RVIe with no conversion deadline. Whether a written MVI " +
+        "upgrade notice has been issued (triggering the 12-month clock) is not documented in any agreement.",
+    },
+
+    // 26. CVP Checklist (manual)
+    cvp_checklist_improvements: {
+      value:     null,
+      raw:       null,
+      sourceDoc: null,
+      sourceId:  null,
+      fieldType: "manual",
+      note:      "Site-specific improvement checklists on file with Seller\u2019s regional representative \u2014 not attached to agreement",
+    },
+
+    // 27. WMA Reference (manual)
+    wma_reference: {
+      value:     null,
+      raw:       null,
+      sourceDoc: null,
+      sourceId:  null,
+      fieldType: "manual",
+      note:      "Wholesale Marketer Agreement (WMA) governs brand standards, volume reporting, and product supply \u2014 separate standing document, not included in this agreement family",
+    },
+
+    // 28. New Business Replacement Window
+    new_business_replacement_window: {
+      value:     exha.custom_provisions.new_business_replacement_window,
+      raw:       exha.custom_provisions.new_business_replacement_window,
+      sourceDoc: documentNames[exha.id],
+      sourceId:  exha.id,
+      fieldType: "standard",
+    },
+
+    // 29. MDA Aggregate Cap
+    mda_aggregate_cap: {
+      value:     exha.custom_provisions.mda_aggregate_cap,
+      raw:       exha.custom_provisions.mda_aggregate_cap,
+      sourceDoc: documentNames[exha.id],
+      sourceId:  exha.id,
+      fieldType: "custom",
+    },
+
+    // 30. Terminal Lifting Requirement — CONFLICT #7 (3-doc: WMA origin, FDIP inherits, Sites 3&4 incompatible)
+    // NOTE: Fourth Amendment explicitly added Albuquerque sites to volume calc without fixing the terminal requirement
+    terminal_lifting_requirement: {
+      value:     wma.custom_provisions.delivery_terminals,
+      raw:       wma.custom_provisions.delivery_terminals,
+      sourceDoc: documentNames[wma.id],
+      sourceId:  wma.id,
+      fieldType: "standard",
+      conflicts: [
+        {
+          doc:   "Wholesale Marketer Agreement",
+          value: "Sacramento (Y04G) + Martinez (Y02U) \u2014 all Shell-branded Products",
+          note:  "Art. 4.3 \u2014 defines authorized supply terminals \u2713 Authoritative source",
+        },
+        {
+          doc:   "FDIP Agreement",
+          value: "Sacramento (Y04G) + Martinez (Y02U) \u2014 all Outlets",
+          note:  "Art. 4.4 \u2014 inherits WMA terminal requirement; blanket obligation, no site exception",
+        },
+        {
+          doc:   "Fourth Amendment to FDIP Agreement",
+          value: "Sites 3 & 4 (Albuquerque, NM) added to volume calculation",
+          note:  "Sec. 1.3 \u2014 explicitly adds Albuquerque sites; no corresponding WMA terminal amendment",
+        },
+      ],
+      conflictNote:
+        "The WMA (Art. 4.3) defines Sacramento and Martinez as the only authorized supply terminals. The FDIP Agreement " +
+        "(Art. 4.4) inherits this as a blanket obligation. The Fourth Amendment explicitly added Sites 3 and 4 " +
+        "(Albuquerque, NM) to the combined volume calculation \u2014 but did not amend the WMA or FDIP terminal requirement. " +
+        "The Fourth Amendment\u2019s expansion of Outlet definitions created an irreconcilable conflict: Albuquerque sites " +
+        "are contractually included in the incentive program but cannot comply with the terminal lifting requirement " +
+        "that the same program imposes.",
+    },
+
+    // 31. MDA Expiration Date — now part of the 4-date alignment conflict in wma_term
+    mda_expiration_date: {
+      value:     "March 1, 2034",
+      raw:       "2034-03-01T00:00:00Z",
+      sourceDoc: documentNames[exha.id],
+      sourceId:  exha.id,
+      fieldType: "standard",
+      note:      "MDA expires 13 months before full Brand Commitment end (April 2035) and 5+ years after WMA expiration (December 2028). See WMA Term for full 4-date alignment conflict.",
+    },
+
+    // 32. WMA Renewal Obligation
+    wma_renewal_obligation: {
+      value:     fdip.custom_provisions.wma_renewal_obligation,
+      raw:       fdip.custom_provisions.wma_renewal_obligation,
+      sourceDoc: documentNames[fdip.id],
+      sourceId:  fdip.id,
+      fieldType: "standard",
+    },
+
+  };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// JOB DEFINITIONS
+// ─────────────────────────────────────────────────────────────────────────────
+const DOMAIN_LABELS = {
+  'Finance':            'Finance',
+  'Customer Ops':       'Customer Ops',
+  'Revenue Protection': 'Revenue Protection',
+};
+
+const JOB_DEFINITIONS = [
+  {
+    id:       'billing',
+    label:    'Billing',
+    domain:   'Finance',
+    color:    'teal',
+    subtitle: 'Incentive disbursement, volume reporting, and reimbursement tracking',
+    fields: [
+      'agreement_id', 'incentive_commencement_date', 'advanced_funds',
+      'monthly_incentive_rate', 'reported_volume_deadline', 'wma_payment_terms',
+      'min_monthly_volume', 'default_reimbursement_50pct_plus',
+      'default_reimbursement_less_50pct', 'mda_aggregate_cap',
+    ],
+  },
+  {
+    id:       'rev-rec',
+    label:    'Rev Rec',
+    domain:   'Finance',
+    color:    'teal',
+    subtitle: 'Advanced funds recognition, incentive accrual, and amortization schedule',
+    fields: [
+      'incentive_commencement_date', 'advanced_funds', 'brand_commitment_term',
+      'project_type', 'unamortized_reimbursement',
+    ],
+  },
+  {
+    id:       'brand-commitment',
+    label:    'Brand Commitment',
+    domain:   'Customer Ops',
+    color:    'purple',
+    subtitle: 'Brand term tracking, WMA renewal, and replacement outlet windows',
+    fields: [
+      'wma_term', 'brand_commitment_term', 'wma_brand_authorized',
+      'wma_renewal_obligation', 'mda_expiration_date',
+      'new_business_replacement_window', 'incentive_commencement_date',
+    ],
+  },
+  {
+    id:       'fulfillment',
+    label:    'Fulfillment',
+    domain:   'Customer Ops',
+    color:    'purple',
+    subtitle: 'Improvements completion, image standard compliance, and site go-live',
+    fields: [
+      'completion_period', 'incentive_commencement_date', 'mvi_image_standards',
+      'cvp_checklist_improvements', 'project_type',
+    ],
+  },
+  {
+    id:       'obligations',
+    label:    'Obligations',
+    domain:   'Customer Ops',
+    color:    'purple',
+    subtitle: 'Ongoing volume commitments, brand standards, and reporting obligations',
+    fields: [
+      'wma_term', 'wma_min_annual_volume', 'min_monthly_volume',
+      'reported_volume_deadline', 'reported_volume_basis',
+      'brand_commitment_term', 'wma_renewal_obligation',
+      'terminal_lifting_requirement', 'mvi_image_standards',
+    ],
+  },
+  {
+    id:       'commissions',
+    label:    'Commissions',
+    domain:   'Revenue Protection',
+    color:    'orange',
+    subtitle: 'Commissionable incentive events, project classification, and eligibility',
+    fields: [
+      'buyer_name', 'agreement_id', 'project_type', 'advanced_funds',
+      'incentive_commencement_date', 'brand_commitment_term',
+    ],
+  },
+  {
+    id:       'pricing-ra',
+    label:    'Pricing / Rev Assurance',
+    domain:   'Revenue Protection',
+    color:    'orange',
+    subtitle: 'Incentive rate validation, volume basis integrity, and tier accuracy',
+    fields: [
+      'monthly_incentive_rate', 'tiered_incentive_rate_min', 'tiered_incentive_rate_max',
+      'reported_volume_basis', 'vantage_data_election', 'min_monthly_volume',
+      'mda_aggregate_cap',
+    ],
+  },
+  {
+    id:       'early-termination-ra',
+    label:    'Early Termination / Rev Assurance',
+    domain:   'Revenue Protection',
+    color:    'orange',
+    subtitle: 'Default reimbursement exposure, conversion penalties, and clawback formulas',
+    fields: [
+      'default_reimbursement_50pct_plus', 'default_reimbursement_less_50pct',
+      'unamortized_reimbursement', 'conv_default_payment_low', 'conv_default_payment_high',
+      'brand_commitment_term', 'advanced_funds', 'wma_term',
+    ],
+  },
+  {
+    id:       'min-commitment-ra',
+    label:    'Min Commitment / Rev Assurance',
+    domain:   'Revenue Protection',
+    color:    'orange',
+    subtitle: 'MVC tracking, volume shortfall exposure, and true-up calculation',
+    fields: [
+      'wma_min_annual_volume', 'min_monthly_volume', 'reported_volume_basis',
+      'vantage_data_election', 'reported_volume_deadline',
+      'tiered_incentive_rate_min', 'tiered_incentive_rate_max', 'monthly_incentive_rate',
+    ],
+  },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FIELD LABELS
+// ─────────────────────────────────────────────────────────────────────────────
+const FIELD_LABELS = {
+  agreement_id:                    'Program Agreement #',
+  buyer_name:                      'Wholesaler (Buyer) Name',
+  project_type:                    'Type of Project',
+  advanced_funds:                  'Advanced Funds',
+  incentive_commencement_date:     'Incentive Commencement Date',
+  completion_period:               'Improvements Completion Period',
+  brand_commitment_term:           'Brand Commitment \u2014 Term',
+  wma_term:                        'WMA Term & Expiration',
+  wma_delivery_terminals:          'WMA Authorized Delivery Terminals',
+  wma_min_annual_volume:           'WMA Minimum Annual Volume',
+  wma_payment_terms:               'WMA Payment Terms (Supply)',
+  wma_brand_authorized:            'Brand Authorization',
+  min_monthly_volume:              'Minimum Volume Requirement (MVC)',
+  reported_volume_deadline:        'Reported Volume Deadline',
+  default_reimbursement_50pct_plus:'\u226550% Term Remaining \u2014 Default Reimbursement',
+  default_reimbursement_less_50pct:'<50% Term Remaining \u2014 Default Reimbursement',
+  unamortized_reimbursement:       'Unamortized Reimbursement',
+  conv_default_payment_low:        'Conversion Default Penalty (< 50k gal/mo)',
+  conv_default_payment_high:       'Conversion Default Penalty (\u2265 125k gal/mo)',
+  tiered_incentive_rate_min:       'Tiered Incentive Rate \u2014 Floor',
+  tiered_incentive_rate_max:       'Tiered Incentive Rate \u2014 Ceiling',
+  monthly_incentive_rate:          'Monthly Incentive Rate',
+  reported_volume_basis:           'Reported Volume Definition',
+  vantage_data_election:           'Vantage Data Election',
+  mvi_image_standards:             'Image Standards (MVI / RVIe)',
+  cvp_checklist_improvements:      'CVP Checklist Improvements',
+  wma_reference:                   'Wholesale Marketer Agreement (WMA)',
+  new_business_replacement_window: 'New Business Replacement Window',
+  mda_aggregate_cap:               'MDA Aggregate Reimbursement Cap',
+  terminal_lifting_requirement:    'Terminal Lifting Requirement',
+  mda_expiration_date:             'MDA Expiration Date',
+  wma_renewal_obligation:          'WMA Renewal Obligation',
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FIELD CONTEXT \u2014 per-job explanations
+// ─────────────────────────────────────────────────────────────────────────────
+const FIELD_CONTEXT = {
+  billing: {
+    agreement_id:                    'Program identifier linking this agreement to Equilon\u2019s FDIP tracking system \u2014 required for incentive disbursement and audit trail.',
+    incentive_commencement_date:     'Incentive payments begin the month following this date. All billing timelines for advanced fund amortization and monthly incentives are anchored here.',
+    advanced_funds:                  'The upfront cash disbursement made to Buyer at execution. Not revenue until earned through the Brand Commitment \u2014 controls total reimbursable obligation.',
+    monthly_incentive_rate:          'The per-gallon rate applied to Reported Volume each month. Conflict across three documents must be resolved before any payment can be validated against contract.',
+    reported_volume_deadline:        'Deadline for Buyer to submit monthly volume data. Late submission can delay incentive payments and may allow Seller to substitute Vantage data.',
+    wma_payment_terms:               'Supply payment terms are separate from incentive disbursement \u2014 fuel purchases are invoiced at lift and due Net 5. Incentive payments follow a different schedule.',
+    min_monthly_volume:              'Volume floor Buyer must maintain each month. Current Vantage data shows Buyer below threshold \u2014 whether a default exists affects whether incentive payments continue.',
+    default_reimbursement_50pct_plus:'Maximum clawback scenario: 100% of all incentives paid must be returned. Applies while Buyer is in the first 60 months of a 120-month term.',
+    default_reimbursement_less_50pct:'Reduced clawback \u2014 pro-rated formula applies in the back half of the term.',
+    mda_aggregate_cap:               'Ceiling on total Seller reimbursements for New Business activities. Once reached, no further MDA reimbursements can be issued.',
+  },
+  'rev-rec': {
+    incentive_commencement_date: 'Advanced funds are recognized ratably from this date over the Brand Commitment Term. An incorrect date shifts the entire amortization schedule.',
+    advanced_funds:              'Recorded as a prepaid asset by Seller at disbursement and earned ratably as Buyer meets brand obligations over the Brand Commitment Term.',
+    brand_commitment_term:       'The performance obligation period over which advanced funds are recognized. The term conflict (120 vs. 84 months for Sites 3 & 4) directly affects the amortization rate for those sites.',
+    project_type:                'Determines the revenue recognition classification \u2014 MVI Upgrade, TRUE Up, and Shell-to-Shell projects may have different recognition triggers under ASC 606.',
+    unamortized_reimbursement:   'The unearned portion of advanced funds at any given point \u2014 the clawback amount under straight-line amortization. The formula conflict with the TRUE Up Addendum affects the recognized balance for Sites 3 and 4.',
+  },
+  'brand-commitment': {
+    wma_term:                        'The WMA is the root supply and brand license agreement. Its expiration (Dec 2028) creates a 6-year gap before the Brand Commitment ends \u2014 during which Varro has no authorized supply relationship or Shell brand license.',
+    brand_commitment_term:           'The FDIP Brand Commitment runs to April 2035. The term conflict (120 vs. 84 months for Sites 3 & 4) is unresolved. Both dates extend well past WMA expiration.',
+    wma_brand_authorized:            'Shell brand exclusivity is granted through the WMA. If the WMA expires or is terminated, Varro\u2019s brand authorization lapses \u2014 regardless of what the FDIP Brand Commitment says.',
+    wma_renewal_obligation:          'Buyer must maintain a current WMA throughout the Brand Commitment Term. A lapsed WMA constitutes a material breach independent of volume or image performance.',
+    mda_expiration_date:             'The MDA expires March 2034 \u2014 13 months before the Brand Commitment ends and 5+ years after the WMA expires. Three documents, three end dates, one relationship.',
+    new_business_replacement_window: 'The window during which Seller could propose replacement outlets expired March 1, 2026. No additional sites can now be added to the agreement family.',
+    incentive_commencement_date:     'Brand Commitment countdown begins here \u2014 tracks how far into the term each site is and when the brand obligation ends.',
+  },
+  fulfillment: {
+    completion_period:           'All Improvements must be completed within this window. All 6 sites confirmed complete February 28, 2025 \u2014 within the March 1, 2025 deadline.',
+    incentive_commencement_date: 'Fulfillment is deemed complete when Seller approves the improvements and sets this date. Incentive payments begin the following month.',
+    mvi_image_standards:         'Defines the physical compliance standard for each site. Sites 3 and 4 remain on RVIe with no MVI conversion deadline \u2014 ongoing compliance ambiguity.',
+    cvp_checklist_improvements:  'Site-specific improvement scope per CVP Checklist. Checklists are on file with Seller\u2019s regional representative but not attached \u2014 must be requested separately.',
+    project_type:                'Defines the work scope: Shell-to-Shell upgrades, MVI image work, and TRUE Up provisions each have different fulfillment tracks and approval criteria.',
+  },
+  obligations: {
+    wma_term:                      'The WMA governs supply access, brand license, and terminal rights. After Dec 2028 expiration (if not renewed), Varro loses the foundational supply relationship \u2014 yet Brand Commitment obligations continue through 2035.',
+    wma_min_annual_volume:         'The WMA supply commitment (2.4M gal/yr) is a separate obligation from the FDIP MVC (40k gal/mo). Both must be tracked independently \u2014 a shortfall in either constitutes a distinct breach.',
+    min_monthly_volume:            'FDIP-level MVC: 40,000 gal/mo. Currently below threshold under Vantage measurement \u2014 whether a default exists depends on which volume methodology governs.',
+    reported_volume_deadline:      'Monthly compliance obligation: Buyer must report volume within 20 days of month-end. Failure may allow Seller to rely exclusively on Vantage data.',
+    reported_volume_basis:         'The WMA is the authoritative source of the Reported Volume definition. Exhibit A Addendum 2 permits substitution of Vantage data \u2014 a deviation from the WMA-defined standard.',
+    brand_commitment_term:         'All brand maintenance, WMA renewal, and image compliance obligations run for this duration. Term conflict affects how long obligations apply for Sites 3 and 4.',
+    wma_renewal_obligation:        'Buyer must keep a current WMA in force throughout the Brand Commitment. A lapsed WMA is a distinct breach from volume or brand standard failures.',
+    terminal_lifting_requirement:  'The WMA is the authoritative source of the terminal obligation. The Fourth Amendment added Albuquerque sites to the incentive program without amending the terminal requirement \u2014 making compliance geometrically impossible for Sites 3 and 4.',
+    mvi_image_standards:           'Brand compliance standard runs through the WMA. MVI obligation applies to all Outlets; RVIe grandfathering for Sites 3 & 4 is contingent on Seller not having issued an upgrade deadline notice.',
+  },
+  commissions: {
+    buyer_name:                  'Legal entity receiving incentives \u2014 used to verify commission payee and eligibility.',
+    agreement_id:                'FDIP program number \u2014 used to match commission records to the underlying agreement.',
+    project_type:                'Determines commission eligibility and rate tier.',
+    advanced_funds:              'Total incentives advanced \u2014 the basis against which commissions may be calculated or clawback risk assessed.',
+    incentive_commencement_date: 'Commission events may be triggered or adjusted at this date depending on the compensation plan structure.',
+    brand_commitment_term:       'Longer terms may affect commission vesting schedules or pro-ration if Buyer defaults before term completion.',
+  },
+  'pricing-ra': {
+    monthly_incentive_rate:      'Three documents touch this term across a 10-month window \u2014 FDIP flat rate (2024), Fourth Amendment tiers (2023), Exhibit A Schedule 1 (2024). All are active; none supersedes another explicitly.',
+    tiered_incentive_rate_min:   'Floor tier per Fourth Amendment. At current volumes (38\u201343k gal/mo), this is the operative tier regardless of which volume methodology applies.',
+    tiered_incentive_rate_max:   'Ceiling tier \u2014 not reachable at current combined volumes across 6 sites.',
+    reported_volume_basis:       'The WMA is the root definition. The Vantage election in Exhibit A Addendum 2 deviates from the WMA standard \u2014 creating a 12% volume discrepancy that directly affects incentive payments.',
+    vantage_data_election:       'Seller\u2019s election of Vantage data yields 12% lower volumes than the WMA-defined method \u2014 directly reducing monthly incentive amounts and triggering MVC default exposure.',
+    min_monthly_volume:          'The MVC floor against which Reported Volume is validated. Whether Buyer is in default depends entirely on which volume measurement governs.',
+    mda_aggregate_cap:           'Validates that New Business reimbursements have not exceeded the $300,000 aggregate cap.',
+  },
+  'early-termination-ra': {
+    default_reimbursement_50pct_plus: 'Maximum clawback: 100% of all incentives paid must be returned if Buyer defaults in the first half of the Brand Commitment Term.',
+    default_reimbursement_less_50pct: 'Reduced clawback using the FDIP Agreement\u2019s pro-ration formula \u2014 applies after Buyer has consumed more than half the Brand Commitment.',
+    unamortized_reimbursement:        'The TRUE Up Addendum applies a different formula for Sites 3 and 4. Two methods produce different payback amounts for the same default event.',
+    conv_default_payment_low:         'Flat conversion default penalty for lower-volume sites (Sites 3 & 4). $50,000 per Outlet.',
+    conv_default_payment_high:        'Flat conversion default penalty for higher-volume sites (Sites 1 & 2). $125,000 per Outlet.',
+    brand_commitment_term:            'Determines where in the term a default falls \u2014 controls which reimbursement formula applies. The 120 vs. 84-month conflict affects the clawback threshold for Sites 3 and 4.',
+    advanced_funds:                   'Total incentives advanced \u2014 the ceiling on reimbursement obligations in most default scenarios.',
+    wma_term:                         'WMA expiration (Dec 2028) is itself a potential default trigger: if the WMA lapses, Varro loses its supply relationship and brand license \u2014 which may constitute a Brand Default under the FDIP, triggering the full reimbursement obligation years before the Brand Commitment ends.',
+  },
+  'min-commitment-ra': {
+    wma_min_annual_volume:       'WMA-level supply floor: 2.4M gal/yr (200k gal/mo). Separate from FDIP MVC. Both obligations must be tracked independently.',
+    min_monthly_volume:          'FDIP MVC: 40,000 gal/mo combined. Under Vantage data (38,200 gal/mo), Buyer is 1,800 gal/mo below threshold \u2014 in technical default since January 2026.',
+    reported_volume_basis:       'The WMA is the authoritative measurement standard. Vantage election deviates from WMA methodology \u2014 the applicable method controls whether default notices can be issued.',
+    vantage_data_election:       'Seller\u2019s January 2026 Vantage election is the operative cause of the MVC dispute. If Vantage governs (against WMA definition), Buyer has been in default for 3+ months.',
+    reported_volume_deadline:    'If Buyer fails to report within 20 days, Seller may rely exclusively on Vantage data \u2014 which currently shows a default.',
+    tiered_incentive_rate_min:   'Current volumes place Buyer solidly in the minimum tier regardless of methodology.',
+    tiered_incentive_rate_max:   'Maximum tier not reachable at current volumes.',
+    monthly_incentive_rate:      'The rate applied to Reported Volume determines both the monthly incentive amount and the MVC calculation basis \u2014 these are interdependent.',
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RESOLVE FIELDS FROM MOCK DATA
+// ─────────────────────────────────────────────────────────────────────────────
+const fields = resolveFields(MOCK_NAVIGATOR_DATA.agreements, MOCK_NAVIGATOR_DATA.documentNames);
+
+// \u2500\u2500 State \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+let activeJobId = null;
+
+// \u2500\u2500 Render sidebar \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+function renderSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const domains = ['Finance', 'Customer Ops', 'Revenue Protection'];
+  let html = '';
+
+  for (const domain of domains) {
+    const jobs = JOB_DEFINITIONS.filter(j => j.domain === domain);
+    html += `<div class="sidebar-section">
+      <div class="sidebar-section-label">${domain}</div>`;
+
+    for (const job of jobs) {
+      const isActive = job.id === activeJobId;
+      html += `<div class="sidebar-item ${job.color} ${isActive ? 'active' : ''}"
+                    data-job="${job.id}" role="button" tabindex="0">
+        <div class="sidebar-dot ${job.color}"></div>
+        <span class="sidebar-item-text">${job.label}</span>
+        <span class="sidebar-item-count">${job.fields.length}</span>
+      </div>`;
+    }
+    html += `</div>`;
+  }
+
+  sidebar.innerHTML = html;
+
+  sidebar.querySelectorAll('.sidebar-item').forEach(el => {
+    el.addEventListener('click', () => selectJob(el.dataset.job));
+    el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') selectJob(el.dataset.job); });
+  });
+}
+
+// \u2500\u2500 Render doc pills \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+const DOC_TOOLTIPS = {
+  'WMA':              'Wholesale Marketer Agreement — root supply & brand franchise contract. Governs terminal delivery points, reported volume definition, brand authorization, and PMPA protections. 10-year term.',
+  'FDIP Agreement':   'Fuel Dealer Incentive Program Agreement — advanced funds, MVC, incentive rates, TRUE-Up mechanics, and default reimbursement. Signed Feb 15, 2024. Child of the WMA.',
+  'Exhibit A':        'Incentive Schedule — tiered rate tables, site-specific MVC allocations, and MDA cap. Incorporated by reference into the FDIP Agreement.',
+  'Fourth Amendment': 'Fourth Amendment to FDIP Agreement — adds Albuquerque Sites 3 & 4, replaces flat incentive rate with tiered structure (effective July 1, 2023), and updates outlet definitions. No supersession clause.',
+};
+
+function renderDocPills() {
+  const pills = document.getElementById('doc-pills');
+  const docs = ['WMA', 'FDIP Agreement', 'Exhibit A', 'Fourth Amendment'];
+  pills.innerHTML = docs.map(d =>
+    `<div class="doc-pill">${d}<span class="pill-tooltip">${DOC_TOOLTIPS[d] || ''}</span></div>`
+  ).join('');
+}
+
+// \u2500\u2500 Render header meta \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+function renderHeaderMeta() {
+  const metaEl = document.getElementById('header-meta');
+  if (metaEl) metaEl.textContent = '120-month brand commitment \u00b7 Executed Feb 15, 2024 \u00b7 6 active outlets \u00b7 $412,500 advanced funds';
+}
+
+// \u2500\u2500 Value renderer \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+const TRUNCATE_THRESHOLD = 160;
+
+function renderValue(fieldKey, fieldData) {
+  if (fieldData.value === null || fieldData.value === undefined) {
+    const note = fieldData.note || 'Not captured in executed documents';
+    return `<span class="field-value-null">\u2014<span class="null-note">${escHtml(note)}</span></span>`;
+  }
+
+  const val = String(fieldData.value);
+
+  if (val.includes('; ') && val.split('; ').length >= 3) {
+    const parts = val.split('; ').filter(Boolean);
+    const listItems = parts.map(p => `<div class="value-list-item">${escHtml(p)}</div>`).join('');
+    return `<div class="value-list">${listItems}</div>`;
+  }
+
+  if (val.length > TRUNCATE_THRESHOLD) {
+    const short = escHtml(val.slice(0, TRUNCATE_THRESHOLD)) + '\u2026';
+    const full  = escHtml(val);
+    const uid   = `expand-${fieldKey}`;
+    return `<div class="value-truncatable">
+      <span class="value-truncatable-text" id="${uid}-text">${short}</span>
+      <button class="value-expand-btn" id="${uid}-btn"
+              data-full="${full}" data-short="${short}"
+              data-target="${uid}-text" data-state="collapsed"
+              onclick="toggleExpand(this)">Show more \u2193</button>
+    </div>`;
+  }
+
+  return `<span style="font-size:13px;color:var(--text-secondary);line-height:1.55">${escHtml(val)}</span>`;
+}
+
+function toggleExpand(btn) {
+  const textEl = document.getElementById(btn.dataset.target);
+  if (btn.dataset.state === 'collapsed') {
+    textEl.innerHTML = btn.dataset.full;
+    btn.textContent = 'Show less \u2191';
+    btn.dataset.state = 'expanded';
+  } else {
+    textEl.innerHTML = btn.dataset.short;
+    btn.textContent = 'Show more \u2193';
+    btn.dataset.state = 'collapsed';
+  }
+}
+
+// \u2500\u2500 Badge renderer \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+const BADGE_CONFIG = {
+  standard: { cls: 'standard', label: 'Standard' },
+  custom:   { cls: 'custom',   label: 'Custom' },
+  manual:   { cls: 'manual',   label: 'Manual' },
+  partial:  { cls: 'partial',  label: 'Partial' },
+  tabular:  { cls: 'tabular',  label: 'Tabular' },
+};
+
+function renderBadge(fieldType) {
+  const cfg = BADGE_CONFIG[fieldType] || BADGE_CONFIG.manual;
+  return `<span class="badge ${cfg.cls}">${cfg.label}</span>`;
+}
+
+// \u2500\u2500 Source tag renderer \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+function renderSource(fieldData) {
+  if (!fieldData.sourceDoc) {
+    return `<span class="source-tag-null">\u2014</span>`;
+  }
+  const abbrev = {
+    'Wholesale Marketer Agreement':       'WMA',
+    'FDIP Agreement':                     'FDIP Agreement',
+    'Exhibit A \u2014 Incentive Schedule':'Exhibit A',
+    'Fourth Amendment to FDIP Agreement': '4th Amendment',
+  };
+  const short = abbrev[fieldData.sourceDoc] || fieldData.sourceDoc;
+  const docTag = `<div class="source-tag">
+    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="1.5" y="1" width="9" height="10" rx="1.5"/>
+      <path d="M4 4h4M4 6.5h4M4 9h2"/>
+    </svg>
+    ${escHtml(short)}
+  </div>`;
+
+  if (!fieldData.conflicts || fieldData.conflicts.length <= 1) return docTag;
+
+  const uid = 'cf-' + Math.random().toString(36).slice(2, 8);
+  const rowsHtml = fieldData.conflicts.map(c => `
+    <div class="conflict-row">
+      <span class="conflict-row-doc">${escHtml(abbrev[c.doc] || c.doc)}</span>
+      <span class="conflict-row-value">${escHtml(c.value)}</span>
+      <span class="conflict-row-note">${escHtml(c.note)}</span>
+    </div>`).join('');
+
+  return `<div class="conflict-wrap">
+    ${docTag}
+    <button class="conflict-toggle" onclick="toggleConflict('${uid}')" id="btn-${uid}">
+      <svg viewBox="0 0 10 10"><path d="M2 3.5l3 3 3-3"/></svg>
+      ${fieldData.conflicts.length} docs
+    </button>
+    <div class="conflict-detail" id="detail-${uid}">
+      <div class="conflict-note">${escHtml(fieldData.conflictNote || '')}</div>
+      <div class="conflict-rows">${rowsHtml}</div>
+    </div>
+  </div>`;
+}
+
+function toggleConflict(uid) {
+  const btn    = document.getElementById('btn-' + uid);
+  const detail = document.getElementById('detail-' + uid);
+  const open   = detail.classList.toggle('open');
+  btn.classList.toggle('open', open);
+}
+
+// \u2500\u2500 Job stats strip \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+function renderJobStats(jobFields) {
+  const counts = { standard: 0, custom: 0, manual: 0, partial: 0, tabular: 0 };
+  for (const key of jobFields) {
+    const fd = fields[key];
+    if (fd) counts[fd.fieldType]++;
+  }
+  const parts = [];
+  if (counts.standard) parts.push(`${counts.standard} standard`);
+  if (counts.custom)   parts.push(`${counts.custom} custom`);
+  if (counts.tabular)  parts.push(`${counts.tabular} tabular`);
+  if (counts.partial)  parts.push(`${counts.partial} partial`);
+  if (counts.manual)   parts.push(`${counts.manual} manual`);
+
+  return parts.map(p => {
+    const type = p.split(' ')[1];
+    return `<div class="job-stat-chip">${renderBadge(type)} ${p}</div>`;
+  }).join('');
+}
+
+// \u2500\u2500 Select job \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+function selectJob(jobId) {
+  activeJobId = jobId;
+  const job = JOB_DEFINITIONS.find(j => j.id === jobId);
+  if (!job) return;
+
+  renderSidebar();
+
+  const panel   = document.getElementById('job-panel');
+  const context = FIELD_CONTEXT[jobId] || {};
+
+  let rows = '';
+  for (const fieldKey of job.fields) {
+    const fd = fields[fieldKey];
+    if (!fd) continue;
+    const label     = FIELD_LABELS[fieldKey] || fieldKey;
+    const desc      = context[fieldKey] || '';
+    const valHtml   = renderValue(fieldKey, fd);
+    const srcHtml   = renderSource(fd);
+    const badgeHtml = renderBadge(fd.fieldType);
+
+    rows += `<tr>
+      <td class="col-field">
+        <div class="field-name">${escHtml(label)}</div>
+        ${desc ? `<div class="field-desc">${escHtml(desc)}</div>` : ''}
+      </td>
+      <td class="col-value"><div class="field-value">${valHtml}</div></td>
+      <td class="col-source">${srcHtml}</td>
+      <td class="col-type">${badgeHtml}</td>
+    </tr>`;
+  }
+
+  panel.innerHTML = `
+    <div class="job-panel-header">
+      <div class="job-title-group">
+        <div class="job-title">${escHtml(job.label)}</div>
+        <div class="job-subtitle">${escHtml(job.subtitle)}</div>
+      </div>
+      <div class="job-domain-badge ${job.color}">${escHtml(job.domain)}</div>
+    </div>
+    <div class="job-stats">
+      <div class="job-stat-chip" style="color:var(--text-muted);font-weight:600;margin-right:4px">
+        ${job.fields.length} fields
+      </div>
+      ${renderJobStats(job.fields)}
+    </div>
+    <table class="field-table">
+      <thead>
+        <tr>
+          <th class="col-field">Field</th>
+          <th class="col-value">Extracted Value</th>
+          <th class="col-source">Source Document</th>
+          <th class="col-type">Type</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+// \u2500\u2500 Utility \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// \u2500\u2500 Init \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+renderDocPills();
+renderHeaderMeta();
+renderSidebar();
+selectJob('billing');
+
+</script>
+</body>
+</html>

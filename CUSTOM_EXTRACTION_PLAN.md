@@ -4,7 +4,7 @@
 
 **Scope:** Fields confirmed extractable by Claude audit but not covered by Navigator standard extractions.
 **Agreement family:** MSA · SOF · Fee Schedule & Services Exhibit · SLA
-**Fields covered:** 12 custom extractions in recommended configuration order
+**Fields covered:** 12 custom extractions — 6 configurable in Navigator, 6 requiring alternative handling
 
 > Fields excluded: **Minimum Commitment**, **Price Increase Date**, **Service Activation Date** — not present in the executed documents.
 
@@ -23,6 +23,300 @@
 
 ---
 
+## POSSIBLE — Configure in Navigator
+
+These 7 fields are text-based clauses. Navigator can extract them reliably. Configure these directly as custom extractions.
+
+---
+
+### 1. Early Termination Fee
+
+
+|                |                                               |
+| -------------- | --------------------------------------------- |
+| **Field name** | Early Termination Fee                         |
+| **Field type** | Text                                          |
+| **Category**   | Termination                                   |
+| **Attach to**  | Master Service Agreement, Order Form, Exhibit |
+
+
+**Navigator definition (copy/paste):**
+
+```
+The formula or rule the customer must pay for canceling before the committed term ends. Capture the calculation (e.g., "MRC × remaining months"), not just that an ETF applies. If formulas differ by service or term length, capture each. Found in: Early Termination section of the Fee Schedule; Term & Renewal in the SOF; Fees section of the MSA. Include: ETF formula; per-service/per-term variations; Instant Credit repayment add-backs; 30-day satisfaction guarantee waiver if present. Exclude: SLA credits, late payment fees, CPE charges. If no ETF: set to "No early termination fee applies". If absent: leave blank.
+```
+
+**Examples:**
+
+*Example 1 — standard 100% MRC × remaining months:*
+
+> Clause: "If Subscriber terminates any Service prior to expiration of its Initial Service Term for any reason other than Provider's uncured material breach, Subscriber shall pay an ETF equal to 100% of the MRC multiplied by the number of months remaining in the Term."
+> Desired value: `MRC × remaining months (all services)`
+
+*Example 2 — same formula, condensed Fee Schedule table:*
+
+> Clause: "1-Year Term: MRC × Remaining Months. 2-Year Term: MRC × Remaining Months."
+> Desired value: `MRC × remaining months (all services)`
+
+*Example 3 — same formula, SOF cross-reference:*
+
+> Clause: "Termination prior to Committed Term expiry will result in ETFs as specified in the Fee Schedule. [Fee Schedule: 2-Year Term: MRC × Remaining Months.]"
+> Desired value: `MRC × remaining months (all services)`
+
+*Example 4 — reduced ETF for 3-year term on specific services:*
+
+> Clause: "3-Year Term: 50% of MRC × Remaining Months (GigaFiber Dedicated — Core and GigaWAN Express only). All other services: MRC × Remaining Months."
+> Desired value: `GigaFiber Core & GigaWAN Express (3-year): 50% MRC × remaining months · All other services: MRC × remaining months`
+
+*Example 5 — no ETF:*
+
+> Clause: "Either party may terminate this Agreement at any time upon thirty (30) days' written notice without penalty."
+> Desired value: `No early termination fee applies`
+
+---
+
+### 2. Penalty
+
+
+|                |                         |
+| -------------- | ----------------------- |
+| **Field name** | Penalty                 |
+| **Field type** | Text                    |
+| **Category**   | Legal and Compliance    |
+| **Attach to**  | Service Level Agreement |
+
+
+**Navigator definition (copy/paste):**
+
+```
+The maximum financial remedy for performance failures — whether credits or cash, any per-month cap, and whether SLA credits are the customer's sole and exclusive remedy. Also capture installation delay remedies if present. Found in: Credit limitations section of the SLA; limitation of liability section of the MSA. Include: Max credit/penalty amount; cash vs. credit distinction; sole remedy language; installation delay remedies. Exclude: ETF provisions (separate field); late payment interest; indemnification obligations. Set to "No extraction" if no penalty provision exists.
+```
+
+**Examples:**
+
+*Example 1 — credits only, capped, sole remedy:*
+
+> Clause: "Credits are capped at 100% of MRC per circuit per month. Credits are non-transferable and non-redeemable for cash. SLA credits are Subscriber's sole and exclusive remedy for any service level failure."
+> Desired value: `Credits only (not cash) · Cap: 100% MRC per circuit per month · Sole and exclusive remedy`
+
+*Example 2 — same structure, different wording:*
+
+> Clause: "Customer's sole recourse for any service level failure is the SLA credits set forth herein. Credits shall not exceed one month's MRC for the affected service and are not redeemable for cash."
+> Desired value: `Credits only (not cash) · Cap: 100% MRC per circuit per month · Sole and exclusive remedy`
+
+*Example 3 — same structure with installation delay remedy:*
+
+> Clause: "SLA credits are Customer's sole remedy, capped at 100% MRC per month, not redeemable for cash. For Provider-caused installation delays, the first month's MRC is waived upon request."
+> Desired value: `Credits only (not cash) · Cap: 100% MRC per circuit per month · Sole and exclusive remedy · Installation delay: first month MRC waived (Provider-caused only)`
+
+*Example 4 — cash penalty permitted:*
+
+> Clause: "If Provider fails the availability SLA for two or more consecutive months, Provider shall pay Subscriber a cash penalty equal to 10% of the annual contract value, in addition to applicable monthly credits."
+> Desired value: `Cash penalty: 10% ACV for 2+ consecutive SLA misses, plus monthly credits`
+
+*Example 5 — no penalty provision:*
+
+> Clause: "Provider shall use commercially reasonable efforts to maintain service levels. Provider shall have no liability for service interruptions or performance failures."
+> Desired value: *No extraction*
+
+---
+
+> **Note — Term (Standard Extraction):** Before loading Term data downstream, validate that Navigator's standard extraction is capturing the SOF's 2-year Committed Term rather than the MSA/Fee Schedule/SLA 1-year initial terms. If Navigator returns 1 year, the SOF committed term should be configured as a custom override.
+
+---
+
+### 3. Price Increase
+
+
+|                |                                      |
+| -------------- | ------------------------------------ |
+| **Field name** | Price Increase                       |
+| **Field type** | Text                                 |
+| **Category**   | General                              |
+| **Attach to**  | Master Service Agreement, Order Form |
+
+
+**Navigator definition (copy/paste):**
+
+```
+The conditions under which fees may increase: (1) any % cap or formula; (2) required notice period; (3) any lock period protecting prices from increases; (4) supplier pass-through rights. If no % is defined but a mechanism exists, capture the mechanism. Found in: Fees & Pricing or Price Adjustments section of the MSA; Special Terms section of the SOF. Include: Lock periods; notice requirements; supplier pass-through rights; stated % cap. Exclude: Late payment interest; regulatory surcharge fluctuations. If no increase provision exists: set to "No price increase provision".
+```
+
+**Examples:**
+
+*Example 1 — renewal increases, lock, and pass-through:*
+
+> Clause: "Fees are fixed for the Initial Service Term. During any Renewal Term, Provider may modify fees upon 30 days' prior written notice. Provider may also pass through supplier increases with 30 days' notice." / SOF: "MRC rates locked for 2-Year Committed Term."
+> Desired value: `Fees fixed for 2-year committed term. Increases at renewal with 30 days' notice — no % cap. Supplier pass-throughs permitted anytime with 30 days' notice.`
+
+*Example 2 — same mechanism, different wording:*
+
+> Clause: "Service charges will not increase during the committed service period. After the initial term, Provider may adjust pricing with 30 days' advance notice. Supplier cost increases may be passed through at any time with 30 days' notice."
+> Desired value: `Fees fixed for 2-year committed term. Increases at renewal with 30 days' notice — no % cap. Supplier pass-throughs permitted anytime with 30 days' notice.`
+
+*Example 3 — same mechanism, abbreviated:*
+
+> Clause: "Pricing locked for 24-month committed term. Standard MSA price adjustment rights apply thereafter."
+> Desired value: `Fees fixed for 2-year committed term. Increases at renewal with 30 days' notice — no % cap.`
+
+*Example 4 — defined % cap:*
+
+> Clause: "Provider may increase fees by no more than 5% per year during any Renewal Term upon 60 days' prior written notice."
+> Desired value: `Maximum 5% per year at renewal; 60 days' notice required`
+
+*Example 5 — no price increase provision:*
+
+> Clause: "The fees set forth in this Agreement shall remain fixed for the duration of the Term and any renewal thereof."
+> Desired value: `No price increase provision`
+
+---
+
+### 4. Pricing Type
+
+
+|                |                     |
+| -------------- | ------------------- |
+| **Field name** | Pricing Type        |
+| **Field type** | Text                |
+| **Category**   | Payment             |
+| **Attach to**  | Order Form, Exhibit |
+
+
+**Navigator definition (copy/paste):**
+
+```
+The billing structure(s) for contracted services — whether charges are monthly recurring (billed in advance), one-time non-recurring (billed at activation), usage-based (billed in arrears), or a combination. Capture the cadence and advance/arrears distinction for each charge type. Found in: Billing summary or pricing notes in the SOF; billing terms in the Fee Schedule. Include: Billing cadence; advance vs. arrears distinction; usage-based billing if present. Exclude: Payment due dates (Net 30 etc.) and late fee provisions — those are separate fields. Set to "No extraction" if billing structure is not defined in this document.
+```
+
+**Examples:**
+
+*Example 1 — standard MRC + NRC + usage:*
+
+> Clause: "Monthly Recurring Charges (MRC) are billed in advance; Non-Recurring Charges (NRC) are one-time charges billed upon the Billing Start Date. Usage-based charges are billed monthly in arrears."
+> Desired value: `MRC — monthly, billed in advance · NRC — one-time, billed at Billing Start Date · Usage-based — billed in arrears`
+
+*Example 2 — same structure, different phrasing:*
+
+> Clause: "Recurring service fees are invoiced one month ahead. One-time installation fees are due at activation. Variable charges for international calls and overages appear on the following month's invoice."
+> Desired value: `MRC — monthly, billed in advance · NRC — one-time, billed at Billing Start Date · Usage-based — billed in arrears`
+
+*Example 3 — same structure, minimal language:*
+
+> Clause: "MRC billed in advance. NRC billed at activation. Usage billed in arrears."
+> Desired value: `MRC — monthly, billed in advance · NRC — one-time, billed at Billing Start Date · Usage-based — billed in arrears`
+
+*Example 4 — annual billing model:*
+
+> Clause: "All services are billed annually in advance. No usage-based charges apply."
+> Desired value: `Annual, billed in advance`
+
+*Example 5 — no billing cadence specified:*
+
+> Clause: "Subscriber shall pay all fees as set forth in the applicable Service Order."
+> Desired value: *No extraction*
+
+---
+
+### 5. Shipping Date
+
+
+|                |               |
+| -------------- | ------------- |
+| **Field name** | Shipping Date |
+| **Field type** | Text          |
+| **Category**   | General       |
+| **Attach to**  | Order Form    |
+
+
+**Navigator definition (copy/paste):**
+
+```
+The committed or target date(s) by which provider-supplied CPE will be shipped. If no calendar date is stated, capture the interval and its trigger condition (e.g., "within 14 days of serial/MAC receipt"). Capture per-location if timelines differ. Found in: CPE Schedule or Installation Schedule section of the SOF. Include: Specific ship dates; ship-by intervals with trigger; per-location timelines for self-install CPE. Exclude: Professional installation dates; installation intervals with no separate shipping; phone handset quantities. Set to "No extraction" for professional-install services.
+```
+
+**Examples:**
+
+*Example 1 — interval-based with trigger:*
+
+> Clause: "GigaWAN Enterprise — LOC-02: Self-Install. Ship within 14 days of serial/MAC receipt."
+> Desired value: `LOC-02 (self-install CPE): within 14 days of serial/MAC address receipt`
+
+*Example 2 — same interval, different wording:*
+
+> Clause: "Provider will ship self-install equipment to LOC-02 no later than 14 calendar days after Subscriber provides required device serial numbers and MAC addresses."
+> Desired value: `LOC-02 (self-install CPE): within 14 days of serial/MAC address receipt`
+
+*Example 3 — same interval, abbreviated:*
+
+> Clause: "LOC-02 CPE: 14-day ship window from serial/MAC submission."
+> Desired value: `LOC-02 (self-install CPE): within 14 days of serial/MAC address receipt`
+
+*Example 4 — specific calendar date:*
+
+> Clause: "Provider will ship all CPE to Subscriber's locations no later than June 15, 2025."
+> Desired value: `June 15, 2025`
+
+*Example 5 — professional install only, no ship date:*
+
+> Clause: "GigaFiber Dedicated — LOC-01: Professional Installation within 30 calendar days of Order Date."
+> Desired value: *No extraction*
+
+---
+
+### 6. Payment Type
+
+
+|                |              |
+| -------------- | ------------ |
+| **Field name** | Payment Type |
+| **Field type** | Text         |
+| **Category**   | Payment      |
+| **Attach to**  | Order Form   |
+
+
+**Navigator definition (copy/paste):**
+
+```
+The payment method designated for invoices under this agreement (e.g., ACH, wire transfer, check, credit card). Capture the specific method as stated. Do not capture payment terms (Net 30 etc.) — those are extracted separately. Found in: Account Details / Subscriber Information table in the SOF; billing section of the MSA. Include: ACH, EFT, wire transfer, check, credit card, direct debit. Exclude: Payment due dates; currency designations; late payment provisions. Set to "No extraction" if no payment method is specified.
+```
+
+**Examples:**
+
+*Example 1 — ACH in account details table:*
+
+> Clause: "Preferred Payment Method: ACH / Electronic Funds Transfer"
+> Desired value: `ACH / Electronic Funds Transfer`
+
+*Example 2 — same method, narrative format:*
+
+> Clause: "Customer agrees to pay all invoices via ACH transfer from the bank account on file."
+> Desired value: `ACH / Electronic Funds Transfer`
+
+*Example 3 — same method, abbreviated:*
+
+> Clause: "Payment: EFT / ACH"
+> Desired value: `ACH / Electronic Funds Transfer`
+
+*Example 4 — wire transfer:*
+
+> Clause: "All invoices shall be paid by wire transfer to the account designated by Provider."
+> Desired value: `Wire transfer`
+
+*Example 5 — no payment method specified:*
+
+> Clause: "All amounts are due in US Dollars within thirty (30) days of the invoice date."
+> Desired value: *No extraction*
+
+---
+
+## TABLE — Cannot Be Configured in Navigator
+
+These 6 fields are structured as multi-row tables in the executed documents, or are per-service multi-value data that Navigator cannot reliably extract in full. They require an alternative approach (manual entry, structured override, or API-level handling — see PRS-27).
+
+The extraction definitions and examples below are preserved for reference: they describe the target output for whichever extraction mechanism replaces Navigator here.
+
+---
+
 ### 1. Products & Services
 
 
@@ -34,7 +328,7 @@
 | **Attach to**  | Order Form, Master Service Agreement |
 
 
-**Navigator definition (copy/paste):**
+**Target extraction definition:**
 
 ```
 For each data row in the table, extract one entry. Move to the next row and extract the next entry. Repeat until you have processed every row. Do not stop after the first row. Capture each service name and configuration detail exactly as written. Found in: Services Ordered / Pricing section of the SOF; may appear in recitals of the MSA. Include: All named recurring service lines with configuration context. Exclude: CPE/hardware, one-time installation services, general capability descriptions that do not reflect a specific contracted order. Set to "No extraction" if no specific services are listed.
@@ -109,7 +403,7 @@ For each data row in the table, extract one entry. Move to the next row and extr
 | **Attach to**  | Order Form, Exhibit |
 
 
-**Navigator definition (copy/paste):**
+**Target extraction definition:**
 
 ```
 This field requires a complete price list. If pricing appears in a table, you must extract every row — an extraction that stops after the first service line is incomplete and incorrect. Capture per-service MRC and NRC exactly as stated, plus total billing summary and any rate lock or promotional credits. Found in: Services Ordered table and Billing Summary of the SOF; pricing exhibit or fee schedule annex. Include: Every service line's MRC/NRC; promotional credits/waivers; total billing summary; rate lock provisions. Exclude: Taxes, regulatory surcharges, variable usage charges, CPE replacement values. Set to "No extraction" if no pricing is defined in this document.
@@ -153,49 +447,56 @@ This field requires a complete price list. If pricing appears in a table, you mu
 
 ---
 
-### 3. Early Termination Fee
+### 3. Quantity
 
 
-|                |                                               |
-| -------------- | --------------------------------------------- |
-| **Field name** | Early Termination Fee                         |
-| **Field type** | Text                                          |
-| **Category**   | Termination                                   |
-| **Attach to**  | Master Service Agreement, Order Form, Exhibit |
+|                |            |
+| -------------- | ---------- |
+| **Field name** | Quantity   |
+| **Field type** | Text       |
+| **Category**   | General    |
+| **Attach to**  | Order Form |
 
 
-**Navigator definition (copy/paste):**
+**Target extraction definition:**
 
 ```
-The formula or rule the customer must pay for canceling before the committed term ends. Capture the calculation (e.g., "MRC × remaining months"), not just that an ETF applies. If formulas differ by service or term length, capture each. Found in: Early Termination section of the Fee Schedule; Term & Renewal in the SOF; Fees section of the MSA. Include: ETF formula; per-service/per-term variations; Instant Credit repayment add-backs; 30-day satisfaction guarantee waiver if present. Exclude: SLA credits, late payment fees, CPE charges. If no ETF: set to "No early termination fee applies". If absent: leave blank.
+This field requires a quantity for every service line. If quantities appear in a table, you must extract every row — an extraction that captures only the first service is incomplete and incorrect. Pair each service name to its quantity and unit exactly as stated. Found in: Services Ordered / Pricing table of the SOF. Include: All per-service unit counts (seats, circuits, locations, lines, users). Exclude: CPE equipment quantities, phone handset counts, one-time service quantities. Set to "No extraction" if quantity is not defined at signing.
 ```
 
 **Examples:**
 
-*Example 1 — standard 100% MRC × remaining months:*
+*Example 1 — multi-row SOF table (extract all rows):*
 
-> Clause: "If Subscriber terminates any Service prior to expiration of its Initial Service Term for any reason other than Provider's uncured material breach, Subscriber shall pay an ETF equal to 100% of the MRC multiplied by the number of months remaining in the Term."
-> Desired value: `MRC × remaining months (all services)`
+> Clause:
+> ```
+> | Service             | Qty | Unit      |
+> | GigaFiber Dedicated | 1   | Circuit   |
+> | GigaWAN Enterprise  | 2   | Locations |
+> | GigaSecure MNS      | 2   | Locations |
+> | GigaVoice VoIP      | 25  | Seats     |
+> ```
+> Desired value: `GigaFiber Dedicated: 1 circuit · GigaWAN Enterprise: 2 locations · GigaSecure MNS: 2 locations · GigaVoice VoIP: 25 seats`
 
-*Example 2 — same formula, condensed Fee Schedule table:*
+*Example 2 — narrative phrasing, no brand names (extract as described):*
 
-> Clause: "1-Year Term: MRC × Remaining Months. 2-Year Term: MRC × Remaining Months."
-> Desired value: `MRC × remaining months (all services)`
+> Clause: "Subscriber orders one dedicated fiber circuit, SD-WAN across two sites, managed security at both sites, and twenty-five hosted voice seats."
+> Desired value: `Dedicated fiber: 1 circuit · SD-WAN: 2 sites · Managed security: 2 sites · Voice: 25 seats`
 
-*Example 3 — same formula, SOF cross-reference:*
+*Example 3 — inline list format:*
 
-> Clause: "Termination prior to Committed Term expiry will result in ETFs as specified in the Fee Schedule. [Fee Schedule: 2-Year Term: MRC × Remaining Months.]"
-> Desired value: `MRC × remaining months (all services)`
+> Clause: "Qty: 1 circuit (fiber), 2 sites (SD-WAN), 2 sites (managed security), 25 users (voice)"
+> Desired value: `Fiber: 1 circuit · SD-WAN: 2 sites · Managed security: 2 sites · Voice: 25 users`
 
-*Example 4 — reduced ETF for 3-year term on specific services:*
+*Example 4 — single service, higher seat count:*
 
-> Clause: "3-Year Term: 50% of MRC × Remaining Months (GigaFiber Dedicated — Core and GigaWAN Express only). All other services: MRC × Remaining Months."
-> Desired value: `GigaFiber Core & GigaWAN Express (3-year): 50% MRC × remaining months · All other services: MRC × remaining months`
+> Clause: "Subscriber orders 50 hosted PBX seats with auto-attendant and unlimited domestic calling."
+> Desired value: `GigaVoice: 50 seats`
 
-*Example 5 — no ETF:*
+*Example 5 — no explicit quantity defined:*
 
-> Clause: "Either party may terminate this Agreement at any time upon thirty (30) days' written notice without penalty."
-> Desired value: `No early termination fee applies`
+> Clause: "GigaSecure Managed Security — all Subscriber locations, as identified during provisioning."
+> Desired value: *No extraction*
 
 ---
 
@@ -210,7 +511,7 @@ The formula or rule the customer must pay for canceling before the committed ter
 | **Attach to**  | Service Level Agreement |
 
 
-**Navigator definition (copy/paste):**
+**Target extraction definition:**
 
 ```
 This field requires SLA metrics for every service. If commitments appear in a table, you must extract every row — an extraction that captures only the first service is incomplete and incorrect. Capture availability %, MTTR, latency, and packet delivery targets per service exactly as stated. Found in: SLA Summary table in the Service Level Agreement; MSA warranty section. Include: All per-service availability targets; MTTR targets; latency thresholds; packet delivery targets. Exclude: Credit amounts, remedy schedules, and general warranty language without specific metrics. If best-efforts only: set to "Best-efforts basis; no committed SLA metrics".
@@ -263,7 +564,7 @@ This field requires SLA metrics for every service. If commitments appear in a ta
 | **Attach to**  | Service Level Agreement    |
 
 
-**Navigator definition (copy/paste):**
+**Target extraction definition:**
 
 ```
 This field requires the full credit schedule. If credits appear in a table, you must extract every row — an extraction that captures only one metric when multiple exist is incomplete and incorrect. For each row capture: the miss threshold, the credit formula (% of MRC), the monthly cap, and the claim deadline. Do not capture SLA target values here — those belong in the SLA field. Found in: Remedy Schedule sections of the SLA. Include: All per-metric credit formulas; monthly cap; claim deadline; chronic outage ETF-free exit right. Exclude: SLA target values; standard force majeure and subscriber-caused exclusions.
@@ -310,202 +611,7 @@ This field requires the full credit schedule. If credits appear in a table, you 
 
 ---
 
-### 6. Penalty
-
-
-|                |                         |
-| -------------- | ----------------------- |
-| **Field name** | Penalty                 |
-| **Field type** | Text                    |
-| **Category**   | Legal and Compliance    |
-| **Attach to**  | Service Level Agreement |
-
-
-**Navigator definition (copy/paste):**
-
-```
-The maximum financial remedy for performance failures — whether credits or cash, any per-month cap, and whether SLA credits are the customer's sole and exclusive remedy. Also capture installation delay remedies if present. Found in: Credit limitations section of the SLA; limitation of liability section of the MSA. Include: Max credit/penalty amount; cash vs. credit distinction; sole remedy language; installation delay remedies. Exclude: ETF provisions (separate field); late payment interest; indemnification obligations. Set to "No extraction" if no penalty provision exists.
-```
-
-**Examples:**
-
-*Example 1 — credits only, capped, sole remedy:*
-
-> Clause: "Credits are capped at 100% of MRC per circuit per month. Credits are non-transferable and non-redeemable for cash. SLA credits are Subscriber's sole and exclusive remedy for any service level failure."
-> Desired value: `Credits only (not cash) · Cap: 100% MRC per circuit per month · Sole and exclusive remedy`
-
-*Example 2 — same structure, different wording:*
-
-> Clause: "Customer's sole recourse for any service level failure is the SLA credits set forth herein. Credits shall not exceed one month's MRC for the affected service and are not redeemable for cash."
-> Desired value: `Credits only (not cash) · Cap: 100% MRC per circuit per month · Sole and exclusive remedy`
-
-*Example 3 — same structure with installation delay remedy:*
-
-> Clause: "SLA credits are Customer's sole remedy, capped at 100% MRC per month, not redeemable for cash. For Provider-caused installation delays, the first month's MRC is waived upon request."
-> Desired value: `Credits only (not cash) · Cap: 100% MRC per circuit per month · Sole and exclusive remedy · Installation delay: first month MRC waived (Provider-caused only)`
-
-*Example 4 — cash penalty permitted:*
-
-> Clause: "If Provider fails the availability SLA for two or more consecutive months, Provider shall pay Subscriber a cash penalty equal to 10% of the annual contract value, in addition to applicable monthly credits."
-> Desired value: `Cash penalty: 10% ACV for 2+ consecutive SLA misses, plus monthly credits`
-
-*Example 5 — no penalty provision:*
-
-> Clause: "Provider shall use commercially reasonable efforts to maintain service levels. Provider shall have no liability for service interruptions or performance failures."
-> Desired value: *No extraction*
-
----
-
-> **Note — Term (Standard Extraction):** Before loading Term data downstream, validate that Navigator's standard extraction is capturing the SOF's 2-year Committed Term rather than the MSA/Fee Schedule/SLA 1-year initial terms. If Navigator returns 1 year, the SOF committed term should be configured as a custom override.
-
----
-
-### 7. Pricing Type
-
-
-|                |                     |
-| -------------- | ------------------- |
-| **Field name** | Pricing Type        |
-| **Field type** | Text                |
-| **Category**   | Payment             |
-| **Attach to**  | Order Form, Exhibit |
-
-
-**Navigator definition (copy/paste):**
-
-```
-The billing structure(s) for contracted services — whether charges are monthly recurring (billed in advance), one-time non-recurring (billed at activation), usage-based (billed in arrears), or a combination. Capture the cadence and advance/arrears distinction for each charge type. Found in: Billing summary or pricing notes in the SOF; billing terms in the Fee Schedule. Include: Billing cadence; advance vs. arrears distinction; usage-based billing if present. Exclude: Payment due dates (Net 30 etc.) and late fee provisions — those are separate fields. Set to "No extraction" if billing structure is not defined in this document.
-```
-
-**Examples:**
-
-*Example 1 — standard MRC + NRC + usage:*
-
-> Clause: "Monthly Recurring Charges (MRC) are billed in advance; Non-Recurring Charges (NRC) are one-time charges billed upon the Billing Start Date. Usage-based charges are billed monthly in arrears."
-> Desired value: `MRC — monthly, billed in advance · NRC — one-time, billed at Billing Start Date · Usage-based — billed in arrears`
-
-*Example 2 — same structure, different phrasing:*
-
-> Clause: "Recurring service fees are invoiced one month ahead. One-time installation fees are due at activation. Variable charges for international calls and overages appear on the following month's invoice."
-> Desired value: `MRC — monthly, billed in advance · NRC — one-time, billed at Billing Start Date · Usage-based — billed in arrears`
-
-*Example 3 — same structure, minimal language:*
-
-> Clause: "MRC billed in advance. NRC billed at activation. Usage billed in arrears."
-> Desired value: `MRC — monthly, billed in advance · NRC — one-time, billed at Billing Start Date · Usage-based — billed in arrears`
-
-*Example 4 — annual billing model:*
-
-> Clause: "All services are billed annually in advance. No usage-based charges apply."
-> Desired value: `Annual, billed in advance`
-
-*Example 5 — no billing cadence specified:*
-
-> Clause: "Subscriber shall pay all fees as set forth in the applicable Service Order."
-> Desired value: *No extraction*
-
----
-
-### 8. Quantity
-
-
-|                |            |
-| -------------- | ---------- |
-| **Field name** | Quantity   |
-| **Field type** | Text       |
-| **Category**   | General    |
-| **Attach to**  | Order Form |
-
-
-**Navigator definition (copy/paste):**
-
-```
-This field requires a quantity for every service line. If quantities appear in a table, you must extract every row — an extraction that captures only the first service is incomplete and incorrect. Pair each service name to its quantity and unit exactly as stated. Found in: Services Ordered / Pricing table of the SOF. Include: All per-service unit counts (seats, circuits, locations, lines, users). Exclude: CPE equipment quantities, phone handset counts, one-time service quantities. Set to "No extraction" if quantity is not defined at signing.
-```
-
-**Examples:**
-
-*Example 1 — multi-row SOF table (extract all rows):*
-
-> Clause:
-> ```
-> | Service             | Qty | Unit      |
-> | GigaFiber Dedicated | 1   | Circuit   |
-> | GigaWAN Enterprise  | 2   | Locations |
-> | GigaSecure MNS      | 2   | Locations |
-> | GigaVoice VoIP      | 25  | Seats     |
-> ```
-> Desired value: `GigaFiber Dedicated: 1 circuit · GigaWAN Enterprise: 2 locations · GigaSecure MNS: 2 locations · GigaVoice VoIP: 25 seats`
-
-*Example 2 — narrative phrasing, no brand names (extract as described):*
-
-> Clause: "Subscriber orders one dedicated fiber circuit, SD-WAN across two sites, managed security at both sites, and twenty-five hosted voice seats."
-> Desired value: `Dedicated fiber: 1 circuit · SD-WAN: 2 sites · Managed security: 2 sites · Voice: 25 seats`
-
-*Example 3 — inline list format:*
-
-> Clause: "Qty: 1 circuit (fiber), 2 sites (SD-WAN), 2 sites (managed security), 25 users (voice)"
-> Desired value: `Fiber: 1 circuit · SD-WAN: 2 sites · Managed security: 2 sites · Voice: 25 users`
-
-*Example 4 — single service, higher seat count:*
-
-> Clause: "Subscriber orders 50 hosted PBX seats with auto-attendant and unlimited domestic calling."
-> Desired value: `GigaVoice: 50 seats`
-
-*Example 5 — no explicit quantity defined:*
-
-> Clause: "GigaSecure Managed Security — all Subscriber locations, as identified during provisioning."
-> Desired value: *No extraction*
-
----
-
-### 9. Payment Type
-
-
-|                |              |
-| -------------- | ------------ |
-| **Field name** | Payment Type |
-| **Field type** | Text         |
-| **Category**   | Payment      |
-| **Attach to**  | Order Form   |
-
-
-**Navigator definition (copy/paste):**
-
-```
-The payment method designated for invoices under this agreement (e.g., ACH, wire transfer, check, credit card). Capture the specific method as stated. Do not capture payment terms (Net 30 etc.) — those are extracted separately. Found in: Account Details / Subscriber Information table in the SOF; billing section of the MSA. Include: ACH, EFT, wire transfer, check, credit card, direct debit. Exclude: Payment due dates; currency designations; late payment provisions. Set to "No extraction" if no payment method is specified.
-```
-
-**Examples:**
-
-*Example 1 — ACH in account details table:*
-
-> Clause: "Preferred Payment Method: ACH / Electronic Funds Transfer"
-> Desired value: `ACH / Electronic Funds Transfer`
-
-*Example 2 — same method, narrative format:*
-
-> Clause: "Customer agrees to pay all invoices via ACH transfer from the bank account on file."
-> Desired value: `ACH / Electronic Funds Transfer`
-
-*Example 3 — same method, abbreviated:*
-
-> Clause: "Payment: EFT / ACH"
-> Desired value: `ACH / Electronic Funds Transfer`
-
-*Example 4 — wire transfer:*
-
-> Clause: "All invoices shall be paid by wire transfer to the account designated by Provider."
-> Desired value: `Wire transfer`
-
-*Example 5 — no payment method specified:*
-
-> Clause: "All amounts are due in US Dollars within thirty (30) days of the invoice date."
-> Desired value: *No extraction*
-
----
-
-### 10. Usage Entitlement
+### 6. Usage Entitlement
 
 
 |                |                     |
@@ -516,7 +622,7 @@ The payment method designated for invoices under this agreement (e.g., ACH, wire
 | **Attach to**  | Order Form, Exhibit |
 
 
-**Navigator definition (copy/paste):**
+**Target extraction definition:**
 
 ```
 The contracted capacity, limits, or entitlements per service — the quantity of resource the customer may consume (e.g., bandwidth in Mbps/Gbps, seats, DID lines, storage, calling plan scope). Capture per-service. Include overage provisions and growth reserve entitlements if present. If usage is unlimited for a category, capture that explicitly. Found in: Services Ordered section of the SOF; service descriptions in the Fee Schedule. Include: Bandwidth/speed; seat counts; DID allocations; calling plan scope; growth reserve; overage rates. Exclude: CPE quantities; installation scope; service descriptions without a measurable entitlement. Set to "No extraction" if no entitlement is defined.
@@ -547,98 +653,6 @@ The contracted capacity, limits, or entitlements per service — the quantity of
 *Example 5 — no entitlement defined:*
 
 > Clause: "GigaSecure Managed Network & Security will be provisioned at both Subscriber locations. Usage is not metered."
-> Desired value: *No extraction*
-
----
-
-### 11. Price Increase
-
-
-|                |                                      |
-| -------------- | ------------------------------------ |
-| **Field name** | Price Increase                       |
-| **Field type** | Text                                 |
-| **Category**   | General                              |
-| **Attach to**  | Master Service Agreement, Order Form |
-
-
-**Navigator definition (copy/paste):**
-
-```
-The conditions under which fees may increase: (1) any % cap or formula; (2) required notice period; (3) any lock period protecting prices from increases; (4) supplier pass-through rights. If no % is defined but a mechanism exists, capture the mechanism. Found in: Fees & Pricing or Price Adjustments section of the MSA; Special Terms section of the SOF. Include: Lock periods; notice requirements; supplier pass-through rights; stated % cap. Exclude: Late payment interest; regulatory surcharge fluctuations. If no increase provision exists: set to "No price increase provision".
-```
-
-**Examples:**
-
-*Example 1 — renewal increases, lock, and pass-through:*
-
-> Clause: "Fees are fixed for the Initial Service Term. During any Renewal Term, Provider may modify fees upon 30 days' prior written notice. Provider may also pass through supplier increases with 30 days' notice." / SOF: "MRC rates locked for 2-Year Committed Term."
-> Desired value: `Fees fixed for 2-year committed term. Increases at renewal with 30 days' notice — no % cap. Supplier pass-throughs permitted anytime with 30 days' notice.`
-
-*Example 2 — same mechanism, different wording:*
-
-> Clause: "Service charges will not increase during the committed service period. After the initial term, Provider may adjust pricing with 30 days' advance notice. Supplier cost increases may be passed through at any time with 30 days' notice."
-> Desired value: `Fees fixed for 2-year committed term. Increases at renewal with 30 days' notice — no % cap. Supplier pass-throughs permitted anytime with 30 days' notice.`
-
-*Example 3 — same mechanism, abbreviated:*
-
-> Clause: "Pricing locked for 24-month committed term. Standard MSA price adjustment rights apply thereafter."
-> Desired value: `Fees fixed for 2-year committed term. Increases at renewal with 30 days' notice — no % cap.`
-
-*Example 4 — defined % cap:*
-
-> Clause: "Provider may increase fees by no more than 5% per year during any Renewal Term upon 60 days' prior written notice."
-> Desired value: `Maximum 5% per year at renewal; 60 days' notice required`
-
-*Example 5 — no price increase provision:*
-
-> Clause: "The fees set forth in this Agreement shall remain fixed for the duration of the Term and any renewal thereof."
-> Desired value: `No price increase provision`
-
----
-
-### 12. Shipping Date
-
-
-|                |               |
-| -------------- | ------------- |
-| **Field name** | Shipping Date |
-| **Field type** | Text          |
-| **Category**   | General       |
-| **Attach to**  | Order Form    |
-
-
-**Navigator definition (copy/paste):**
-
-```
-The committed or target date(s) by which provider-supplied CPE will be shipped. If no calendar date is stated, capture the interval and its trigger condition (e.g., "within 14 days of serial/MAC receipt"). Capture per-location if timelines differ. Found in: CPE Schedule or Installation Schedule section of the SOF. Include: Specific ship dates; ship-by intervals with trigger; per-location timelines for self-install CPE. Exclude: Professional installation dates; installation intervals with no separate shipping; phone handset quantities. Set to "No extraction" for professional-install services.
-```
-
-**Examples:**
-
-*Example 1 — interval-based with trigger:*
-
-> Clause: "GigaWAN Enterprise — LOC-02: Self-Install. Ship within 14 days of serial/MAC receipt."
-> Desired value: `LOC-02 (self-install CPE): within 14 days of serial/MAC address receipt`
-
-*Example 2 — same interval, different wording:*
-
-> Clause: "Provider will ship self-install equipment to LOC-02 no later than 14 calendar days after Subscriber provides required device serial numbers and MAC addresses."
-> Desired value: `LOC-02 (self-install CPE): within 14 days of serial/MAC address receipt`
-
-*Example 3 — same interval, abbreviated:*
-
-> Clause: "LOC-02 CPE: 14-day ship window from serial/MAC submission."
-> Desired value: `LOC-02 (self-install CPE): within 14 days of serial/MAC address receipt`
-
-*Example 4 — specific calendar date:*
-
-> Clause: "Provider will ship all CPE to Subscriber's locations no later than June 15, 2025."
-> Desired value: `June 15, 2025`
-
-*Example 5 — professional install only, no ship date:*
-
-> Clause: "GigaFiber Dedicated — LOC-01: Professional Installation within 30 calendar days of Order Date."
 > Desired value: *No extraction*
 
 ---
